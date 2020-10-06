@@ -41,29 +41,29 @@ class Users
         $date_joined=date("Y-m-d H:i:s");
 
         //VERIFICATION CORRESPONDANCE LOGIN ENTRE ET EN BDD
-        $sth = $connexion->prepare("SELECT mail FROM users  WHERE mail = '$mail' ");
+        $check_mail = $connexion->prepare("SELECT mail FROM users  WHERE mail = '$mail' ");
         //EXECUTION DE LA REQUETE
-        $sth->execute();
+        $check_mail->execute();
         //RECUPERATION RESULTAT
-        $resultat = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $checked_mail = $check_mail->fetchAll(PDO::FETCH_ASSOC);
 
-        if(empty($resultat[0]))
+        if(empty($checked_mail[0]))
         {
           //INSERTION DES INFOS UTILISATEURS EN BDD
-          $sql="INSERT into users (lastname,firstname,gender,birthday,phone,mail,password,date_joined,account_type)VALUES (:lastname,:firstname,:gender,:birthday,:phone,:mail,:hash,:date_joined,:account_type)";
+          $insert_new_user="INSERT into users (lastname,firstname,gender,birthday,phone,mail,password,date_joined,account_type)VALUES (:lastname,:firstname,:gender,:birthday,:phone,:mail,:hash,:date_joined,:account_type)";
           //EXECUTION REQUETE
-          $stmt=$connexion->prepare($sql);
-          $stmt->bindParam(':lastname',$lastname, PDO::PARAM_STR);
-          $stmt->bindParam(':firstname',$firstname, PDO::PARAM_STR);
-          $stmt->bindParam(':gender',$gender, PDO::PARAM_STR);
-          $stmt->bindParam(':birthday',$birthday, PDO::PARAM_STR);
-          $stmt->bindParam(':phone',$phone, PDO::PARAM_STR);
-          $stmt->bindParam(':mail',$mail, PDO::PARAM_STR);
-          $stmt->bindParam(':hash', $hash, PDO::PARAM_STR);
-          $stmt->bindParam(':date_joined',$date_joined, PDO::PARAM_STR);
-          $stmt->bindParam(':account_type',$default_account_type, PDO::PARAM_STR);
+          $insert_data_user=$connexion->prepare($insert_new_user);
+          $insert_data_user->bindParam(':lastname',$lastname, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':firstname',$firstname, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':gender',$gender, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':birthday',$birthday, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':phone',$phone, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':mail',$mail, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':hash', $hash, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':date_joined',$date_joined, PDO::PARAM_STR);
+          $insert_data_user->bindParam(':account_type',$default_account_type, PDO::PARAM_STR);
 
-          $stmt->execute();
+          $insert_data_user->execute();
 
           header('location:connexion.php');
 
@@ -83,6 +83,56 @@ class Users
     else
     {
     echo'Veuillez remplir tous les champs <br/>';
+    }
+
+  }
+
+
+
+
+  public function connect($mail,$password)
+  {
+    $connexion = $this->db->connectDb();
+    
+
+    if(!empty($mail && $password))
+    {
+      $check_user_account = $connexion-> prepare("SELECT * FROM users WHERE mail ='$mail' ");
+      $check_user_account->execute();
+      $account_user = $check_user_account->fetch(PDO::FETCH_ASSOC);
+
+      if(!empty($account_user))
+      {
+        if(password_verify($password,$account_user['password']))
+        {
+          $this->id_user = $account_user['id_user'];
+          $this->lastname = $account_user['lastname'];
+          $this->firstname = $account_user['firstname'];
+          $this->gender = $account_user['gender'];
+          $this->birthday = $account_user['birthday'];
+          $this->phone = $account_user['phone'];
+          $this->mail = $account_user['mail'];
+          $this->password = $account_user['password'];
+          $this->date_joined = $account_user['date_joined'];
+          $this->date_modified = $account_user['date_modified'];
+          $this->deleted_account = $account_user['deleted_account'];
+          $this->account_type = $account_user['account_type'];
+
+          $_SESSION['id_user']=$this->id_user;
+          header('location:index.php');
+
+          
+        }
+      }
+      else
+      {
+        echo "Le mail ou le mot de passe est erroné";
+      }
+
+    }
+    else
+    {
+    echo "Veuillez remplir tous les champs";
     }
 
   }
