@@ -121,7 +121,6 @@ class Users
           $_SESSION['id_user']=$this->id_user;
           header('location:index.php');
 
-          
         }
       }
       else
