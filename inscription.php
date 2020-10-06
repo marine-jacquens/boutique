@@ -46,14 +46,14 @@
 	        <input type="radio" name="gender" id="female" value="female">
 	        <label for="female">Femme</label>
 	        <input type="radio" name="gender" id="no_gender" value="no_gender">
-	        <label for="no_gender">Non genré</label>
+	        <label for="no_gender">Non genré</label><br>
 
 	        <label for="birthday">Date de naissance</label><br>
 	        <input type="date" name="birthday"><br>
 	        <label for="phone">N° de téléphone</label><br>
-	        <input type="text" name="phone" placeholder="0123456789">
+	        <input type="text" name="phone" placeholder="0123456789"><br>
 	        <label for="mail">Email</label><br>
-	        <input type="text" name="mail" placeholder="email@email.com">
+	        <input type="text" name="mail" placeholder="email@email.com"><br>
 	            
 
 	        <label for="password">Mot de passe</label><br>
