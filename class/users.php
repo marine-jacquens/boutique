@@ -137,7 +137,8 @@ class Users
                         $this->account_type
                 ];
                 return $_SESSION['user'];
-          header('location:index.php');
+/*          $_SESSION['id_user']=$_POST['id_user'];
+*/          header('location:index.php');
 
         }
       }
@@ -198,10 +199,11 @@ class Users
 
 
 
-  public function update()
+  public function update($lastname,$firstname,$gender,$birthday,$phone,$mail,$password,$password_check)
   {
     $connexion = $this->db->connectDb();
     $date_modified = date("Y-m-d H:i:s");
+    $this->id_user = $_SESSION['user']['id_user'];
 
     if(!empty($lastname))
     {
@@ -210,17 +212,17 @@ class Users
       $update_lastname_user->bindParam(':lastname',$lastname, PDO::PARAM_STR);
       $update_lastname_user->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_lastname_user->execute(); 
-      header('location:profil.php');
-    }
+   
+    } 
 
     if(!empty($firstname))
     {
       $update_firstname = "UPDATE users SET firstname =:firstname, date_modified = :date_modified WHERE id_user = '$this->id_user' ";
-      $update_firstname_user=$connexion->prepare($update_firstname);
+      $update_firstname_user = $connexion->prepare($update_firstname);
       $update_firstname_user->bindParam(':firstname',$firstname, PDO::PARAM_STR);
       $update_firstname_user->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_firstname_user->execute(); 
-      header('location:profil.php');
+  
     }
 
     if(!empty($gender))
@@ -230,7 +232,6 @@ class Users
       $update_gender_user->bindParam(':gender',$gender, PDO::PARAM_STR);
       $update_gender_user->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_gender_user->execute(); 
-      header('location:profil.php');
     }
 
     if(!empty($phone))
@@ -240,7 +241,6 @@ class Users
       $update_phone_user->bindParam(':phone',$phone, PDO::PARAM_STR);
       $update_phone_user->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_phone_user->execute(); 
-      header('location:profil.php');
     }
 
      if(!empty($mail))
@@ -256,7 +256,6 @@ class Users
         $update_mail_user->bindParam(':mail',$mail, PDO::PARAM_STR);
         $update_mail_user->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
         $update_mail_user->execute();
-        header('location:profil.php');
 
       }
       else 
@@ -266,7 +265,7 @@ class Users
        
     }
 
-    if(!empty($password && $password_check))
+    if(!empty($password || $password_check))
     {
       if($password == $password_check)
       {
@@ -277,18 +276,18 @@ class Users
         $update_password_user->bindParam(':hash',$hash, PDO::PARAM_STR);
         $update_password_user->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
         $update_password_user->execute(); 
-        header('location:profil.php');
+        
       }
       else
       {
         echo "Les champs mot de passe et confirmation de mot de passe doivent être identiques";
       }
+
+      header('location:profil.php');
       
     }
-    else 
-    {
-      echo "Veuillez remplir les champs mot de passe et confirmation de mot de passe";
-    }
+
+    
 
 
 
