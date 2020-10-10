@@ -1,6 +1,7 @@
 <?php
 	require 'class/database.php';
 	require 'class/users.php';
+	require 'modals.php';
 	$db = new Database();
 	$user = new Users($db);
 
@@ -21,19 +22,19 @@
 		<a href=""><i class="fal fa-map-marker-alt"></i> Nos points de vente</a>
 	</div>
 	<div class="logo">
-		<img src="images/logo.png" alt="logo">
+		<a href="index.php"><img src="images/logo.png" alt="logo"></a>
 	</div>
 	<div class="icones">
-		<a href=""><i class="fal fa-search"></i></a>
+		<a href="#search-modal" class="js-modal" id="fa-search"></a>
 		<?php 
 			if(isset($_SESSION['user'])){
-				?><a href=""><i class="fas fa-user"></i></a><?php
+				?><a href="" id="fas-fa-user"></a><?php
 			}else{
-				?><a href="#modal1" class="js-modal"><i class="fal fa-user"></i></a><?php
+				?><a href="#connexion-modal" class="js-modal" id="fa-user"></a><?php
 			}
 		?>
-		<a href=""><i class="fal fa-heart"></i></a>
-		<a href=""><i class="fal fa-shopping-bag"></i></a>
+		<a href="#wish-modal" class="js-modal" id="fa-heart"></a>
+		<a href="" id="fa-shopping-bag"></a>
 	</div>
 
 </section>
@@ -53,29 +54,3 @@
 
 </section>
 
-<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
-
-	<div class="modal-wrapper js-modal-stop">
-		<?php 
-			if(isset($_POST['submit']))
-			{
-				$user->connect(
-					$_POST['mail'],
-					$_POST['password']
-				);
-			}
-		?>
-		<form action="" method="post">
-			<button class="js-modal-close"><i class="fal fa-times"></i></button>
-			<h1 id="titlemodal">CONNEXION</h1>
-			<label for="mail">Email</label><br>
-	        <input type="text" name="mail" placeholder="email@email.com"><br>
-			<label for="password">Mot de passe</label><br>
-	        <input type="password" name="password" placeholder="Entrez votre mot de passe"><br>
-
-	        <input type="submit" name="submit" value="CONNEXION">
-		</form>
-
-	</div>
-	
-</aside>
