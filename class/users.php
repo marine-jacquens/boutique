@@ -25,13 +25,13 @@ class Users
   }
 
 
-  public function register($lastname,$firstname,$gender,$birthday,$phone,$mail,$password,$password_check)
+  public function register($lastname,$firstname,$gender,$birthday,$mail,$password,$password_check)
   {
 
     $connexion = $this->db->connectDb();
 
 
-    if(!empty($lastname && $firstname && $gender && $birthday && $phone && $mail && $password && $password_check))
+    if(!empty($lastname && $firstname && $gender && $birthday && $mail && $password && $password_check))
     {
       if($password == $password_check)
       {
@@ -45,13 +45,12 @@ class Users
 
         if(empty($checked_mail[0]))
         {
-          $insert_new_user="INSERT into users (lastname,firstname,gender,birthday,phone,mail,password,date_joined,account_type)VALUES (:lastname,:firstname,:gender,:birthday,:phone,:mail,:hash,:date_joined,:account_type)";
+          $insert_new_user = "INSERT into users (lastname,firstname,gender,birthday,mail,password,date_joined,account_type)VALUES (:lastname,:firstname,:gender,:birthday,:mail,:hash,:date_joined,:account_type)";
           $insert_data_user=$connexion->prepare($insert_new_user);
           $insert_data_user->bindParam(':lastname',$lastname, PDO::PARAM_STR);
           $insert_data_user->bindParam(':firstname',$firstname, PDO::PARAM_STR);
           $insert_data_user->bindParam(':gender',$gender, PDO::PARAM_STR);
           $insert_data_user->bindParam(':birthday',$birthday, PDO::PARAM_STR);
-          $insert_data_user->bindParam(':phone',$phone, PDO::PARAM_STR);
           $insert_data_user->bindParam(':mail',$mail, PDO::PARAM_STR);
           $insert_data_user->bindParam(':hash', $hash, PDO::PARAM_STR);
           $insert_data_user->bindParam(':date_joined',$date_joined, PDO::PARAM_STR);
@@ -59,7 +58,8 @@ class Users
 
           $insert_data_user->execute();
 
-          header('location:connexion.php');
+          vardump($insert_data_user);
+          /*header('location:index.php');*/
 
         }
         else
@@ -105,7 +105,6 @@ class Users
           $this->firstname = $account_user['firstname'];
           $this->gender = $account_user['gender'];
           $this->birthday = $account_user['birthday'];
-          $this->phone = $account_user['phone'];
           $this->mail = $account_user['mail'];
           $this->password = $account_user['password'];
           $this->date_joined = $account_user['date_joined'];
@@ -123,8 +122,6 @@ class Users
                         $this->gender,
                     'birthday' =>
                         $this->birthday,
-                    'phone' =>
-                        $this->phone,
                     'mail' =>
                         $this->mail,
                     'password' =>

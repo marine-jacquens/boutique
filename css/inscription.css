@@ -1,0 +1,88 @@
+
+.main-inscription{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.inscription-page{
+	border-top:0.1px solid lightgray;
+	width:80%;
+}
+
+.inscription-page ul{
+	list-style:inside;
+}
+
+.inscription-page span{color:red;}
+
+.form-inscription{
+	width:80%;
+}
+
+.formpart1_photo{
+	display: flex;
+	justify-content: space-between;
+	width:100%;
+}
+
+.form-input{
+	display: flex;
+	flex-direction: column;
+	width:30%;
+}
+
+.gender{
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+
+}
+
+.input{
+	font-family: 'Poppins', sans-serif;
+	padding:2.5%;
+	margin-bottom:3% ;
+}
+
+.checkbox{
+	display:flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+.checkboxPart1,
+.checkboxPart2{
+	width:48%;
+}
+
+.checkboxPart2 label{
+	display: flex;
+	flex-direction: column;
+}
+
+.checkbox-position{
+	display: flex;
+	align-items: baseline;
+}
+
+.autorisation1{
+	margin-bottom:5%;
+}
+
+.inscription-button{
+display: flex;
+justify-content: flex-end;
+margin-top:3%;
+}
+
+.subscrib-button{
+	font-family: 'Poppins', sans-serif;
+	padding:0.8%;
+	color:white;
+	background-color:black;
+	font-weight:bold;
+	width:45%;
+	border:none;
+
+}

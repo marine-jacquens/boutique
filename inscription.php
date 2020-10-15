@@ -13,13 +13,14 @@
     <link rel="stylesheet" href="fontawesome/all.css">
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/inscription.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
 </head>
 <body>
 	<header>
 		<?php include("includes/header.php")?>
 	</header>
-	<main>
+	<main class="main-inscription">
 		<?php 
 			if(isset($_POST['submit']))
 			{
@@ -28,7 +29,6 @@
 					$_POST['firstname'],
 					$_POST['gender'],
 					$_POST['birthday'],
-					$_POST['phone'],
 					$_POST['mail'],
 					$_POST['password'],
 					$_POST['password_check'],
@@ -37,37 +37,108 @@
 
 			?>
 
-	
-		<form action="" method="post">
-			<h1>INSCRIPTION</h1>
-			<label for="lastname">Nom de famille</label><br>
-	        <input type="text" name="lastname" placeholder="Entrez votre nom de famille"><br>
-	        <label for="firstname">Prénom</label><br>
-	        <input type="text" name="firstname" placeholder="Entrez votre prénom"><br>
+		<section class="inscription-page">
+			<h5>S'inscrire</h5>
+			<p>
+				Inscrivez-vous maintenant et bénéficiez des avantages Mon Compte. 
+				Vous pourrez :
+			</p>
+			<ul>
+				<li>Recevoir notre newsletter</li>
+				<li>Sauvegarder vos articles coups de coeur</li>
+				<li>Contrôler vos commandes et retours</li>
+			</ul>
+			<p>Champs obligatoires<span>*</span></p>
+		</section>
 
-	        <input type="radio" name="gender" id="male" value="male">
-	        <label for="male">Homme</label>
-	        <input type="radio" name="gender" id="female" value="female">
-	        <label for="female">Femme</label>
-	        <input type="radio" name="gender" id="no_gender" value="no_gender">
-	        <label for="no_gender">Non genré</label><br>
+		<section class="form-inscription">
 
-	        <label for="birthday">Date de naissance</label><br>
-	        <input type="date" name="birthday"><br>
-	        <label for="phone">N° de téléphone</label><br>
-	        <input type="text" name="phone" placeholder="0123456789"><br>
-	        <label for="mail">Email</label><br>
-	        <input type="text" name="mail" placeholder="email@email.com"><br>
-	            
+			<form action="index.php" method="post">
 
-	        <label for="password">Mot de passe</label><br>
-	        <input type="password" name="password" placeholder="Entrez votre mot de passe"><br>
-			<label for="password_check">Confirmation mot de passe</label><br>
-	        <input type="password" name="password_check" placeholder="Confirmez votre mot de passe"><br>
+				<div class="formpart1_photo">
 
-	        <input type="submit" name="submit" value="ENREGISTRER">
-		</form>
+					<div class="form-input">
 
+						<div class="gender">
+							<p>Sexe *</p>
+						
+							<input type="radio" name="gender" id="male" value="male" autocomplete="on">
+							<label for="male">Homme</label>
+					        
+					        <input type="radio" name="gender" id="female" value="female" autocomplete="on">
+					        <label for="female">Femme</label>
+					        
+					        <input type="radio" name="gender" id="no_gender" value="no_gender" autocomplete="on">
+					        <label for="no_gender">Non genré</label>
+						</div>
+
+						<label for="firstname">Prénom *</label>
+				        <input type="text" name="firstname" class="input" placeholder="Entrez votre prénom" autocomplete="on">
+
+						<label for="lastname">Nom *</label>
+				        <input type="text" name="lastname" class="input" placeholder="Entrez votre nom de famille" autocomplete="on">
+
+				        <label for="mail">Adresse mail *</label>
+				        <input type="text" name="mail" class="input" placeholder="email@email.com" autocomplete="on">
+
+				        <label for="password">Mot de passe *</label>
+				        <input type="password" name="password" class="input" placeholder="Entrez votre mot de passe">
+
+				        <label for="password_check">Confirmation mot de passe</label>
+				        <input type="password" name="password_check" class="input" placeholder="Confirmez votre mot de passe">
+
+				        <label for="birthday">Date de naissance</label>
+				        <input type="date" name="birthday" class="input" autocomplete="on">
+
+					</div>
+
+					<div>
+						<img src="images/ester-exposito1.jpg" alt="ester-exposito1.jpg" width="500">
+					</div>
+					
+				</div>
+				
+				<div class="checkbox">
+
+					<div class="checkboxPart1">
+						<p>
+							Vos renseignements personnels seront utilisés par DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) afin d'améliorer la navigation du site Web, d'accélérer le processus d'achat, de vous garantir un accès à des espaces réservés, de vous offrir les services de la newsletter (sur demande) et en général d'améliorer la qualité de service que nous vous offrons.
+
+							DUPEZ et le groupe LES SILENCIEUX conservent vos renseignements personnels.
+
+							Veuillez consulter la Politique de Confidentialité pour plus d'informations.
+						</p>
+					</div>
+
+					<div class="checkboxPart2">
+						<div class="checkbox-position">
+							<input type="checkbox" id="autorisation1" name="autorisation1" value="true">
+							<label for="autorisation1" class="autorisation1">
+								Je souhaite recevoir par email des newsletters, des promotions personnalisées, des informations ainsi que de la communication par courrier de DUPEZ. 
+								J’autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à traiter mes données personnelles à cette fin.
+							</label>
+						</div>
+						<div class="checkbox-position">
+							<input type="checkbox" id="autorisation2" name="autorisation2" value="true">
+							<label for="autorisation2"> 
+								J'autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à collecter mes renseignements personnels afin de créer le profil de mes habitudes d'achat.
+							</label>
+						</div>
+
+					</div>
+					
+				</div>
+
+				<div class="inscription-button">
+					<input type="submit" name="submit" class="subscrib-button" value="S'INSCRIRE">
+				</div>
+
+			</form>
+			
+
+		</section>
+
+		
 	</main>
 	<footer>
 		
