@@ -2,13 +2,13 @@
 
 	<div class="modal-wrapper js-modal-stop">
 		<?php 
-			if(isset($_POST['submit']))
+			/*if(isset($_POST['submit']))
 			{
 				$user->connect(
 					$_POST['mail'],
 					$_POST['password']
 				);
-			}
+			}*/
 		?>
 
 		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>

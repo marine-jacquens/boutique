@@ -1,6 +1,8 @@
 <?php
+ob_start();
 	/*require 'class/database.php';*/
 	require 'class/users.php';
+	$user = new Users;
 	require 'modals.php';
 	/*$db = new Database();
 	$user = new Users($db);
@@ -48,4 +50,6 @@
 	</nav>
 
 </section>
+
+<?php ob_end_flush();?>
 

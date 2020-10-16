@@ -24,7 +24,7 @@
 		<?php 
 			if(isset($_POST['submit']))
 			{
-				$user = new Users;
+
 				$user->register(
 					$_POST['lastname'],
 					$_POST['firstname'],
@@ -63,13 +63,13 @@
 						<div class="gender">
 							<p>Sexe *</p>
 						
-							<input type="radio" name="gender" id="male" value="male" autocomplete="on">
+							<input type="radio" name="gender" id="male" value="male" checked="checked">
 							<label for="male">Homme</label>
 					        
-					        <input type="radio" name="gender" id="female" value="female" autocomplete="on">
+					        <input type="radio" name="gender" id="female" value="female">
 					        <label for="female">Femme</label>
 					        
-					        <input type="radio" name="gender" id="no_gender" value="no_gender" autocomplete="on">
+					        <input type="radio" name="gender" id="no_gender" value="no_gender">
 					        <label for="no_gender">Non genré</label>
 						</div>
 
@@ -80,7 +80,7 @@
 				        <input type="text" name="lastname" class="input" placeholder="Entrez votre nom de famille" autocomplete="on">
 
 				        <label for="mail">Adresse mail *</label>
-				        <input type="text" name="mail" class="input" placeholder="email@email.com" autocomplete="on">
+				        <input type="email" name="mail" class="input" placeholder="email@email.com" autocomplete="on">
 
 				        <label for="password">Mot de passe *</label>
 				        <input type="password" name="password" class="input" placeholder="Entrez votre mot de passe">
@@ -145,6 +145,7 @@
 		
 	</footer>
 	
-	<!-- <script type="text/javascript" src="js/modal.js"></script> -->
+	<script type="text/javascript" src="js/modal.js"></script>
 </body>
 </html>
+

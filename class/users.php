@@ -1,5 +1,6 @@
 <?php
 
+
 class Users
 {
 
@@ -24,14 +25,15 @@ class Users
       $connexion_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
       $hash = password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
+      date_default_timezone_set('Europe/Paris');
       $date_joined = date("Y-m-d H:i:s");
       $account_type = "normal";
 
-      if(!empty($lastname && $firstname && $gender && $birthday && $mail&& $password && $password_check))
+      if(!empty($lastname && $firstname && $gender && $birthday && $mail && $password && $password_check))
       {
         if($password == $password_check)
         {
-          $check_mail = $connexion_db->prepare("SELECT mail FROM users WHERE mail = $mail");
+          $check_mail = $connexion_db->prepare("SELECT mail FROM users WHERE mail = '$mail' ");
           $check_mail->execute();
           $checked_mail = $check_mail->fetchAll(PDO::FETCH_ASSOC);
 
@@ -71,5 +73,5 @@ class Users
   
 }
 
-
+ob_end_flush();
 ?>
