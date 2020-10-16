@@ -1,6 +1,4 @@
 <?php
-
-
 class Database
 {
    private $db_host;
@@ -30,10 +28,8 @@ class Database
            
            return $this->PDO;
        } catch (PDOException $e) {
-           echo 'Connexion BDD échouée';
+           echo "Erreur : " . $e->getMessage();
         }
     }
 }
-
-
 ?>

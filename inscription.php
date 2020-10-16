@@ -1,5 +1,6 @@
 <?php
-	session_start();
+ob_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -32,11 +33,10 @@
 					$_POST['birthday'],
 					$_POST['mail'],
 					$_POST['password'],
-					$_POST['password_check'],
+					$_POST['password_check']
 				);
 			}
-
-			?>
+		?>
 
 		<section class="inscription-page">
 			<h5>S'inscrire</h5>
@@ -148,4 +148,7 @@
 	<script type="text/javascript" src="js/modal.js"></script>
 </body>
 </html>
+
+<?php ob_end_flush();?>
+
 

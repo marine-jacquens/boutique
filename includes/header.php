@@ -1,20 +1,15 @@
 <?php
-ob_start();
-	/*require 'class/database.php';*/
+	require 'class/database.php';
 	require 'class/users.php';
-	$user = new Users;
-	require 'modals.php';
-	/*$db = new Database();
+	$db = new Database();
 	$user = new Users($db);
-
+	require 'modals.php';
+/*
 	if (isset($_POST["deconnexion"])) {
     $user->disconnect();
 }*/
-
 ?>
-
 <section class="top-nav1">
-
 	<a href="">REJOIGNEZ LA #TEAMDUPEZ POUR CONNAITRE LES DERNIERES ACTUALITES DE LA MARQUE</a>
 
 </section>
@@ -50,6 +45,4 @@ ob_start();
 	</nav>
 
 </section>
-
-<?php ob_end_flush();?>
 
