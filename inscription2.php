@@ -1,29 +1,15 @@
-<?php
-	session_start();
-?>
-
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html>
 <head>
-	<title>Boutique - Inscription</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=image">
-    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
-    <link rel="stylesheet" href="fontawesome/all.css">
-    <link rel="stylesheet" href="css/general.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/inscription.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+	<title></title>
+	<meta charset="utf-8">
 </head>
 <body>
-	<header>
-		<?php include("includes/header.php")?>
-	</header>
 	<main class="main-inscription">
 		<?php 
 			if(isset($_POST['submit']))
 			{
+				require"class/users.php";
 				$user = new Users;
 				$user->register(
 					$_POST['lastname'],
@@ -80,7 +66,7 @@
 				        <input type="text" name="lastname" class="input" placeholder="Entrez votre nom de famille" autocomplete="on">
 
 				        <label for="mail">Adresse mail *</label>
-				        <input type="text" name="mail" class="input" placeholder="email@email.com" autocomplete="on">
+				        <input type="text" name="mail" placeholder="email@email.com">
 
 				        <label for="password">Mot de passe *</label>
 				        <input type="password" name="password" class="input" placeholder="Entrez votre mot de passe">
@@ -141,10 +127,5 @@
 
 		
 	</main>
-	<footer>
-		
-	</footer>
-	
-	<!-- <script type="text/javascript" src="js/modal.js"></script> -->
 </body>
 </html>

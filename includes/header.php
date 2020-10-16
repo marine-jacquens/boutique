@@ -1,13 +1,14 @@
 <?php
-	require 'class/database.php';
+	/*require 'class/database.php';*/
 	require 'class/users.php';
 	require 'modals.php';
-	$db = new Database();
+	/*$db = new Database();
 	$user = new Users($db);
 
 	if (isset($_POST["deconnexion"])) {
     $user->disconnect();
-}
+}*/
+
 ?>
 
 <section class="top-nav1">
@@ -26,13 +27,7 @@
 	</div>
 	<div class="icones">
 		<a href="#search-modal" class="js-modal" id="fa-search"></a>
-		<?php 
-			if(isset($_SESSION['user'])){
-				?><a href="" id="fas-fa-user"></a><?php
-			}else{
-				?><a href="#connexion-modal" class="js-modal" id="fa-user"></a><?php
-			}
-		?>
+		<a href="#connexion-modal" class="js-modal" id="fa-user"></a>
 		<a href="#wish-modal" class="js-modal" id="fa-heart"></a>
 		<a href="" id="fa-shopping-bag"></a>
 	</div>
