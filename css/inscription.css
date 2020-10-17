@@ -26,17 +26,17 @@
 	width:100%;
 }
 
-.form-input{
-	display: flex;
-	flex-direction: column;
-	width:30%;
-}
-
 .gender{
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
 
+}
+
+.form-input{
+	display: flex;
+	flex-direction: column;
+	width:30%;
 }
 
 .input{

@@ -24,7 +24,17 @@
 	</div>
 	<div class="icones">
 		<a href="#search-modal" class="js-modal" id="fa-search"></a>
-		<a href="#connexion-modal" class="js-modal" id="fa-user"></a>
+		<?php 
+			if(isset($_SESSION['user']['id_user']))
+			{ ?>
+				<a href="#connexion-modal" class="js-modal" id="fas-fa-user"></a>
+			  <?php
+			}
+			else
+			{ ?>
+			<a href="#connexion-modal" class="js-modal" id="fa-user"></a>
+			<?php } ?>
+		
 		<a href="#wish-modal" class="js-modal" id="fa-heart"></a>
 		<a href="" id="fa-shopping-bag"></a>
 	</div>

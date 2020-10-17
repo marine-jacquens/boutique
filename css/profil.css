@@ -1,0 +1,81 @@
+
+.progression-bar{
+	position:absolute;
+	top:0;
+	left:5%;
+	border-bottom: 2px solid black;
+	width:10%;
+	z-index: 1;
+}
+
+.profil_page_head{
+	width:80%;
+}
+
+.profil_page_head p{
+	width:50%;
+}
+
+.update_form{
+	display:flex;
+	flex-direction: column;
+	width:80%;
+}
+
+.form_image{
+	display: flex;
+	justify-content: space-between;
+
+}
+
+.gender{
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	width:90%;
+}
+
+.input{
+	font-family: 'Poppins', sans-serif;
+	padding:2.5%;
+	margin-bottom:3% ;
+	width:90%;
+}
+
+.newsletter{
+		width:90%;
+}
+
+.check_box{
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+.checkbox_detail{
+	width:43%;
+}
+
+.checkbox_column{
+	display: flex;
+	flex-direction: column;
+	width:55%;
+}
+
+.checkbox-position{
+	display: flex;
+	align-items: baseline;
+	text-align: justify;
+	margin-bottom:5%;
+}
+
+.update-button{
+	font-family: 'Poppins', sans-serif;
+	padding:2.5%;
+	color:white;
+	background-color:black;
+	font-weight:bold;
+	width:100%;
+	border:none;
+
+}

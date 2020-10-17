@@ -1,0 +1,8 @@
+.progression-bar{
+	position:absolute;
+	top:0;
+	right:29%;
+	border-bottom: 2px solid black;
+	width:27%;
+	z-index: 1;
+}

@@ -52,8 +52,12 @@ class Users
           $execution_insert->bindParam(':account_type',$account_type,PDO::PARAM_STR);
           $execution_insert->execute();
 
-          header('Location: index.php');
-          exit;
+          $this->mail = $mail;
+          $this->password = $password;
+
+          $this->connect($mail,$password);
+          header('Location:index.php');
+ 
 
         }else{echo"<span>Ce mail existe déjà</span>";}
 
@@ -61,6 +65,85 @@ class Users
 
     }else{echo"<span>Veuillez remplir tous les champs</span>";}
 
+  }
+
+  public function connect ($mail, $password)
+  {
+
+    $connexion_db = $this->db->connectDb();
+
+    if(!empty($mail && $password))
+    {
+      $user_account = $connexion_db->prepare("SELECT * FROM users WHERE mail = '$mail' ");
+      $user_account->execute();
+      $user = $user_account->fetch(PDO::FETCH_ASSOC);
+
+      if(!empty($user))
+      {
+
+        if(password_verify($password,$user['password']))
+        {
+          $this->id_user = $user['id_user'];
+          $this->lastname = $user['lastname'];
+          $this->firstname = $user['firstname'];
+          $this->gender = $user['gender'];
+          $this->birthday = $user['birthday'];
+          $this->phone = $user['phone'];
+          $this->mail = $user['mail'];
+          $this->password = $user['password'];
+          $this->date_joined = $user['date_joined'];
+          $this->date_modified = $user['date_modified'];
+          $this->account_type = $user['account_type'];
+
+          $_SESSION['user'] = [
+            'id_user' => $this->id_user,
+            'lastname' => $this->lastname,
+            'firstname' => $this->firstname,
+            'gender' => $this->gender,
+            'birthday' => $this->birthday,
+            'phone' => $this->phone,
+            'mail' => $this->mail,
+            'password' => $this->password,
+            'date_joined' => $this->date_joined,
+            'date_modified' => $this->date_modified,
+            'account_type' => $this->account_type
+          ];
+          return $_SESSION['user'];
+
+          header('Location:index.php');
+          exit;
+        }
+
+      }
+      else
+      {
+        echo "<span>Votre adresse mail ou mot de passe est erroné</span>";
+      }
+
+    }
+    else
+    {
+      echo "<span>Veuillez remplir tous les champs</span>";
+    }
+
+  }
+
+  public function disconnect()
+  {
+    $this->id_user = "";
+    $this->lastname = "";
+    $this->firstname = "";
+    $this->gender = "";
+    $this->birthday = "";
+    $this->phone = "";
+    $this->mail = "";
+    $this->password = "";
+    $this->date_joined = "";
+    $this->date_modified = "";
+    $this->account_type = "";
+    session_unset();
+    session_destroy();
+    header('Location:index.php');
   }
 
 }

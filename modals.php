@@ -1,55 +1,90 @@
 <aside id="connexion-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
 	<div class="modal-wrapper js-modal-stop">
-		<?php 
-			/*if(isset($_POST['submit']))
-			{
-				$user->connect(
-					$_POST['mail'],
-					$_POST['password']
-				);
-			}*/
-		?>
-
+		
 		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 		
+			<?php 
 
-		<form action="" method="post" class="connexion-form">
-			
-			<h1 id="titlemodal"><strong>Mon compte</strong></h1>
+				if(isset($_POST['submit_connexion']))
+				{
+
+					$user->connect(
+						$_POST['mail'],
+						$_POST['password']
+					);
+				}
+
+				if(isset($_SESSION['user']['id_user']))
+				{ 
+					if(isset($_POST['submit_deconnexion']))
+					{
+						$user->disconnect();
+					}
+
+					?>
+					<div class="personal_space">
+						<h1>Bonjour <?php echo $_SESSION['user']['firstname'] ?></h1>
+
+						<table class="table_personal_space">
+							<thead>
+								<tr>
+									<th>Mon profil</th>
+									<th>Ma liste d'envies</th>
+									<th>Mes info facturation et livraison</th>
+									<th>Mes commandes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="profil.php"><i class="fas fa-address-card"></i></a></td>
+									<td><a href=""><i class="fal fa-heart"></i></a></td>
+									<td><a href=""><i class="fad fa-credit-card-front"></i></a></td>
+									<td><a href=""><i class="fad fa-truck-loading"></i></a></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<form action="" method="post">
+							<input type="submit" name="submit_deconnexion" value="Se déconnecter"class="submit_deconnexion">
+						</form>
+					</div>
+					
+					<?php	
+				}
+				else
+				{ 
+					?>
+
+					<form action="" method="post" class="connexion-form">
+				
+						<h1>Mon compte</h1>
+					
+						<p>Identifiez-vous avec votre e-mail et votre mot de passe.</p>
+
+						<p>Champs obligatoires*</p>
+							
+						<label for="mail">Adresse mail*</label>
+						<input type="text" name="mail" class="mail" placeholder=""><br>
+							
+						<label for="password">Mot de passe* (8 - 15 CARACTÈRES)</label>
+						<input type="password" name="password" class="password" placeholder=""><br>
+						
+						<a href="" class="forgotten-password">Mot de passe oublié ?</a><br>
+					
+					    <input type="submit" name="submit_connexion" class="identification" value="S'IDENTIFIER">
+
+					    <p>ou Créez votre compte personnel pour une expérience de shopping exclusive.</p>
+
+					    <a href="inscription.php" class="subscribe">S'INSCRIRE</a>
+
+					</form>
+
+			<?php } ?>
 		
-			<p>Identifiez-vous avec votre e-mail et votre mot de passe.</p>
-
-		
-				<p>Champs obligatoires*</p>
-				
-				
-					<label for="mail">Adresse mail*</label>
-			    	<input type="text" name="mail" class="mail" placeholder=""><br>
-				
-				
-					<label for="password">Mot de passe* (8 - 15 CARACTÈRES)</label>
-			    	<input type="password" name="password" class="password" placeholder=""><br>
-			
-			
-				
-
-				<a href="" class="forgotten-password">Mot de passe oublié ?</a><br>
-		
-			
-
-		    <input type="submit" name="submit" class="identification" value="S'IDENTIFIER">
-
-		    <p>ou Créez votre compte personnel pour une expérience de shopping exclusive.</p>
-
-		    <a href="inscription.php" class="subscribe">S'INSCRIRE</a>
-
-		</form>
-
 	</div>
 	
 </aside>
-
 
 <aside id="wish-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
@@ -58,7 +93,7 @@
 		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 			
 			<div class="empty-wish">
-				<h1 id="titlemodal"><strong>Ma liste d'envies</strong></h1>
+				<h1>Ma liste d'envies</h1>
 				<p>Votre Wish List est actuellement vide.</p>
 			</div>
 
@@ -74,7 +109,7 @@
 		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 			
 		<div class="search-title">
-			<h1 id="titlemodal"><strong>Rechercher</strong></h1>
+			<h1>Rechercher</h1>
 		</div>
 
 		<div class="search-console">

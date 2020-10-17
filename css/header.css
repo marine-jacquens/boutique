@@ -125,8 +125,9 @@
 	left:0;
 	width:100%;
 	height:100%;
-	background-color:rgba(255,255,255,0.1);
+	background-color:rgba(255,255,255,0.4);
 	animation: fadeIn .6s both;
+	z-index: 2;
 }
 
 .modal-wrapper{
@@ -312,4 +313,49 @@
 
 .search-button i {
 	color:white;
+}
+
+
+
+
+
+/*MODAL PERSONAL SPACE*/
+
+.personal_space{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.personal_space h1{font-size:20px;}
+
+.personal_space form{
+	margin-top:5%;
+}
+
+.table_personal_space{
+	margin-top:5%;
+	width:80%;
+}
+
+
+.table_personal_space th, 
+.table_personal_space td{
+	text-align: center;
+	width:25%;
+}
+
+.table_personal_space th{font-size:13px;}
+.table_personal_space td{font-size:20px;}
+
+.submit_deconnexion{
+	background-color: white;
+	border:none;
+	text-decoration: underline;
+	font-family:'Poppins', sans-serif; 
+}
+
+.submit_deconnexion:hover{
+	font-weight:bolder;
 }
