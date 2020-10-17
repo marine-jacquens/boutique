@@ -57,6 +57,7 @@ class Users
 
           $this->connect($mail,$password);
           header('Location:index.php');
+          exit;
  
 
         }else{echo"<span>Ce mail existe déjà</span>";}
@@ -108,7 +109,6 @@ class Users
             'date_modified' => $this->date_modified,
             'account_type' => $this->account_type
           ];
-          return $_SESSION['user'];
 
           header('Location:index.php');
           exit;
