@@ -34,9 +34,14 @@ session_start();
 					$_POST['phone'],
 					$_POST['mail'],
 					$_POST['password'],
-					$_POST['password_check']
+					$_POST['password_check'], 
+					$_POST['autorisation_rgpd'],
+					$_POST['autorisation_newsletter']
 				);
+
 			}
+
+
 		?>
 
 		<section class="inscription-page">
@@ -117,14 +122,14 @@ session_start();
 
 					<div class="checkboxPart2">
 						<div class="checkbox-position">
-							<input type="checkbox" id="autorisation1" name="autorisation1" value="true">
+							<input type="checkbox" id="autorisation1" name="autorisation_newsletter" value="true">
 							<label for="autorisation1" class="autorisation1">
 								Je souhaite recevoir par email des newsletters, des promotions personnalisées, des informations ainsi que de la communication par courrier de DUPEZ. 
 								J’autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à traiter mes données personnelles à cette fin.
 							</label>
 						</div>
 						<div class="checkbox-position">
-							<input type="checkbox" id="autorisation2" name="autorisation2" value="true">
+							<input type="checkbox" id="autorisation2" name="autorisation_rgpd" value="true">
 							<label for="autorisation2"> 
 								J'autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à collecter mes renseignements personnels afin de créer le profil de mes habitudes d'achat.
 							</label>
