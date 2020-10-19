@@ -1,5 +1,6 @@
 <?php
-	session_start();
+ob_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -49,9 +50,10 @@
 						$_POST['firstname'],
 						$_POST['gender'],
 						$_POST['birthday'],
+						$_POST['phone'],
 						$_POST['mail'],
 						$_POST['password'],
-						$_POST['password_check'],
+						$_POST['password_check']
 					);
 				}
 
@@ -99,9 +101,9 @@
 				        <input type="text" class="input" name="mail" placeholder="<?php echo $_SESSION['user']['mail'] ?>"><br>
 				            
 
-				        <label for="password">Mot de passe</label><br>
+				        <label for="password">Nouveau mot de passe</label><br>
 				        <input type="password" class="input" name="password" placeholder="Entrez votre mot de passe"><br>
-						<label for="password_check">Confirmation mot de passe</label><br>
+						<label for="password_check">Confirmation nouveau mot de passe</label><br>
 				        <input type="password" class="input" name="password_check" placeholder="Confirmez votre mot de passe"><br>
 
 				        <div class="newsletter">
@@ -161,3 +163,4 @@
 	<script type="text/javascript" src="js/modal.js"></script>
 </body>
 </html>
+<?php ob_end_flush();?>

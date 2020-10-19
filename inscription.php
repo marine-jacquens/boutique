@@ -31,6 +31,7 @@ session_start();
 					$_POST['firstname'],
 					$_POST['gender'],
 					$_POST['birthday'],
+					$_POST['phone'],
 					$_POST['mail'],
 					$_POST['password'],
 					$_POST['password_check']
@@ -78,6 +79,9 @@ session_start();
 
 						<label for="lastname">Nom *</label>
 				        <input type="text" name="lastname" class="input" placeholder="Entrez votre nom de famille" autocomplete="on">
+
+				        <label for="phone">N° de téléphone</label>
+				        <input type="text" name="phone" class="input" placeholder="0646113568" autocomplete="on">
 
 				        <label for="mail">Adresse mail *</label>
 				        <input type="email" name="mail" class="input" placeholder="email@email.com" autocomplete="on">
