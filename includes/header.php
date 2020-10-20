@@ -4,10 +4,7 @@
 	$db = new Database();
 	$user = new Users($db);
 	require 'modals.php';
-/*
-	if (isset($_POST["deconnexion"])) {
-    $user->disconnect();
-}*/
+
 ?>
 <section class="top-nav1">
 	<a href="">REJOIGNEZ LA #TEAMDUPEZ POUR CONNAITRE LES DERNIERES ACTUALITES DE LA MARQUE</a>

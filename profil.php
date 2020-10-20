@@ -57,18 +57,15 @@ session_start();
 								$_POST['phone'],
 								$_POST['mail'],
 								$_POST['password'],
-								$_POST['password_check'],
-								$_POST['autorisation_rgpd'],
-								$_POST['autorisation_newsletter']
-								
+								$_POST['password_check']
+																
 							);
 
 						}
 
-							
 						?>
 
-				
+					
 					<form action="" method="post" class="update_form">
 						<div class="form_image">
 							<div>
@@ -145,7 +142,7 @@ session_start();
 									<?php 
 										if($_SESSION['user']['autorisation_newsletter'] == false )
 										{?>
-											<input type="checkbox" id="autorisation_newsletter" name="autorisation_newsletter" value="true">
+											<input type="checkbox" id="autorisation_newsletter" name="newsletter" value="true">
 											<label for="autorisation_newsletter" class="autorisation_newsletter">
 												Je souhaite recevoir par email des newsletters, des promotions personnalisées, des informations ainsi que de la communication par courrier de DUPEZ. <br>
 												J’autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à traiter mes données personnelles à cette fin.
@@ -154,7 +151,7 @@ session_start();
 									<?php }
 										else
 										{?>
-											<input type="checkbox" id="autorisation1" name="autorisation_newsletter" value="false">
+											<input type="checkbox" id="autorisation1" name="newsletter" value="false">
 											<label for="autorisation1" class="autorisation1">
 												Je ne souhaite plus recevoir par email des newsletters, des promotions personnalisées, des informations ainsi que de la communication par courrier de DUPEZ. <br>
 												Je n’autorise plus DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à traiter mes données personnelles à cette fin.
@@ -166,14 +163,14 @@ session_start();
 									<?php 
 										if($_SESSION['user']['autorisation_rgpd'] == false )
 										{?>
-											<input type="checkbox" id="autorisation2" name="autorisation_rgpd" value="true">
+											<input type="checkbox" id="autorisation2" name="rgpd" value="true">
 											<label for="autorisation_rgpd"> 
 												J'autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à collecter mes renseignements personnels afin de créer le profil de mes habitudes d'achat.
 											</label>
 									<?php }
 										else
 										{?>
-											<input type="checkbox" id="autorisation_rgpd" name="autorisation_rgpd" value="false">
+											<input type="checkbox" id="autorisation_rgpd" name="rgpd" value="false">
 											<label for="autorisation_rgpd"> 
 												Je n'autorise plus DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à collecter mes renseignements personnels afin de créer le profil de mes habitudes d'achat.
 											</label>

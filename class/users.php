@@ -224,7 +224,7 @@ class Users
     header('Location:index.php');
   }
 
-  public function update($lastname, $firstname, $gender, $birthday, $phone, $mail, $password, $password_check,$autorisation_rgpd,$autorisation_newsletter)
+  public function update($lastname, $firstname, $gender, $birthday, $phone, $mail, $password, $password_check)
   {
     $connexion_db = $this->db->connectDb();
     $session = $_SESSION['user']['id_user'];
@@ -308,8 +308,11 @@ class Users
     }
 
     $this->refresh();
-
   }
+
+
+
+
 
   public function refresh()
   {
