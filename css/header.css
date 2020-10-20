@@ -85,11 +85,17 @@
 	font-weight:100;
 }
 
+#fa-toolbox:after{
+	content: "\f552";
+	font-weight:900;
+}
+
 #fa-search:after,
 #fa-user:after,
 #fas-fa-user:after,
 #fa-heart:after,
-#fa-shopping-bag:after{
+#fa-shopping-bag:after,
+#fa-toolbox:after{
 	font-family: 'Font Awesome 5 Pro'; 
 	display: block; 
 	text-indent: 0;

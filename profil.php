@@ -47,6 +47,8 @@ session_start();
 
 						if(isset($_POST['submit_update']))
 						{
+
+
 							$user->update(
 								$_POST['lastname'],
 								$_POST['firstname'],
@@ -56,12 +58,11 @@ session_start();
 								$_POST['mail'],
 								$_POST['password'],
 								$_POST['password_check'],
-								$_POST['autorisation_rgpd']
+								$_POST['autorisation_rgpd'],
+								$_POST['autorisation_newsletter']
+								
 							);
 
-							$user->newsletter(
-								$_POST['autorisation_newsletter']
-							);
 						}
 
 							
@@ -139,6 +140,7 @@ session_start();
 								</p>
 							</div>
 							<div class="checkbox_column">
+								
 								<div class="checkbox-position">
 									<?php 
 										if($_SESSION['user']['autorisation_newsletter'] == false )
@@ -180,6 +182,7 @@ session_start();
 									
 									
 								</div>
+								
 								<input type="submit" class="update-button" name="submit_update" value="ENVOYER">
 							</div>
 						</div>

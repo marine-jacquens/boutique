@@ -25,9 +25,15 @@
 	<div class="icones">
 		<a href="#search-modal" class="js-modal" id="fa-search"></a>
 		<?php 
-			if(isset($_SESSION['user']['id_user']))
+			if(isset($_SESSION['user']['id_user']) AND $_SESSION['user']['account_type'] == "normal")
 			{ ?>
 				<a href="#connexion-modal" class="js-modal" id="fas-fa-user"></a>
+			  <?php
+			}
+			elseif(isset($_SESSION['user']['id_user']) AND $_SESSION['user']['account_type'] == "admin")
+			{?>
+				<a href="#connexion-modal" class="js-modal" id="fas-fa-user"></a>
+				<a href="admin.php" id="fa-toolbox"></a>
 			  <?php
 			}
 			else

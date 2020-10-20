@@ -107,12 +107,13 @@ class Users
   {
     $connexion_db = $this->db->connectDb();
 
+    $get_id_user = $connexion_db->prepare("SELECT id_user FROM users WHERE mail = '$mail' ");
+    $get_id_user->execute();
+    $catched_id_user = $get_id_user->fetch(PDO::FETCH_ASSOC);
+    $id_user = $catched_id_user['id_user'];
+
     if(!empty($autorisation_newsletter))
     {
-      $get_id_user = $connexion_db->prepare("SELECT id_user FROM users WHERE mail = '$mail' ");
-      $get_id_user->execute();
-      $catched_id_user = $get_id_user->fetch(PDO::FETCH_ASSOC);
-      $id_user = $catched_id_user['id_user'];
 
       $subscriber_newsletter = "INSERT into newsletter (id_user, mail, autorisation) VALUES (:id_user,:mail,:autorisation)";
       $new_subscriber_newsletter = $connexion_db->prepare($subscriber_newsletter);
@@ -216,12 +217,14 @@ class Users
     $this->date_joined = "";
     $this->date_modified = "";
     $this->account_type = "";
+    $this->autorisation_rgpd ="";
+    $this->autorisation_newsletter="";
     session_unset();
     session_destroy();
     header('Location:index.php');
   }
 
-  public function update($lastname, $firstname, $gender, $birthday, $phone, $mail, $password, $password_check,$autorisation_rgpd)
+  public function update($lastname, $firstname, $gender, $birthday, $phone, $mail, $password, $password_check,$autorisation_rgpd,$autorisation_newsletter)
   {
     $connexion_db = $this->db->connectDb();
     $session = $_SESSION['user']['id_user'];
@@ -285,7 +288,7 @@ class Users
       }   
     }
 
-    if(!empty($password && $password_check))
+    if(!empty($password || $password_check))
     {
       if($password == $password_check)
       {
@@ -303,14 +306,10 @@ class Users
       } 
 
     }
-    else
-    {
-      echo "Veuillez remplir les champs mot de passe et confirmation de mot de passe";
-    }
 
     $this->refresh();
-  }
 
+  }
 
   public function refresh()
   {
@@ -323,6 +322,10 @@ class Users
     $updated_session->execute();
     $user = $updated_session->fetch(PDO::FETCH_ASSOC);
 
+    $user_newsletter = $connexion_db->prepare("SELECT * FROM newsletter WHERE id_user = '$session' ");
+    $user_newsletter->execute();
+    $newsletter = $user_newsletter->fetch(PDO::FETCH_ASSOC);
+
     $this->id_user = $user['id_user'];
     $this->lastname = $user['lastname'];
     $this->firstname = $user['firstname'];
@@ -334,9 +337,9 @@ class Users
     $this->date_joined = $user['date_joined'];
     $this->date_modified = $user['date_modified'];
     $this->account_type = $user['account_type'];
-    $this->autorisation_rgpd = $user['account_type'];
+    $this->autorisation_rgpd = $user['autorisation_rgpd'];
+    $this->autorisation_newsletter = $newsletter['autorisation'];
     
-
     $_SESSION['user'] = [
       'id_user' => $this->id_user,
       'lastname' => $this->lastname,
@@ -349,7 +352,8 @@ class Users
       'date_joined' => $this->date_joined,
       'date_modified' => $this->date_modified,
       'account_type' => $this->account_type,
-      'autorisation_rgpd' => $this->autorisation_rgpd
+      'autorisation_rgpd' => $this->autorisation_rgpd,
+      'autorisation_newsletter' => $this->autorisation_newsletter
       ];
 
     header('Location:profil.php');
