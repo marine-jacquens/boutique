@@ -43,7 +43,7 @@
 }
 
 .mail_newsletter,.submit_mail_button{
-	height:30px;
+	height:40px;
 }
 
 .footer_table{
@@ -64,15 +64,6 @@
 	margin-left: -18%;
 }
 
-.place_list_footer1{
-	margin-top: 5%;
-	margin-left: -18%;
-}
-
-.place_list_footer2{
-	margin-top: 5%;
-	margin-left: -20%;
-}
 
 .footer_table table tr td {
 vertical-align: top;
@@ -83,3 +74,31 @@ vertical-align: top;
 .about_us {width:40%;}
 .delivery_track_part {width:20%;}
 .about_us_part {width:20%;}
+
+
+.footer_rs h4{
+	font-weight:lighter;
+	margin:0;
+}
+.network_line{
+	padding-bottom: 2.5%;
+	border-bottom: 2px solid black;
+}
+
+.network_line i{font-size:25px;}
+
+.footer_end{
+	display: flex;
+}
+
+.logo_footer{
+	width:20%;
+}
+
+.payment_copyright{
+	display: flex;
+	flex-direction: column;
+	width:80%;
+}
+
+.payment_copyright a {text-decoration: underline;}

@@ -65,4 +65,22 @@
 			</tbody>
 		</table>
 	</div>
+	<div class="footer_rs">
+		<h4>SUIVEZ-NOUS</h4>
+		<div class="network_line">
+			<a href="https://www.instagram.com/"><i class="fab fa-instagram-square"></i></a>
+			<a href="https://www.facebook.com/"><i class="fab fa-facebook-square"></i></a>
+			<a href="https://www.twitter.com/"><i class="fab fa-twitter-square"></i></a>
+			<a href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+		</div>
+	</div>
+	<div class="footer_end">
+		<div class="logo_footer"><img src="images/logo.png" alt="logo_dupez" width="150"></div>
+		<div class="payment_copyright">
+			<p>PAIEMENTS SÉCURISÉS TRUSTWAVE - GEOTRUST - POSSIBILITE DE PAIEMENT PAR...</p>
+			<p>
+				Propulsé par la marque DUPEZ - <a href="#">Copyright © 2020 GROUPE LES SILENCIEUX - Tous droits réservés - Informations au sujet du vendeur</a>  - Photographie retouchée
+			</p>
+		</div>
+	</div>
 </section>
