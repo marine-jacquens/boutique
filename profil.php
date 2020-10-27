@@ -25,7 +25,8 @@ session_start();
 		<?php 
 			if(isset($_SESSION['user']['id_user'])){?>
 				<section class="banner">
-				</section>
+<!-- 					<img src="css/background/tokyo.png" height="" width="">
+ -->				</section>
 
 				<section class="profil" id="detail_account">
 

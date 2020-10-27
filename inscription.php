@@ -103,7 +103,7 @@ session_start();
 					</div>
 
 					<div>
-						<img src="images/ester-exposito1.jpg" alt="ester-exposito1.jpg" width="500">
+						<img src="images/ester-exposito1.png" alt="ester-exposito1.png" width="500">
 					</div>
 					
 				</div>

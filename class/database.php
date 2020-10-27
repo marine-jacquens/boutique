@@ -22,11 +22,10 @@ class Database
    public function connectDb()
    {
        try {
-           $this->PDO = new PDO("mysql:host=$this->db_host;dbname=$this->db_name", $this->db_login, $this->db_password);
-           $this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-           
+           $this->PDO = new PDO("mysql:host=$this->db_host;dbname=$this->db_name;charset=utf8", $this->db_login, $this->db_password,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+               
            return $this->PDO;
+
        } catch (PDOException $e) {
            echo "Erreur : " . $e->getMessage();
         }

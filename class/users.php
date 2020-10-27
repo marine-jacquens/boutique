@@ -228,58 +228,66 @@ class Users
   {
     $connexion_db = $this->db->connectDb();
     $session = $_SESSION['user']['id_user'];
+    date_default_timezone_set('Europe/Paris');
+    $date_modified = date("Y-m-d H:i:s");
 
     if(!empty($lastname))
     {
-      $new_lastname = "UPDATE users SET lastname=:lastname WHERE id_user = '$session' ";
+      $new_lastname = "UPDATE users SET lastname = :lastname, date_modified = :date_modified WHERE id_user = '$session' ";
       $update_lastname = $connexion_db -> prepare($new_lastname);
       $update_lastname->bindParam(':lastname',$lastname, PDO::PARAM_STR);
+      $update_lastname->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_lastname->execute(); 
     }
 
     if(!empty($firstname))
     {
-      $new_firstname = "UPDATE users SET firstname=:firstname WHERE id_user = '$session' ";
+      $new_firstname = "UPDATE users SET firstname=:firstname date_modified = :date_modified WHERE id_user = '$session' ";
       $update_firstname = $connexion_db -> prepare($new_firstname);
       $update_firstname->bindParam(':firstname',$firstname, PDO::PARAM_STR);
+      $update_firstname->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_firstname->execute(); 
     }
 
     if(!empty($gender))
     {
-      $new_gender = "UPDATE users SET gender=:gender WHERE id_user = '$session' ";
+      $new_gender = "UPDATE users SET gender=:gender date_modified = :date_modified WHERE id_user = '$session' ";
       $update_gender = $connexion_db -> prepare($new_gender);
       $update_gender->bindParam(':gender',$gender, PDO::PARAM_STR);
+      $update_gender->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_gender->execute(); 
     }
 
     if(!empty($birthday))
     {
-      $new_birthday = "UPDATE users SET birthday=:birthday WHERE id_user = '$session' ";
+      $new_birthday = "UPDATE users SET birthday=:birthday date_modified = :date_modified WHERE id_user = '$session' ";
       $update_birthday = $connexion_db -> prepare($new_birthday);
       $update_birthday->bindParam(':birthday',$birthday, PDO::PARAM_STR);
+      $update_birthday->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_birthday->execute(); 
     }
 
     if(!empty($phone))
     {
-      $new_phone = "UPDATE users SET phone=:phone WHERE id_user = '$session' ";
+      $new_phone = "UPDATE users SET phone=:phone date_modified = :date_modified WHERE id_user = '$session' ";
       $update_phone = $connexion_db -> prepare($new_phone);
       $update_phone->bindParam(':phone',$phone, PDO::PARAM_STR);
+      $update_phone->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
       $update_phone->execute(); 
     }
 
     if(!empty($mail))
     {
-      $check_mail = $connexion_db->prepare("SELECT mail FROM users WHERE mail = '$mail' ");
+      $check_mail = $connexion_db->prepare("SELECT mail FROM users date_modified = :date_modified WHERE mail = '$mail' ");
       $check_mail->execute();
       $checked_mail = $check_mail->fetchAll(PDO::FETCH_ASSOC);
 
       if(empty($checked_mail[0]))
       {
-        $new_mail = "UPDATE users SET mail =:mail  WHERE id_user = '$session' ";
+        $new_mail = "UPDATE users SET mail =:mail  date_modified = :date_modified WHERE id_user = '$session' ";
         $update_mail  = $connexion_db -> prepare($new_mail);
         $update_mail->bindParam(':mail',$mail, PDO::PARAM_STR);
+        $update_mail->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
         $update_mail->execute(); 
       }
       else
@@ -294,9 +302,10 @@ class Users
       {
         $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
 
-        $new_password = "UPDATE users SET password=:hash WHERE id_user = '$session' ";
+        $new_password = "UPDATE users SET password=:hash date_modified = :date_modified WHERE id_user = '$session' ";
         $update_password = $connexion_db -> prepare($new_password);
         $update_password->bindParam(':hash',$hash, PDO::PARAM_STR);
+        $update_password->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
         $update_password->execute(); 
 
       }
