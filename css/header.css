@@ -226,6 +226,12 @@
 	background-color:#F0F0F0;
 }
 
+.connexion-form span{
+	color:red;
+	font-size:15px;
+	margin-bottom:2%;
+}
+
 .connexion-form,.empty-wish,.search-title{
 	display: flex;
 	flex-direction: column;
@@ -251,6 +257,7 @@
 .mail,.password{
 	height:40px;
 	width:25%;
+	border: 0.1px solid lightgray;
 }
 
 .forgotten-password:hover{
@@ -260,6 +267,7 @@
 .subscribe{
 	font-weight:bolder;
 	text-decoration: underline;
+	margin-bottom:5%;
 }
 
 
@@ -332,6 +340,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	padding-bottom:5%;
 }
 
 .personal_space h1{font-size:20px;}
@@ -360,8 +369,10 @@
 	border:none;
 	text-decoration: underline;
 	font-family:'Poppins', sans-serif; 
+
 }
 
 .submit_deconnexion:hover{
 	font-weight:bolder;
+
 }

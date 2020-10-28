@@ -1,4 +1,5 @@
 <?php
+	ob_start();
 	session_start();
 ?>
 
@@ -45,3 +46,5 @@
 	<script type="text/javascript" src="js/modal.js"></script>
 </body>
 </html>
+
+<?php ob_end_flush();?>

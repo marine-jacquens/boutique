@@ -1,4 +1,5 @@
 <?php
+	ob_start();
 	session_start();
 ?>
 
@@ -30,12 +31,15 @@
 			<?php include("includes/personal_space_head_page.php"); ?>
 			<div class="profil_page_head">
 				<p>
-					<strong>DÉTAILS DU COMPTE</strong> <br><br>
+					<strong>MES ARTICLES PRÉFÉRÉS</strong> <br><br>
 
-					Enregistrez les informations de votre compte, ajoutez-en de nouvelles et modifiez-les au besoin.<br><br>
+					En sauvegardant des articles dans votre Wish List, vous recevrez des mises à jour sur leur disponibilité et pourrez les partager avec vos amis. Vous pouvez sauvegarder jusqu’à 50 articles et les ajouter à votre panier à tout moment.<br><br>
 
-					Champs obligatoires<span>*</span>
 				</p>
+			</div>
+			<div class="wish_list">
+				<i class="fas fa-heart"></i>
+				<p>Votre Wish List est actuellement vide.</p>
 			</div>
 		</section>
 	</main>
@@ -45,3 +49,5 @@
 	<script type="text/javascript" src="js/modal.js"></script>
 </body>
 </html>
+
+<?php ob_end_flush();?>

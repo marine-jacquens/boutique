@@ -136,6 +136,40 @@ class Users
     }
   }
 
+  public function newsletterNoSubscriber($mail_noSubscriber){
+
+    $connexion_db = $this->db->connectDb();
+
+    if(!empty($mail_noSubscriber)){
+
+      $check_mail_newsletter = $connexion_db -> prepare("SELECT mail FROM newsletter WHERE mail = '$mail_noSubscriber' ");
+      $check_mail_newsletter->execute();
+      $checked_mail = $check_mail_newsletter->fetchAll(PDO::FETCH_ASSOC);
+
+      if(empty($checked_mail[0])){
+
+        $autorisation_newsletter = true; 
+
+        $mail_newsletter = "INSERT into newsletter (mail, autorisation) VALUES (:mail, :autorisation)";
+        $new_newsletter_mail = $connexion_db->prepare($mail_newsletter);
+        $new_newsletter_mail->bindParam(':mail',$mail_noSubscriber,PDO::PARAM_STR);
+        $new_newsletter_mail->bindParam(':autorisation',$autorisation_newsletter,PDO::PARAM_BOOL);
+        $new_newsletter_mail->execute();
+
+        header('Location:index.php');
+      }
+      else
+      {
+        echo "<span>Ce mail est déjà enregistré</span>";
+      }
+
+    }
+    else
+    {
+      echo "<span>Veuillez remplir le champs</span>";
+    }
+  }
+
   public function connect ($mail, $password)
   {
 

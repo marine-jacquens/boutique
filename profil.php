@@ -123,8 +123,8 @@ session_start();
 						        </div>
 							</div>
 
-							<div>
-								<img src="images/blanca-suarez.jpg" alt="blanca-suarez.jpg" width="600">
+							<div class="profil_picture">
+								<img src="images/blanca-suarez.jpg" alt="blanca-suarez.jpg">
 							</div>
 							
 						</div>

@@ -6,14 +6,7 @@
 		
 			<?php 
 
-				if(isset($_POST['submit_connexion']))
-				{
-
-					$user->connect(
-						$_POST['mail'],
-						$_POST['password']
-					);
-				}
+				
 
 				if(isset($_SESSION['user']['id_user']))
 				{ 
@@ -22,7 +15,7 @@
 						$user->disconnect();
 					}
 
-					?>
+				?>
 					<div class="personal_space">
 						<h1>Bonjour <?php echo $_SESSION['user']['firstname'] ?></h1>
 
@@ -38,9 +31,9 @@
 							<tbody>
 								<tr>
 									<td><a href="profil.php"><i class="fas fa-address-card"></i></a></td>
-									<td><a href=""><i class="fal fa-heart"></i></a></td>
-									<td><a href=""><i class="fad fa-credit-card-front"></i></a></td>
-									<td><a href=""><i class="fad fa-truck-loading"></i></a></td>
+									<td><a href="wish_list.php"><i class="fal fa-heart"></i></a></td>
+									<td><a href="bills_delivery.php"><i class="fad fa-credit-card-front"></i></a></td>
+									<td><a href="order.php"><i class="fad fa-truck-loading"></i></a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -57,6 +50,19 @@
 					?>
 
 					<form action="" method="post" class="connexion-form">
+
+						<?php
+
+							if(isset($_POST['submit_connexion']))
+							{
+
+								$user->connect(
+									$_POST['mail'],
+									$_POST['password']
+								);
+							}
+
+						?>
 				
 						<h1>Mon compte</h1>
 					

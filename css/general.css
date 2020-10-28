@@ -8,6 +8,11 @@ body{
 
 input, button, a{
 	outline: none;
+	font-family: 'Poppins', sans-serif;
+}
+
+input{
+font-family: 'Poppins', sans-serif;
 }
 
 /*pour que le padding soit prit en compte dans le calcul des largeurs*/

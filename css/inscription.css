@@ -2,12 +2,14 @@
 .main-inscription{
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	padding-right:8%;
+	padding-left:8%;
+}
 }
 
 .inscription-page{
 	border-top:0.1px solid lightgray;
-	width:80%;
+	/*width:80%;*/
 }
 
 .inscription-page ul{
@@ -17,7 +19,7 @@
 .inscription-page span{color:red;}
 
 .form-inscription{
-	width:80%;
+	/*width:80%;*/
 }
 
 .formpart1_photo{
@@ -36,7 +38,7 @@
 .form-input{
 	display: flex;
 	flex-direction: column;
-	width:30%;
+	width:45%;
 }
 
 .input{
@@ -53,7 +55,8 @@
 
 .checkboxPart1,
 .checkboxPart2{
-	width:48%;
+	width:45%;
+	text-align: justify;
 }
 
 .checkboxPart2 label{

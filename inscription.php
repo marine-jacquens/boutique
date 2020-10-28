@@ -24,6 +24,12 @@ session_start();
 	</header>
 	<main class="main-inscription">
 		<?php 
+
+			if(isset($_SESSION['user']['id_user'] )){
+				header('Location:index.php');
+				exit;
+			}
+
 			if(isset($_POST['submit']))
 			{
 
@@ -95,10 +101,10 @@ session_start();
 				        <label for="password">Mot de passe *</label>
 				        <input type="password" name="password" class="input" placeholder="Entrez votre mot de passe">
 
-				        <label for="password_check">Confirmation mot de passe</label>
+				        <label for="password_check">Confirmation mot de passe *</label>
 				        <input type="password" name="password_check" class="input" placeholder="Confirmez votre mot de passe">
 
-				        <label for="birthday">Date de naissance</label>
+				        <label for="birthday">Date de naissance *</label>
 				        <input type="date" name="birthday" class="input" autocomplete="on">
 
 					</div>

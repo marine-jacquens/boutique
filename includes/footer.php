@@ -11,10 +11,16 @@
 		</div>
 	</div>
 	<div>
+		<?php 
+			if(isset($_POST['submit_mail_button'])){
+				$user->newsletterNoSubscriber($_POST['mail_noSubscriber']);
+			}
+
+		?>
 		<form action="" method="post" class="form_newsletter">
 			<div><label for="mail">Adresse email<span>*</span></label></div>
 			<div>
-				<input type="email" name="mail" class="mail_newsletter">
+				<input type="email" name="mail_noSubscriber" class="mail_newsletter">
 				<button type="submit" name="submit_mail_button" class="submit_mail_button"><i class="fal fa-long-arrow-right"></i></button>
 			</div>
 		</form>

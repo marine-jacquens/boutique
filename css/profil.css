@@ -32,18 +32,29 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
-	width:90%;
+	width:80%;
 }
 
 .input{
 	font-family: 'Poppins', sans-serif;
 	padding:2.5%;
 	margin-bottom:3% ;
-	width:90%;
+	width:80%;
 }
 
 .newsletter{
-		width:90%;
+		width:80%;
+}
+
+.profil_picture{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width:100%;
+}
+
+.profil_picture img{
+	width:100%;
 }
 
 .check_box{
@@ -59,7 +70,7 @@
 .checkbox_column{
 	display: flex;
 	flex-direction: column;
-	width:55%;
+	width:50%;
 }
 
 .checkbox-position{

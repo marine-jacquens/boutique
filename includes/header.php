@@ -3,7 +3,7 @@
 	require 'class/users.php';
 	$db = new Database();
 	$user = new Users($db);
-	require 'modals.php';
+	require 'modals_icones.php';
 
 ?>
 <section class="top-nav1">
