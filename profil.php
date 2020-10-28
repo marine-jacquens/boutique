@@ -13,6 +13,7 @@ session_start();
     <link rel="stylesheet" href="fontawesome/all.css">
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/personal_space_head_page.css">
     <link rel="stylesheet" href="css/profil.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
@@ -24,9 +25,9 @@ session_start();
 	<main>
 		<?php 
 			if(isset($_SESSION['user']['id_user'])){?>
+				
 				<section class="banner">
-<!-- 					<img src="css/background/tokyo.png" height="" width="">
- -->				</section>
+				</section>
 
 				<section class="profil" id="detail_account">
 
@@ -201,7 +202,7 @@ session_start();
 
 	</main>
 	<footer>
-		
+		<?php include("includes/footer.php")?>
 	</footer>
 	
 	<script type="text/javascript" src="js/modal.js"></script>

@@ -14,6 +14,7 @@ session_start();
     <link rel="stylesheet" href="fontawesome/all.css">
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -24,7 +25,7 @@ session_start();
         
     </main>
     <footer>
-        
+        <?php include("includes/footer.php")?>
     </footer>
     <script type="text/javascript" src="js/modal.js"></script>
 </body>

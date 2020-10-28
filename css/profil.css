@@ -9,7 +9,7 @@
 }
 
 .profil_page_head{
-	width:80%;
+	/*width:80%;*/
 }
 
 .profil_page_head p{
@@ -19,8 +19,8 @@
 .update_form{
 	display:flex;
 	flex-direction: column;
-	width:80%;
-}
+/*	width:80%;
+*/}
 
 .form_image{
 	display: flex;
