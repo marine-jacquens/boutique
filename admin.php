@@ -15,6 +15,7 @@ session_start();
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" type="text/css" href="css/admin_space_head_page.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -22,7 +23,11 @@ session_start();
 		<?php include("includes/header.php")?>
 	</header>
     <main>
-        
+        <section class="banner">
+        </section>
+        <section class="profil">
+            <?php include("includes/admin_space_head_page.php"); ?>
+        </section>
     </main>
     <footer>
         <?php include("includes/footer.php")?>
