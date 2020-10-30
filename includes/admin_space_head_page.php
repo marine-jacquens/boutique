@@ -17,7 +17,7 @@
 </div>
 
 <div class="profil_menu">
-	<a href="">LES ARTICLES</a>
+	<a href="stock_management.php#stock_management">LES ARTICLES</a>
 	<a href="">LES COMMANDES</a>
 	<a href="">LES INFORMATIONS UTILISATEURS</a>
 </div>

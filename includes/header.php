@@ -1,8 +1,10 @@
 <?php
 	require 'class/database.php';
 	require 'class/users.php';
+	require 'class/products.php';
 	$db = new Database();
 	$user = new Users($db);
+	$product = new Products($db);
 	require 'modals_icones.php';
 
 ?>
