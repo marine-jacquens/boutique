@@ -75,7 +75,7 @@ class Products
 	      	$id_sub_category_checked = $get_id_sub_category->fetch(PDO::FETCH_ASSOC);
 	      	$id_sub_category = intval($id_sub_category_checked['id_sub_category']);
 
-	    	//DEFINITION DES VARIABLES STOCKANT LA PHOTO ET LE CHEMIN VERS LA PHOTO
+	    	//DEFINITION DES VARIABLES STOCKANT LA picture ET LE CHEMIN VERS LA picture
 	        $file_name=$_FILES["picture"]["name"];
 	        $picture="uploads/$file_name";
 
@@ -128,85 +128,38 @@ class Products
   	{
   		$connexion_db = $this->db->connectDb();
 
-  		$id_product = $_POST['id_product_hidden'];
 
+  		var_dump($category);
+  		var_dump($sub_category);
+  		var_dump($product_name);
+  		var_dump($description);
+  		var_dump($price);
+  		var_dump($size);
+  		var_dump($color);
+  		var_dump($stock);
   		var_dump($id_product);
 
-	    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-	  		// Vérifie si le fichier a été uploadé sans erreur.
-	        if(isset($_FILES["picture"])){ 
 
-	        	if($_FILES["picture"]["error"] == 0){
-
-	        		$file_name=$_FILES["picture"]["name"];
-	    			$picture="uploads/$file_name";
-
-		    		$new_picture = "UPDATE products SET picture = :picture WHERE id_product = $id_product ";
-			      	$update_picture = $connexion_db -> prepare($new_picture);
-			      	$update_picture->bindParam(':picture',$picture, PDO::PARAM_STR);
-			      	$update_picture->execute();
-
-		        	$allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
-		            $filename = $_FILES["picture"]["name"];
-		            $filetype = $_FILES["picture"]["type"];
-		            $filesize = $_FILES["picture"]["size"];            
-
-		            // Vérifie l'extension du fichier
-		            $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-		            if(!array_key_exists($ext, $allowed)) die("<span>Erreur: Veuillez sélectionner un format de fichier valide.</span>");
-		            // Vérifie la taille du fichier - 5Mo maximum
-		            $maxsize = 5 * 1024 * 1024;
-
-		            if($filesize > $maxsize) die("<span>Erreur: La taille du fichier est supérieure à la limite autorisée.</span>");
-
-		            // Vérifie le type MIME du fichier
-		            if(in_array($filetype, $allowed)){
-
-			            // Vérifie si le fichier existe avant de le télécharger.
-			            if(file_exists("uploads/".$_FILES["picture"]["name"])){
-			                echo $_FILES["picture"]["name"] . " existe déjà.";
-			            }
-			            else{
-			                move_uploaded_file($_FILES["picture"]["tmp_name"], "uploads/" . $_FILES["picture"]["name"]);
-			            } 
-			        }                          
-			        else{
-			            echo "<span>Erreur: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.</span>";
-			        }
-
-	        	}
-	        	else{
-		    	//voir les types d'erreurs sur => https://www.php.net/manual/fr/features.file-upload.errors.php
-		        echo "<span>Erreur " . $_FILES["picture"]["error"] . "</span> <br>";
-		    	}
-	        	
-		    }
-		    
-	    }
+  		
+  				
 
 
 
   		if(!empty($category)){
 
-  			$get_id_category = $connexion_db->prepare("SELECT id_category FROM categories WHERE name = '$category' ");
-		    $get_id_category->execute();
-		    $id_category_checked = $get_id_category->fetch(PDO::FETCH_ASSOC);
-		    $id_category = intval($id_category_checked['id_category']);
+		    $id_category = intval($category);
 
 			$new_category = "UPDATE products SET id_category = :id_category WHERE id_product = $id_product ";
-	      	$update_category = $connexion_db -> prepare($new_category);
+	      	$update_category = $connexion_db->prepare($new_category);
 	      	$update_category->bindParam(':id_category',$id_category, PDO::PARAM_INT);
 	      	$update_category->execute(); 
 
 	    }
 
 	    if(!empty($sub_category)){
-	    	$get_id_sub_category = $connexion_db->prepare("SELECT id_sub_category FROM sub_categories WHERE name = '$sub_category' ");
-		    $get_id_sub_category->execute();
-		    $id_sub_category_checked = $get_id_sub_category->fetch(PDO::FETCH_ASSOC);
-		    $id_sub_category = intval($id_sub_category_checked['id_sub_category']);
+
+	    	$id_sub_category = intval($sub_category);
 
 		    $new_sub_category = "UPDATE products SET id_sub_category = :id_sub_category WHERE id_product = $id_product ";
 	      	$update_sub_category = $connexion_db -> prepare($new_sub_category);
@@ -234,6 +187,64 @@ class Products
 	      	$update_description->bindParam(':description',$description, PDO::PARAM_STR);
 	      	$update_description->execute(); 
 	    }
+
+
+  			
+
+			
+
+			 if($_SERVER["REQUEST_METHOD"] == "POST")
+                   {
+                        // Vérifie si le fichier a été uploadé sans erreur.
+                        if(isset($_FILES["picture"]) && $_FILES["picture"]["error"] == 0){
+
+                        	$file_name=$_FILES["picture"]["name"];
+							$picture="uploads/$file_name";
+
+							var_dump($picture);
+
+							$new_picture = "UPDATE products SET picture = :picture WHERE id_product = $id_product ";
+							$update_picture = $connexion_db -> prepare($new_picture);
+							$update_picture->bindParam(':picture',$picture, PDO::PARAM_STR);
+							$update_picture->execute();
+
+
+                            $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                            $filename = $_FILES["picture"]["name"];
+                            $filetype = $_FILES["picture"]["type"];
+                            $filesize = $_FILES["picture"]["size"];
+
+                            // Vérifie l'extension du fichier
+                            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                            if(!array_key_exists($ext, $allowed)) die("Erreur : Veuillez sélectionner un format de fichier valide.<br>");
+                            // Vérifie la taille du fichier - 5Mo maximum
+                            $maxsize = 5 * 1024 * 1024;
+                            if($filesize > $maxsize) die("Error: La taille du fichier est supérieure à la limite autorisée.<br>");
+                            // Vérifie le type MIME du fichier
+                            if(in_array($filetype, $allowed)){
+                                // Vérifie si le fichier existe avant de le télécharger.
+                                if(file_exists("uploads/".$_FILES["picture"]["name"])){
+                                    echo $_FILES["picture"]["name"] . " existe déjà.";
+                                }
+                                else
+                                {
+                                    move_uploaded_file($_FILES["picture"]["tmp_name"], "uploads/" . $_FILES["picture"]["name"]);
+                                    header('location:profil.php');
+                                } 
+                            }
+                            else
+                            {
+                                echo "Error: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.<br>";
+                                echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.<br>";
+                                        }
+                        }
+                        else
+                        {
+                            echo "Error: " . $_FILES["picture"]["error"];
+                        }
+                    } 
+
+  		
 
 	    if(!empty($price)){
 
@@ -267,12 +278,22 @@ class Products
 	      	$update_stock->execute(); 
 	    }
 
-	  	/*header('Location:stock_management.php#stock_management.php');
-	  	exit;*/
+	  	header('Location:stock_management.php#stock_management.php');
+	  	exit;
 
 
   		
 	    
+  	}
+
+  	public function delete($id_product)
+  	{
+  		$connexion_db = $this->db->connectDb();
+
+  		$delete_product = $connexion_db->prepare("DELETE FROM products WHERE id_product = $id_product");
+        $delete_product->execute();
+
+
   	}
 
 

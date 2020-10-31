@@ -44,10 +44,14 @@ session_start();
                         $_POST['size'],
                         $_POST['color'], 
                         $_POST['stock']    
-
                     );      
 
-                }  
+                }
+
+                if(isset($_POST['delete_product'])){
+                    $product->delete($_POST['id_product']);
+                }
+                        
 
             ?>
 
@@ -197,19 +201,19 @@ session_start();
                             switch($info_products['id_sub_category'])
                             {
                                 case 1 : 
-                                echo "influencer";
+                                echo "influenceur";
                                 break; 
 
                                 case 2 : 
-                                echo "series";
+                                echo "séries";
                                 break;
 
                                 case 3 : 
-                                echo "movies";
+                                echo "films";
                                 break;
 
                                 default:
-                                echo "music";
+                                echo "musique";
                             } 
                              
                             ?>
@@ -228,16 +232,11 @@ session_start();
                             <!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
                             <a href="stock_management.php?product_edit=<?php echo $info_products['id_product'] ?>#modify">MODIFIER</a>
                         </td>
-                        <?php
-                            if(isset($_POST['delete_product'])){
-                                $product->delete($_POST['id_product_hidden']);
-                            }
-                        ?>
                         <td>
                             <form method="post" action="">
                                 <button type="submit" name="delete_product"><i class="far fa-trash-alt"></i></button>
                                 <!-- EFFACE UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
-                                <input type="hidden" name="id_product_hidden" value="<?php echo $info_products['id_product'] ?>">
+                                <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
                             </form>
                         </td>
                     </tr><?php } ?>
@@ -249,40 +248,52 @@ session_start();
                 //FORM GENERE EN FONCTION DES INFORMATIONS TRANSMISES DANS LE HREF
                 if (isset($_GET['product_edit'])) { 
 
-                    $product = $_GET['product_edit'];
+                    $get_id_product = $_GET['product_edit'];
+
+                     
 
                     if(isset($_POST['update_product'])){
-                        $product->update(
-                            $_POST['category'],
-                            $_POST['sub_category'],
-                            $_POST['product_name'],
-                            $_POST['description'],
-                            $_POST['price'],
-                            $_POST['size'],
-                            $_POST['color'], 
-                            $_POST['stock'], 
-                            $_POST['id_product_hidden_2']
+                    $product->update(
+                        $_POST['category'],
+                        $_POST['sub_category'],
+                        $_POST['product_name'],
+                        $_POST['description'],
+                        $_POST['price'],
+                        $_POST['size'],
+                        $_POST['color'], 
+                        $_POST['stock'], 
+                        $_POST['id_product']
                         );
-                    }
-            ?>
 
-                <form method="post" action="">
-                        <h3 id="modify">Modifier ce produit</h3><br/>
-                        <label for="category">Sélectionner une nouvelle catégorie du produit</label><br>
-                        <select name="category">
-                            <option value="" disabled selected>--</option>
-                            <option value="women">Femme</option>
-                            <option value="men">Homme</option>
-                            <option value="child">Enfant</option>
-                        </select><br>
+
+
+
+
+
+
+                }
+
+
+
+                    ?>
+
+                <form method="post" action="" enctype="multipart/form-data">
+                    <h3 id="modify">Modifier ce produit</h3><br/>
+                    <label for="category">Sélectionner une nouvelle catégorie du produit</label><br>
+                    <select name="category">
+                        <option value="">--</option>
+                        <option value="1">Femme</option>
+                        <option value="2">Homme</option>
+                        <option value="3">Enfant</option>
+                    </select><br>
 
                         <label for="sub_category">Sélectionner une nouvelle sous-catégorie du produit</label><br>
                         <select name="sub_category">
-                            <option value="" disabled selected>--</option>
-                            <option value="influencer">Influenceuses</option>
-                            <option value="series">Les séries</option>
-                            <option value="movies">Les films</option>
-                            <option value="music">Musique</option>
+                            <option value="">--</option>
+                            <option value="1">Influenceuses</option>
+                            <option value="2">Les séries</option>
+                            <option value="3">Les films</option>
+                            <option value="4">Musique</option>
                         </select><br>
 
                         <label for="product_name">Entrez un nouveau nom du produit</label><br>
@@ -323,11 +334,14 @@ session_start();
                         <input type="number" name="stock"><br>
 
                         <!-- RECUPERATION DE L'ID DU PRODUIT ENVOYE PAR HREF-->
-                        <input type="hidden" name="id_product_hidden_2" value="<?php echo $info_products['id_product'] ?>">
-
+                        <input type="hidden" name="id_product" value="<?php echo $get_id_product ?>">
                         <input type="submit" name="update_product" value="ENREGISTRER LES MODIFICATIONS">
 
-                    </form>
+                </form>
+
+
+
+                
 
                 <?php }
             ?>
@@ -336,7 +350,11 @@ session_start();
 
 
         </section>
-        <?php } ?>
+        <?php 
+
+            }else{header('Location:index.php'); exit;}
+
+        ?>
     </main>
     <footer>
         <?php include("includes/footer.php")?>
