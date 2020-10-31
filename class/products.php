@@ -116,11 +116,163 @@ class Products
 
 
 			header('Location:stock_management.php#stock_management.php');
+			exit;
 		}
 		else{
 		  	echo '<span>Veuillez remplir tous les champs</span>';
 		} 
 
+  	}
+
+  	public function update($category, $sub_category, $product_name,$description,$price,$size,$color,$stock,$id_product)
+  	{
+  		$connexion_db = $this->db->connectDb();
+
+  		$id_product = $_POST['id_product_hidden'];
+
+  		var_dump($id_product);
+
+	    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+	  		// Vérifie si le fichier a été uploadé sans erreur.
+	        if(isset($_FILES["picture"])){ 
+
+	        	if($_FILES["picture"]["error"] == 0){
+
+	        		$file_name=$_FILES["picture"]["name"];
+	    			$picture="uploads/$file_name";
+
+		    		$new_picture = "UPDATE products SET picture = :picture WHERE id_product = $id_product ";
+			      	$update_picture = $connexion_db -> prepare($new_picture);
+			      	$update_picture->bindParam(':picture',$picture, PDO::PARAM_STR);
+			      	$update_picture->execute();
+
+		        	$allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+		            $filename = $_FILES["picture"]["name"];
+		            $filetype = $_FILES["picture"]["type"];
+		            $filesize = $_FILES["picture"]["size"];            
+
+		            // Vérifie l'extension du fichier
+		            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+		            if(!array_key_exists($ext, $allowed)) die("<span>Erreur: Veuillez sélectionner un format de fichier valide.</span>");
+		            // Vérifie la taille du fichier - 5Mo maximum
+		            $maxsize = 5 * 1024 * 1024;
+
+		            if($filesize > $maxsize) die("<span>Erreur: La taille du fichier est supérieure à la limite autorisée.</span>");
+
+		            // Vérifie le type MIME du fichier
+		            if(in_array($filetype, $allowed)){
+
+			            // Vérifie si le fichier existe avant de le télécharger.
+			            if(file_exists("uploads/".$_FILES["picture"]["name"])){
+			                echo $_FILES["picture"]["name"] . " existe déjà.";
+			            }
+			            else{
+			                move_uploaded_file($_FILES["picture"]["tmp_name"], "uploads/" . $_FILES["picture"]["name"]);
+			            } 
+			        }                          
+			        else{
+			            echo "<span>Erreur: Il y a eu un problème de téléchargement de votre fichier. Veuillez réessayer.</span>";
+			        }
+
+	        	}
+	        	else{
+		    	//voir les types d'erreurs sur => https://www.php.net/manual/fr/features.file-upload.errors.php
+		        echo "<span>Erreur " . $_FILES["picture"]["error"] . "</span> <br>";
+		    	}
+	        	
+		    }
+		    
+	    }
+
+
+
+  		if(!empty($category)){
+
+  			$get_id_category = $connexion_db->prepare("SELECT id_category FROM categories WHERE name = '$category' ");
+		    $get_id_category->execute();
+		    $id_category_checked = $get_id_category->fetch(PDO::FETCH_ASSOC);
+		    $id_category = intval($id_category_checked['id_category']);
+
+			$new_category = "UPDATE products SET id_category = :id_category WHERE id_product = $id_product ";
+	      	$update_category = $connexion_db -> prepare($new_category);
+	      	$update_category->bindParam(':id_category',$id_category, PDO::PARAM_INT);
+	      	$update_category->execute(); 
+
+	    }
+
+	    if(!empty($sub_category)){
+	    	$get_id_sub_category = $connexion_db->prepare("SELECT id_sub_category FROM sub_categories WHERE name = '$sub_category' ");
+		    $get_id_sub_category->execute();
+		    $id_sub_category_checked = $get_id_sub_category->fetch(PDO::FETCH_ASSOC);
+		    $id_sub_category = intval($id_sub_category_checked['id_sub_category']);
+
+		    $new_sub_category = "UPDATE products SET id_sub_category = :id_sub_category WHERE id_product = $id_product ";
+	      	$update_sub_category = $connexion_db -> prepare($new_sub_category);
+	      	$update_sub_category->bindParam(':id_sub_category',$id_sub_category, PDO::PARAM_INT);
+	      	$update_sub_category->execute(); 
+	    }
+
+	    if(!empty($product_name)){
+
+	    	$new_product_name = "UPDATE products SET product_name = :product_name WHERE id_product = $id_product ";
+	      	$update_product_name = $connexion_db -> prepare($new_product_name);
+	      	$update_product_name->bindParam(':product_name',$product_name, PDO::PARAM_STR);
+	      	$update_product_name->execute(); 
+
+	      	$new_product_name_stock = "UPDATE stock_products SET product_name = :product_name WHERE id_product = $id_product ";
+	      	$update_product_name_stock = $connexion_db -> prepare($new_product_name_stock);
+	      	$update_product_name_stock->bindParam(':product_name',$product_name, PDO::PARAM_STR);
+	      	$update_product_name_stock->execute();
+	    }
+
+	    if(!empty($description)){
+
+	    	$new_description = "UPDATE products SET description = :description WHERE id_product = $id_product ";
+	      	$update_description = $connexion_db -> prepare($new_description);
+	      	$update_description->bindParam(':description',$description, PDO::PARAM_STR);
+	      	$update_description->execute(); 
+	    }
+
+	    if(!empty($price)){
+
+	    	$new_price = "UPDATE products SET price = :price WHERE id_product = $id_product ";
+	      	$update_price = $connexion_db -> prepare($new_price);
+	      	$update_price->bindParam(':price',$price, PDO::PARAM_INT);
+	      	$update_price->execute(); 
+	    }
+
+	    if(!empty($size)){
+
+	    	$new_size = "UPDATE product_details SET size = :size WHERE id_product = $id_product ";
+	      	$update_size = $connexion_db -> prepare($new_size);
+	      	$update_size->bindParam(':size',$size, PDO::PARAM_STR);
+	      	$update_size->execute(); 
+	    }
+
+	    if(!empty($color)){
+
+	    	$new_color = "UPDATE product_details SET color = :color WHERE id_product = $id_product ";
+	      	$update_color = $connexion_db -> prepare($new_color);
+	      	$update_color->bindParam(':color',$color, PDO::PARAM_STR);
+	      	$update_color->execute(); 
+	    }
+
+	    if(!empty($stock)){
+
+	    	$new_stock = "UPDATE stock_products SET stock = :stock WHERE id_product = $id_product ";
+	      	$update_stock = $connexion_db -> prepare($new_stock);
+	      	$update_stock->bindParam(':stock',$stock, PDO::PARAM_STR);
+	      	$update_stock->execute(); 
+	    }
+
+	  	/*header('Location:stock_management.php#stock_management.php');
+	  	exit;*/
+
+
+  		
+	    
   	}
 
 

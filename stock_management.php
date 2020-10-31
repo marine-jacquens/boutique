@@ -23,13 +23,14 @@ session_start();
 		<?php include("includes/header.php")?>
 	</header>
     <main>
+        <?php if(isset($_SESSION['user']['id_user']) AND $_SESSION['user']['id_user'] = 'admin'){?>
 
         <section class="banner">
         </section>
 
         <section class="profil" id="stock_management">
 
-            <?php 
+            <?php
 
                 include("includes/admin_space_head_page.php");
 
@@ -37,48 +38,18 @@ session_start();
                    $product->register(
                         $_POST['category'],
                         $_POST['sub_category'],
-                            $_POST['product_name'],
-                            $_POST['description'],
-                            $_POST['price'],
-                            $_POST['size'],
-                            $_POST['color'], 
-                            $_POST['stock']    
+                        $_POST['product_name'],
+                        $_POST['description'],
+                        $_POST['price'],
+                        $_POST['size'],
+                        $_POST['color'], 
+                        $_POST['stock']    
 
                     );      
 
-                }     
-
-                 
-
-
-
+                }  
 
             ?>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nom du produit</th>
-                        <th>Description</th>
-                        <th>Taille</th>
-                        <th>Couleur</th>
-                        <th>Prix unitaire</th>
-                        <th>Stock</th>
-                        <th>Images</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
 
             <h1>Ajouter un produit</h1>
 
@@ -86,7 +57,7 @@ session_start();
 
                 <label for="category">Sélectionnez la catégorie du produit</label><br>
                 <select name="category">
-                    <option value="">--</option>
+                    <option value="" disabled selected>--</option>
                     <option value="women">Femme</option>
                     <option value="men">Homme</option>
                     <option value="child">Enfant</option>
@@ -94,7 +65,7 @@ session_start();
 
                 <label for="sub_category">Sélectionnez la sous-catégorie du produit</label><br>
                 <select name="sub_category">
-                    <option value="">--</option>
+                    <option value="" disabled selected>--</option>
                     <option value="influencer">Influenceuses</option>
                     <option value="series">Les séries</option>
                     <option value="movies">Les films</option>
@@ -122,6 +93,7 @@ session_start();
                     <option value="rouge">rouge</option>
                     <option value="bleu">bleu</option>
                     <option value="vert">vert</option>
+                    <option value="jaune">jaune</option>
                 </select><br>
 
                 <label for="size">Sélectionnez une taille</label><br>
@@ -139,15 +111,232 @@ session_start();
 
                 <input type="submit" name="insert_product" value="ENREGISTRER">
             </form>
-            <!-- <form enctype="multipart/form-data">
-                <label for="file" class="label-file">Choisir une photo</label>
-                <input id="file" type="file" name="photo" class="input-file">
-                <input type="submit" name="send" value="ENVOYER">
-                <button type="submit" name="delete"><i class="fas fa-trash-alt"></i></button>
-            </form> -->
+
+            <?php    
+
+                $connexion_db = $db->connectDb();
+
+                $get_all_products = $connexion_db->prepare("SELECT 
+                products.id_product,
+                product_details.id_product, 
+                stock_products.id_product, 
+                product_details.id_product_detail,
+                stock_products.id_product_detail,
+                 
+                products.id_category, 
+                products.id_sub_category, 
+                products.product_name, 
+                products.description,
+                products.picture, 
+                products.price, 
+                product_details.size, 
+                product_details.color, 
+                stock_products.stock
+
+                FROM 
+
+                products, product_details, stock_products
+
+                WHERE  
+                products.id_product = product_details.id_product 
+                AND products.id_product = product_details.id_product
+                AND products.id_product = stock_products.id_product
+                AND product_details.id_product_detail = stock_products.id_product_detail
+
+                ");
+
+                $get_all_products->execute();
+                $all_products = $get_all_products->fetchAll(PDO::FETCH_ASSOC);
+
+            ?>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Sous catégorie</th>
+                        <th>ID produit</th>
+                        <th>Nom du produit</th>
+                        <th>Description</th>
+                        <th>Taille</th>
+                        <th>Couleur</th>
+                        <th>Prix unitaire</th>
+                        <th>Stock</th>
+                        <th>Image</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($all_products as $info_products) {?>
+                    <tr>
+                        <td>
+                            <?php
+
+                            switch($info_products['id_category'])
+                            {
+                                case 1 : 
+                                echo "femme";
+                                break; 
+
+                                case 2 : 
+                                echo "homme";
+                                break;
+
+                                case 3 : 
+                                echo "enfant";
+                                break;
+
+                                default:
+                                echo "catégorie non définit";
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            switch($info_products['id_sub_category'])
+                            {
+                                case 1 : 
+                                echo "influencer";
+                                break; 
+
+                                case 2 : 
+                                echo "series";
+                                break;
+
+                                case 3 : 
+                                echo "movies";
+                                break;
+
+                                default:
+                                echo "music";
+                            } 
+                             
+                            ?>
+                        </td>
+                        <td><?php echo $info_products['id_product'] ?></td>
+                        <td><?php echo $info_products['product_name'] ?></td>
+                        <td><?php echo $info_products['description'] ?></td>
+                        <td><?php echo $info_products['size'] ?></td>
+                        <td><?php echo $info_products['color'] ?></td>
+                        <td><?php echo $info_products['price']." €" ?></td>
+                        <td><?php echo $info_products['stock'] ?></td>
+                        <td>
+                            <img src="<?php echo $info_products['picture']?>" width="100">
+                        </td>
+                        <td>
+                            <!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
+                            <a href="stock_management.php?product_edit=<?php echo $info_products['id_product'] ?>#modify">MODIFIER</a>
+                        </td>
+                        <?php
+                            if(isset($_POST['delete_product'])){
+                                $product->delete($_POST['id_product_hidden']);
+                            }
+                        ?>
+                        <td>
+                            <form method="post" action="">
+                                <button type="submit" name="delete_product"><i class="far fa-trash-alt"></i></button>
+                                <!-- EFFACE UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
+                                <input type="hidden" name="id_product_hidden" value="<?php echo $info_products['id_product'] ?>">
+                            </form>
+                        </td>
+                    </tr><?php } ?>
+                </tbody>
+            </table>
+
+            <?php 
+
+                //FORM GENERE EN FONCTION DES INFORMATIONS TRANSMISES DANS LE HREF
+                if (isset($_GET['product_edit'])) { 
+
+                    $product = $_GET['product_edit'];
+
+                    if(isset($_POST['update_product'])){
+                        $product->update(
+                            $_POST['category'],
+                            $_POST['sub_category'],
+                            $_POST['product_name'],
+                            $_POST['description'],
+                            $_POST['price'],
+                            $_POST['size'],
+                            $_POST['color'], 
+                            $_POST['stock'], 
+                            $_POST['id_product_hidden_2']
+                        );
+                    }
+            ?>
+
+                <form method="post" action="">
+                        <h3 id="modify">Modifier ce produit</h3><br/>
+                        <label for="category">Sélectionner une nouvelle catégorie du produit</label><br>
+                        <select name="category">
+                            <option value="" disabled selected>--</option>
+                            <option value="women">Femme</option>
+                            <option value="men">Homme</option>
+                            <option value="child">Enfant</option>
+                        </select><br>
+
+                        <label for="sub_category">Sélectionner une nouvelle sous-catégorie du produit</label><br>
+                        <select name="sub_category">
+                            <option value="" disabled selected>--</option>
+                            <option value="influencer">Influenceuses</option>
+                            <option value="series">Les séries</option>
+                            <option value="movies">Les films</option>
+                            <option value="music">Musique</option>
+                        </select><br>
+
+                        <label for="product_name">Entrez un nouveau nom du produit</label><br>
+                        <input type="text" name="product_name"><br>
+
+                        <label for="description">Entrez une nouvelle descripton du produit</label><br>
+                        <textarea type="textarea" name="description"></textarea><br>
+
+                        <label for="file">Choisir une nouvelle photo</label><br>
+                        <input id="file" type="file" name="picture" class="input-file"><br>
+
+                        <label for="price">Entrez un nouveau prix</label><br>
+                        <input type="number" name="price" step="0.01"><br>
+
+                        <label for="color">Sélectionnez une nouvelle couleur</label><br>
+                        <select name="color">
+                            <option value="">--</option>
+                            <option value="noir">noir</option>
+                            <option value="blanc">blanc</option>
+                            <option value="gris">gris</option>
+                            <option value="rouge">rouge</option>
+                            <option value="bleu">bleu</option>
+                            <option value="vert">vert</option>
+                            <option value="jaune">jaune</option>
+                        </select><br>
+
+                        <label for="size">Sélectionnez une taille</label><br>
+                        <select name="size">
+                            <option value="">--</option>
+                            <option value="unique">Unique</option>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                        </select><br>
+
+                        <label for="stock">Entrez le nombre de produits disponibles en stock</label><br>
+                        <input type="number" name="stock"><br>
+
+                        <!-- RECUPERATION DE L'ID DU PRODUIT ENVOYE PAR HREF-->
+                        <input type="hidden" name="id_product_hidden_2" value="<?php echo $info_products['id_product'] ?>">
+
+                        <input type="submit" name="update_product" value="ENREGISTRER LES MODIFICATIONS">
+
+                    </form>
+
+                <?php }
+            ?>
+
+            
+
 
         </section>
-
+        <?php } ?>
     </main>
     <footer>
         <?php include("includes/footer.php")?>
