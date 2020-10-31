@@ -23,7 +23,7 @@ session_start();
 		<?php include("includes/header.php")?>
 	</header>
     <main>
-        <?php if(isset($_SESSION['user']['id_user']) AND $_SESSION['user']['id_user'] = 'admin'){?>
+        <?php if(isset($_SESSION['user']['id_user']) AND $_SESSION['user']['account_type'] === 'admin'){?>
 
         <section class="banner">
         </section>
