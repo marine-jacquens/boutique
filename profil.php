@@ -29,7 +29,7 @@ session_start();
 				<section class="banner">
 				</section>
 
-				<section class="profil" id="detail_account">
+				<section class="forme" id="detail_account">
 
 					<?php include("includes/personal_space_head_page.php"); ?>
 

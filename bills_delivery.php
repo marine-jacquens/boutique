@@ -26,7 +26,7 @@
 		<section class="banner">
 		</section>
 
-		<section class="profil" id="detail_bill_del">
+		<section class="forme" id="detail_bill_del">
 
 			<?php include("includes/personal_space_head_page.php"); ?>
 			<div class="profil_page_head">

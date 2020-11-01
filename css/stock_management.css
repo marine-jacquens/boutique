@@ -1,0 +1,103 @@
+.progression-bar{
+	position:absolute;
+	top:0;
+	left:9.5%;
+	border-bottom: 2px solid black;
+	width:10%;
+	z-index: 1;
+}
+
+.form_product{
+	margin-top:3%;
+	width:100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #333;
+	color:white;
+	padding-bottom:3%	
+}
+
+.form_product h1{
+	text-align: center;
+}
+
+
+
+.form_product_body{
+	display: flex;
+	justify-content: space-around;
+}
+
+.form_product_body textarea{
+	height:40%;
+	resize: none;
+	font-family: 'Poppins', sans-serif;
+}
+
+.form_product_position{
+	display: flex;
+	flex-direction: column;
+}
+
+.input_product{
+	height:10%;
+	font-family: 'Poppins', sans-serif;
+	border:5%;
+}
+
+.input_file::-webkit-file-upload-button{
+    -webkit-apparence:none;
+    background:lightgray none;
+    border:solid 1px gray;
+    border:5%;
+    font-family: 'Poppins', sans-serif;
+ 
+}
+
+.button_product_position{
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.button_product{
+	margin-top:3%;
+	height:40px;
+	width:20%;
+	background-color:black;
+	color:white;
+}
+
+
+.table_products{
+	margin-top:5%;
+	width:100%;
+	
+}
+
+.table_products th{text-align:center;}
+
+.table_products td{
+	
+
+}
+
+.table_products button{
+	background: none;
+	border:none;
+}
+
+.table_products i:hover{
+	color:lightgray;
+	transition:.5s;
+}
+
+.table_middle{
+	text-align: center;
+}
+
+.table_justify{
+	
+	text-align: justify;
+	padding:0.5%;
+}

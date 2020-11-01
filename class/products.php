@@ -128,24 +128,6 @@ class Products
   	{
   		$connexion_db = $this->db->connectDb();
 
-
-  		var_dump($category);
-  		var_dump($sub_category);
-  		var_dump($product_name);
-  		var_dump($description);
-  		var_dump($price);
-  		var_dump($size);
-  		var_dump($color);
-  		var_dump($stock);
-  		var_dump($id_product);
-
-
-
-  		
-  				
-
-
-
   		if(!empty($category)){
 
 		    $id_category = intval($category);

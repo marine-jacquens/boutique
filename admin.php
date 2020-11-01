@@ -25,7 +25,7 @@ session_start();
     <main>
         <section class="banner">
         </section>
-        <section class="profil">
+        <section class="forme">
             <?php include("includes/admin_space_head_page.php"); ?>
         </section>
     </main>
