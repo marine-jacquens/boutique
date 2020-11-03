@@ -6,6 +6,7 @@
 	$user = new Users($db);
 	$product = new Products($db);
 	require 'modals_icones.php';
+	require 'modals_menu.php';
 
 ?>
 <section class="top-nav1">
@@ -50,12 +51,11 @@
 
 	<nav class="navbar">
 		<ul>
-			<li>FEMME</li>
-			<li>HOMME</li>
-			<li>ENFANT</li>
-			<li>NOUVEAUTE</li>
-			<li>TAPIS ROUGE</li>
-			<li>LES COULISSES</li>
+			<li><a href="#women-modal" class="js-modal">FEMME</a></li>
+			<li><a href="#men-modal" class="js-modal">HOMME</a></li>
+			<li><a href="#child-modal" class="js-modal">ENFANT</a></li>
+			<li><a href="new_features.php">NOUVEAUTÉS</a></li>
+			<li><a href="about_us.php">LES COULISSES</a></li>
 		</ul>
 	</nav>
 

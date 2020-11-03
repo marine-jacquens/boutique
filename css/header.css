@@ -112,9 +112,11 @@
 	justify-content: space-around;
 }
 
-.navbar li {
-	display: inline;
-	
+.navbar li {display: inline;}
+
+.navbar a:hover{
+	transition:.5s;
+	color:lightgray;
 }
 
 /*BOITE MODAL*/
@@ -123,7 +125,7 @@
 	box-shadow:0 0 1px black;
 } 
 
-.modal {
+.modal,.modal_menu {
 	position:fixed;
 	display: flex;
 	align-items: flex-start;
@@ -131,10 +133,11 @@
 	left:0;
 	width:100%;
 	height:100%;
-	background-color:rgba(255,255,255,0.4);
 	animation: fadeIn .6s both;
 	z-index: 2;
 }
+
+.modal{background-color:rgba(255,255,255,0.4);}
 
 .modal-wrapper{
 	display: flex;
@@ -145,13 +148,26 @@
 /*	padding:20px;
 */	width:100%;
 	height:auto;
-	animation: slideFromTop .6s both;
 	/*width:600px;
 	max-width:calc(100vw - 20px); calc pour laisser de la marge sur les côtés
 	max-height:calc(100vh - 20px);/*100 vh = une fois la hauteur de la taille de l'écran*/
-}	
+}
 
-.modal[aria-hidden="true"]{
+.modal-wrapper_menu{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	overflow:auto;
+	background-color:white;
+	width:100%;
+	height:100%;
+}
+
+.modal-wrapper{animation: slideFromTop .6s both;}
+
+.modal-wrapper_menu{animation: slideFromTopBis .6s both;}	
+
+.modal[aria-hidden="true"], .modal_menu[aria-hidden="true"] {
 /*	animation: fadeOut .6s both;*/
 	animation-name: fadeOut;
 }
@@ -159,6 +175,11 @@
 .modal[aria-hidden="true"] .modal-wrapper{
 /*	animation: slidetoBottom .6s both;
 */	animation-name: slideToBottom;
+}
+
+.modal[aria-hidden="true"] .modal-wrapper_menu{
+/*	animation: slidetoBottom .6s both;
+*/	animation-name: slideToBottomBis;
 }
 
 @keyframes fadeIn {
@@ -172,6 +193,12 @@
   to {transform:translateY(150px);}
 }
 
+@keyframes slideFromTopBis {
+  from {transform:translateY(40px);}
+  to {transform:translateY(200px);}
+}
+
+
 @keyframes fadeOut {
   from {opacity:1;}
   to {opacity:0;}
@@ -183,6 +210,10 @@
   to {transform:translateY(40px);}
 }
 
+@keyframes slideToBottomBis {
+  from {transform:translateY(200px);}
+  to {transform:translateY(40px);}
+}
 
 
 
@@ -376,3 +407,27 @@
 	font-weight:bolder;
 
 }
+
+
+/*MENU MODAL*/
+
+.modal_women_menu{
+	display: flex;
+	justify-content: center;
+}
+.table_menu{
+	width:50%;
+	text-align: left;
+}
+
+.table_menu th{
+	font-weight:lighter;
+	padding-top:5%;
+	padding-bottom:5%;
+}
+
+.table_menu a:hover{
+	transition:.5s;
+	color:lightgray;
+}
+

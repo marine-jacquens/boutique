@@ -132,31 +132,29 @@ session_start();
                 $connexion_db = $db->connectDb();
 
                 $get_all_products = $connexion_db->prepare("SELECT 
+                sub_categories.id_category,
                 products.id_product,
-                product_details.id_product, 
-                stock_products.id_product, 
-                product_details.id_product_detail,
-                stock_products.id_product_detail,
-                 
-                products.id_category, 
-                products.id_sub_category, 
-                products.product_name, 
+                products.id_sub_category,
+                products.product_name,
                 products.description,
-                products.picture, 
+                products.picture,
                 products.price, 
                 product_details.size, 
                 product_details.color, 
-                stock_products.stock
+                stock_products.stock,
+
+                product_details.id_product, 
+                product_details.id_product_detail,
+                stock_products.id_product_detail
 
                 FROM 
 
-                products, product_details, stock_products
+                products, product_details, stock_products, sub_categories
 
                 WHERE  
                 products.id_product = product_details.id_product 
-                AND products.id_product = product_details.id_product
-                AND products.id_product = stock_products.id_product
                 AND product_details.id_product_detail = stock_products.id_product_detail
+                AND products.id_sub_category = sub_categories.id_sub_category
 
                 ");
 
