@@ -1,0 +1,27 @@
+.products{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	padding-right:8%;
+	padding-left:8%;
+}
+
+.products_card{width:30%;}
+
+.products_card,.info_products{
+	display: flex;
+	flex-direction: column;
+
+}
+
+.info_products{}
+
+.title_cart{
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	width:75%;
+	
+}
+
+.title_cart h3{font-size:15px;}

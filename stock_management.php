@@ -63,18 +63,18 @@ session_start();
                         <label for="category">Sélectionnez la catégorie du produit</label>
                         <select name="category" class="input_product">
                             <option value="">--</option>
-                            <option value="women">Femme</option>
-                            <option value="men">Homme</option>
-                            <option value="child">Enfant</option>
+                            <option value="femme">Femme</option>
+                            <option value="homme">Homme</option>
+                            <option value="enfant">Enfant</option>
                         </select>
 
                         <label for="sub_category">Sélectionnez la sous-catégorie du produit</label>
                         <select name="sub_category" class="input_product">
                             <option value="">--</option>
-                            <option value="influencer">Influenceuses</option>
-                            <option value="series">Les séries</option>
-                            <option value="movies">Les films</option>
-                            <option value="music">Musique</option>
+                            <option value="automne">Automne</option>
+                            <option value="hiver">Hiver</option>
+                            <option value="printemps">Printemps</option>
+                            <option value="été">Été</option>
                         </select>
 
                         <label for="product_name">Entrez le nom du produit</label>
@@ -104,6 +104,8 @@ session_start();
                             <option value="bleu">bleu</option>
                             <option value="vert">vert</option>
                             <option value="jaune">jaune</option>
+                            <option value="beige">beige</option>
+                            <option value="arc-en-ciel">arc-en-ciel</option>
                         </select>
 
                         <label for="size">Sélectionnez une taille</label>
@@ -132,9 +134,9 @@ session_start();
                 $connexion_db = $db->connectDb();
 
                 $get_all_products = $connexion_db->prepare("SELECT 
-                sub_categories.id_category,
                 products.id_product,
                 products.id_sub_category,
+                products.id_category,
                 products.product_name,
                 products.description,
                 products.picture,
@@ -145,16 +147,20 @@ session_start();
 
                 product_details.id_product, 
                 product_details.id_product_detail,
-                stock_products.id_product_detail
+                stock_products.id_product_detail,
+
+                categories.name_category,
+                sub_categories.name_sub_category
 
                 FROM 
 
-                products, product_details, stock_products, sub_categories
+                products, product_details, stock_products, categories, sub_categories
 
                 WHERE  
                 products.id_product = product_details.id_product 
-                AND product_details.id_product_detail = stock_products.id_product_detail
+                AND products.id_category = categories.id_category
                 AND products.id_sub_category = sub_categories.id_sub_category
+                AND product_details.id_product_detail = stock_products.id_product_detail
 
                 ");
 
@@ -183,50 +189,8 @@ session_start();
                 <tbody>
                     <?php foreach ($all_products as $info_products) {?>
                     <tr>
-                        <td>
-                            <?php
-
-                            switch($info_products['id_category'])
-                            {
-                                case 1 : 
-                                echo "femme";
-                                break; 
-
-                                case 2 : 
-                                echo "homme";
-                                break;
-
-                                case 3 : 
-                                echo "enfant";
-                                break;
-
-                                default:
-                                echo "catégorie non définit";
-                            }
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            switch($info_products['id_sub_category'])
-                            {
-                                case 1 : 
-                                echo "influenceur";
-                                break; 
-
-                                case 2 : 
-                                echo "séries";
-                                break;
-
-                                case 3 : 
-                                echo "films";
-                                break;
-
-                                default:
-                                echo "musique";
-                            } 
-                             
-                            ?>
-                        </td>
+                        <td class="table_middle"><?php echo $info_products['name_category']?></td>
+                        <td class="table_middle"><?php echo $info_products['name_sub_category']?></td>
                         <td class="table_middle"><?php echo $info_products['id_product'] ?></td>
                         <td><?php echo $info_products['product_name'] ?></td>
                         <td class="table_justify"><?php echo $info_products['description'] ?></td>
@@ -301,10 +265,10 @@ session_start();
                             <label for="sub_category">Sélectionner une nouvelle sous-catégorie de produit</label>
                             <select name="sub_category" class="input_product">
                                 <option value="">--</option>
-                                <option value="1">Influenceuses</option>
-                                <option value="2">Les séries</option>
-                                <option value="3">Les films</option>
-                                <option value="4">Musique</option>
+                                <option value="1">Automne</option>
+                                <option value="2">Hiver</option>
+                                <option value="3">Printemps</option>
+                                <option value="4">Été</option>
                             </select>
 
                             <label for="product_name">Entrez un nouveau nom de produit</label>
@@ -330,6 +294,8 @@ session_start();
                                 <option value="bleu">bleu</option>
                                 <option value="vert">vert</option>
                                 <option value="jaune">jaune</option>
+                                <option value="beige">beige</option>
+                                <option value="arc-en-ciel">arc-en-ciel</option>
                             </select><br>
 
                             <label for="size">Sélectionnez une nouvelle taille</label>

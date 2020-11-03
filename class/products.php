@@ -65,12 +65,12 @@ class Products
 
 	    if(!empty($category && $sub_category && $product_name && $description && $price && $size && $color && $stock)){
 
-	  		$get_id_category = $connexion_db->prepare("SELECT id_category FROM categories WHERE name = '$category' ");
+	  		$get_id_category = $connexion_db->prepare("SELECT id_category FROM categories WHERE name_category = '$category' ");
 	      	$get_id_category->execute();
 	      	$id_category_checked = $get_id_category->fetch(PDO::FETCH_ASSOC);
 	      	$id_category = intval($id_category_checked['id_category']);
 
-	      	$get_id_sub_category = $connexion_db->prepare("SELECT id_sub_category FROM sub_categories WHERE name = '$sub_category' ");
+	      	$get_id_sub_category = $connexion_db->prepare("SELECT id_sub_category FROM sub_categories WHERE name_sub_category = '$sub_category' ");
 	      	$get_id_sub_category->execute();
 	      	$id_sub_category_checked = $get_id_sub_category->fetch(PDO::FETCH_ASSOC);
 	      	$id_sub_category = intval($id_sub_category_checked['id_sub_category']);
