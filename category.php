@@ -23,8 +23,6 @@ session_start();
 		<?php include("includes/header.php")?>
 	</header>
     <main>
-        <section class="banner">
-        </section>
         <?php 
             $connexion_db = $db->connectDb();
 
@@ -46,15 +44,19 @@ session_start();
             products.picture,
             products.price, 
             product_details.size, 
-            product_details.color 
+            product_details.color, 
+
+            categories.name_category,
+            categories.description_category
             
               
             FROM 
 
-            products, product_details
+            products, product_details, categories
 
             WHERE 
             products.id_category = $id_category
+            AND categories.id_category = $id_category
             AND products.id_product = product_details.id_product 
             AND product_details.size = '$size_1'
 
@@ -67,6 +69,23 @@ session_start();
 
             /*var_dump($all_products);*/
         ?>
+        <section>
+            <div class="breadcrumb_line">
+                <ul>
+                    <li><a href="index.php">accueil </a>/</li>
+                    <li><strong><?php echo $all_products[0]['name_category'] ?></strong></li>
+                </ul>
+            </div>
+            <div class="description_category">
+                <div class="text_background">
+                    <h1>inspirations <?php echo $all_products[0]['name_category'] ?></h1>
+                    <p>
+                        <?php echo $all_products[0]['description_category']?>
+                    </p>
+                </div>
+            </div>
+        </section>
+        
 
         <section class="products">
             <?php foreach($all_products as $info_products){ ?>

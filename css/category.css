@@ -1,4 +1,38 @@
+.breadcrumb_line{
+	border-top:1px solid lightgray;
+}
+
+
+.breadcrumb_line li {
+		display: inline;
+		text-transform: uppercase;
+}
+
+.text_background h1 {
+	text-transform: uppercase;
+}
+
+.breadcrumb_line a:hover{
+	transition:1s;
+	color :lightgray;
+}
+
+.description_category{
+	background-color:#F2F2F2;
+	padding-right:8%;
+	padding-left:8%;
+	padding-top:2%;
+	padding-bottom:2%;
+}
+
+.text_background{
+	background-color: white;
+	width:40%;
+	padding:2%;
+}
+
 .products{
+	margin-top:5%;
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
