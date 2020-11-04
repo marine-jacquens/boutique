@@ -2,9 +2,11 @@
 	require 'class/database.php';
 	require 'class/users.php';
 	require 'class/products.php';
+	require 'class/administration.php';
 	$db = new Database();
 	$user = new Users($db);
 	$product = new Products($db);
+	$admin = new Admin($db);
 	require 'modals_icones.php';
 	require 'modals_menu.php';
 
@@ -48,9 +50,10 @@
 </section>
 
 <section>
-
+	
 	<nav class="navbar">
 		<ul>
+			<?php ?>
 			<li><a href="#women-modal" class="js-modal">FEMME</a></li>
 			<li><a href="#men-modal" class="js-modal">HOMME</a></li>
 			<li><a href="#child-modal" class="js-modal">ENFANT</a></li>

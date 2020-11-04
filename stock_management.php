@@ -16,7 +16,7 @@ session_start();
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" type="text/css" href="css/admin_space_head_page.css">
-    <link rel="stylesheet" href="css/stock_management.css">
+    <link rel="stylesheet" href="css/admin_general.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -30,8 +30,13 @@ session_start();
         </section>
 
         <section class="forme stock_management" id="stock_management">
+            <?php include("includes/admin_space_head_page.php"); ?>
+            <div class="bar">
+                <div class="progression-bar_stock">
+                </div>
+            </div>
 
-            <?php include("includes/admin_space_head_page.php");
+            <?php
 
                 if(isset($_POST['insert_product'])){
                    $product->register(
@@ -53,15 +58,15 @@ session_start();
                         
 
             ?>
-
+            
             
 
-            <form action="" method="post" enctype="multipart/form-data" class="form_product">
+            <form action="" method="post" enctype="multipart/form-data" class="form_admin">
                 <h1>Ajouter un produit</h1>
-                <div class="form_product_body">
-                    <div class="form_product_position">
+                <div class="form_admin_body">
+                    <div class="form_admin_position">
                         <label for="category">Sélectionnez la catégorie du produit</label>
-                        <select name="category" class="input_product">
+                        <select name="category" class="input_admin">
                             <option value="">--</option>
                             <option value="femme">Femme</option>
                             <option value="homme">Homme</option>
@@ -69,7 +74,7 @@ session_start();
                         </select>
 
                         <label for="sub_category">Sélectionnez la sous-catégorie du produit</label>
-                        <select name="sub_category" class="input_product">
+                        <select name="sub_category" class="input_admin">
                             <option value="">--</option>
                             <option value="automne">Automne</option>
                             <option value="hiver">Hiver</option>
@@ -78,7 +83,7 @@ session_start();
                         </select>
 
                         <label for="product_name">Entrez le nom du produit</label>
-                        <input type="text" name="product_name" class="input_product">
+                        <input type="text" name="product_name" class="input_admin">
 
                         <label for="description">Entrez une descripton détaillée de votre produit</label>
                         <textarea type="textarea" name="description"></textarea>
@@ -86,16 +91,16 @@ session_start();
                            
                     </div>
 
-                    <div class="form_product_position">
+                    <div class="form_admin_position">
                         <label for="file">Choisir une photo</label>
-                        <input id="file" type="file" name="picture" class="input_product input_file">
+                        <input id="file" type="file" name="picture" class="input_admin input_file">
 
 
                         <label for="price">Entrez le tarif</label>
-                        <input type="number" name="price" step="0.01" class="input_product">
+                        <input type="number" name="price" step="0.01" class="input_admin">
 
                         <label for="color">Sélectionnez une couleur</label>
-                        <select name="color" class="input_product">
+                        <select name="color" class="input_admin">
                             <option value="">--</option>
                             <option value="noir">noir</option>
                             <option value="blanc">blanc</option>
@@ -109,7 +114,7 @@ session_start();
                         </select>
 
                         <label for="size">Sélectionnez une taille</label>
-                        <select name="size" class="input_product">
+                        <select name="size" class="input_admin">
                             <option value="">--</option>
                             <option value="unique">Unique</option>
                             <option value="XS">XS</option>
@@ -119,12 +124,12 @@ session_start();
                         </select>
 
                         <label for="stock">Entrez le nombre de produits disponibles en stock</label>
-                        <input type="number" name="stock" class="input_product">                    
+                        <input type="number" name="stock" class="input_admin">                    
                     </div>
                     
                 </div>
-                <div class="button_product_position">
-                    <input type="submit" name="insert_product" value="ENREGISTRER" class="button_product">
+                <div class="button_admin_position">
+                    <input type="submit" name="insert_product" value="ENREGISTRER" class="button_admin">
                 </div>
                 
             </form>
@@ -250,12 +255,12 @@ session_start();
 
                     ?>
 
-                <form method="post" action="" enctype="multipart/form-data" class="form_product">
+                <form method="post" action="" enctype="multipart/form-data" class="form_admin">
                     <h1 id="modify">Modifier le produit n°<?php echo $get_id_product ?></h1>
-                    <div class="form_product_body">
-                        <div class="form_product_position">
+                    <div class="form_admin_body">
+                        <div class="form_admin_position">
                             <label for="category">Sélectionner une nouvelle catégorie de produit</label>
-                            <select name="category" class="input_product">
+                            <select name="category" class="input_admin">
                                 <option value="">--</option>
                                 <option value="1">Femme</option>
                                 <option value="2">Homme</option>
@@ -263,7 +268,7 @@ session_start();
                             </select>
 
                             <label for="sub_category">Sélectionner une nouvelle sous-catégorie de produit</label>
-                            <select name="sub_category" class="input_product">
+                            <select name="sub_category" class="input_admin">
                                 <option value="">--</option>
                                 <option value="1">Automne</option>
                                 <option value="2">Hiver</option>
@@ -272,20 +277,20 @@ session_start();
                             </select>
 
                             <label for="product_name">Entrez un nouveau nom de produit</label>
-                            <input type="text" name="product_name" class="input_product">
+                            <input type="text" name="product_name" class="input_admin">
 
                             <label for="description">Entrez une nouvelle descripton du produit</label>
                             <textarea type="textarea" name="description"></textarea>
                         </div>
-                        <div class="form_product_position">
+                        <div class="form_admin_position">
                             <label for="file">Choisissez une nouvelle photo</label>
-                            <input id="file" type="file" name="picture" class="input_product input_file">
+                            <input id="file" type="file" name="picture" class="input_admin input_file">
 
                             <label for="price">Entrez un nouveau tarif</label>
-                            <input type="number" name="price" step="0.01" class="input_product">
+                            <input type="number" name="price" step="0.01" class="input_admin">
 
                             <label for="color">Sélectionnez une nouvelle couleur</label>
-                            <select name="color" class="input_product">
+                            <select name="color" class="input_admin">
                                 <option value="">--</option>
                                 <option value="noir">noir</option>
                                 <option value="blanc">blanc</option>
@@ -299,7 +304,7 @@ session_start();
                             </select><br>
 
                             <label for="size">Sélectionnez une nouvelle taille</label>
-                            <select name="size" class="input_product">
+                            <select name="size" class="input_admin">
                                 <option value="">--</option>
                                 <option value="unique">Unique</option>
                                 <option value="XS">XS</option>
@@ -309,13 +314,13 @@ session_start();
                             </select>
 
                             <label for="stock">Entrez le nombre de produits disponibles en stock</label>
-                            <input type="number" name="stock" class="input_product">
+                            <input type="number" name="stock" class="input_admin">
 
                             <!-- RECUPERATION DE L'ID DU PRODUIT ENVOYE PAR HREF-->
                             <input type="hidden" name="id_product" value="<?php echo $get_id_product ?>">
                         </div>
                     </div>
-                    <div class="button_product_position"><input type="submit" name="update_product" value="ENREGISTRER LES MODIFICATIONS" class="button_product"></div>
+                    <div class="button_admin_position"><input type="submit" name="update_product" value="ENREGISTRER LES MODIFICATIONS" class="button_admin"></div>
 
                         
                         

@@ -1,13 +1,28 @@
-.progression-bar{
+.progression-bar_stock,
+.progression-bar_admin {
 	position:absolute;
 	top:0;
-	left:9.5%;
 	border-bottom: 2px solid black;
-	width:10%;
 	z-index: 1;
 }
 
-.form_product{
+.progression-bar_admin{
+	width:18%;
+	left:5%;
+}
+
+.progression-bar_stock{
+	width:10%;
+	left:32.5%;
+}
+
+
+
+
+
+
+
+.form_admin{
 	margin-top:3%;
 	width:100%;
 	display: flex;
@@ -17,29 +32,29 @@
 	padding-bottom:3%	
 }
 
-.form_product h1{
+.form_admin h1{
 	text-align: center;
 }
 
 
 
-.form_product_body{
+.form_admin_body{
 	display: flex;
 	justify-content: space-around;
 }
 
-.form_product_body textarea{
+.form_admin_body textarea{
 	height:40%;
 	resize: none;
 	font-family: 'Poppins', sans-serif;
 }
 
-.form_product_position{
+.form_admin_position{
 	display: flex;
 	flex-direction: column;
 }
 
-.input_product{
+.input_admin{
 	height:10%;
 	font-family: 'Poppins', sans-serif;
 	border:5%;
@@ -54,13 +69,13 @@
  
 }
 
-.button_product_position{
+.button_admin_position{
 	display: flex;
 	justify-content: center;
 	width: 100%;
 }
 
-.button_product{
+.button_admin{
 	margin-top:3%;
 	height:40px;
 	width:20%;

@@ -17,11 +17,8 @@
 </div>
 
 <div class="profil_menu">
+	<a href="admin.php#admin">ADMINISTRATION GÉNÉRALE</a>
 	<a href="stock_management.php#stock_management">LES ARTICLES</a>
 	<a href="">LES COMMANDES</a>
 	<a href="">LES INFORMATIONS UTILISATEURS</a>
-</div>
-<div class="bar">
-	<div class="progression-bar">
-	</div>
 </div>
