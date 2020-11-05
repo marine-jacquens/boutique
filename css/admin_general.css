@@ -29,7 +29,7 @@
 	flex-direction: column;
 	background-color: #333;
 	color:white;
-	padding-bottom:3%	
+	padding:3%;	
 }
 
 .form_admin h1{
@@ -44,7 +44,7 @@
 }
 
 .form_admin_body textarea{
-	height:40%;
+	height:auto;
 	resize: none;
 	font-family: 'Poppins', sans-serif;
 }
@@ -52,6 +52,7 @@
 .form_admin_position{
 	display: flex;
 	flex-direction: column;
+	width: 30%;
 }
 
 .input_admin{

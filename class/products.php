@@ -4,6 +4,8 @@ class Products
 {
 	public $category;
 	public $sub_category;
+	public $sub_category_2;
+	public $description_sub_category_2;
 	public $id_product;
 	public $product_name;
 	public $description;
@@ -20,13 +22,21 @@ class Products
     $this->db = $db;
   	}
 
-  	public function register($category, $sub_category, $product_name,$description,$price,$size,$color,$stock){
+  	public function register($category, $sub_category,$sub_category_2,$description_sub_category_2, $product_name,$description,$price,$size,$color,$stock){
 
 	  	$connexion_db = $this->db->connectDb();
 
-	  	if($_SERVER["REQUEST_METHOD"] == "POST"){
+	  	/*var_dump(intval($category));
+	  	var_dump(intval($sub_category));
+	  	var_dump($sub_category_2);
+	  	var_dump($description_sub_category_2);*/
 
-	  		// Vérifie si le fichier a été uploadé sans erreur.
+
+	    if(!empty($category && $sub_category && $sub_category_2 && $description_sub_category_2 && $product_name && $description && $price && $size && $color && $stock)){
+
+	    	if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+	  		// Vérifie si le fichier image a été uploadé sans erreur.
 	        if(isset($_FILES["picture"]) && $_FILES["picture"]["error"] == 0){
 	        	$allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
 	            $filename = $_FILES["picture"]["name"];
@@ -47,7 +57,7 @@ class Products
 
 		            // Vérifie si le fichier existe avant de le télécharger.
 		            if(file_exists("uploads/".$_FILES["picture"]["name"])){
-		                echo $_FILES["picture"]["name"] . " existe déjà.";
+		                /*echo $_FILES["picture"]["name"] . " existe déjà.";*/
 		            }
 		            else{
 		                move_uploaded_file($_FILES["picture"]["tmp_name"], "uploads/" . $_FILES["picture"]["name"]);
@@ -63,26 +73,42 @@ class Products
 		    }
 	    }
 
-	    if(!empty($category && $sub_category && $product_name && $description && $price && $size && $color && $stock)){
+	    // VERIFICATION EXISTENCE COMBINAISON DE L'ID CATEGORIE, ID SOUS CATEGORIE ET NOM DE LA SOUS CATEGORIE 2
 
-	  		$get_id_category = $connexion_db->prepare("SELECT id_category FROM categories WHERE name_category = '$category' ");
-	      	$get_id_category->execute();
-	      	$id_category_checked = $get_id_category->fetch(PDO::FETCH_ASSOC);
-	      	$id_category = intval($id_category_checked['id_category']);
+	    	$id_category = intval($category);
+	    	$id_sub_category = intval($sub_category);
 
-	      	$get_id_sub_category = $connexion_db->prepare("SELECT id_sub_category FROM sub_categories WHERE name_sub_category = '$sub_category' ");
-	      	$get_id_sub_category->execute();
-	      	$id_sub_category_checked = $get_id_sub_category->fetch(PDO::FETCH_ASSOC);
-	      	$id_sub_category = intval($id_sub_category_checked['id_sub_category']);
+	    	$check_sub_category = $connexion_db->prepare("SELECT * FROM sub_categories_2 WHERE id_category = $category AND id_sub_category = $sub_category AND name_sub_category_2 = '$sub_category_2' ");
+	    	$check_sub_category->execute();
+	    	$checked_sub_category = $check_sub_category->fetchAll(PDO::FETCH_ASSOC);
 
-	    	//DEFINITION DES VARIABLES STOCKANT LA picture ET LE CHEMIN VERS LA picture
+
+	    	if(empty($checked_sub_category[0])){
+
+	    		//INSERTION DES ID CATEGORIE ET ID SOUS CATEGORIE DANS LA TABLE SOUS CATEGORIE 2
+
+	    		$insert_sub_category = "INSERT into sub_categories_2 (id_category, id_sub_category, name_sub_category_2, description_sub_category_2) VALUES (:id_category,:id_sub_category,:name_sub_category_2,:description_sub_category_2) ";
+	    		$exec_insert_sub_category = $connexion_db->prepare($insert_sub_category); 
+	    		$exec_insert_sub_category->bindParam(':id_category',$id_category,PDO::PARAM_INT);
+	    		$exec_insert_sub_category->bindParam(':id_sub_category',$id_sub_category,PDO::PARAM_INT);
+	    		$exec_insert_sub_category->bindParam(':name_sub_category_2',$sub_category_2,PDO::PARAM_STR);
+	    		$exec_insert_sub_category->bindParam(':description_sub_category_2',$description_sub_category_2,PDO::PARAM_STR);
+	    		$exec_insert_sub_category->execute();
+	    	}
+
+	    	//DEFINITION DES VARIABLES STOCKANT LA PHOTO ET LE CHEMIN VERS LA PHOTO
 	        $file_name=$_FILES["picture"]["name"];
 	        $picture="uploads/$file_name";
 
-	  		$insert_product = "INSERT into products (id_category,id_sub_category,product_name,description,picture,price) VALUES (:id_category,:id_sub_category,:product_name,:description,:picture,:price)";
+	        //SELECTION DE L'ID DE LA SOUS CATEGORIE 2 CORRESPONDANT AUX FORMULAIRE
+	        $get_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM sub_categories_2 WHERE id_category = $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$sub_category_2' "); 
+	        $get_id_sub_category_2->execute();
+	        $selected_id_sub_category_2 = $get_id_sub_category_2->fetch();
+	        $id_sub_category_2 = intval($selected_id_sub_category_2[0]);
+
+	  		$insert_product = "INSERT into products (id_sub_category_2,product_name,description,picture,price) VALUES (:id_sub_category_2,:product_name,:description,:picture,:price)";
 	  		$exec_insert_product = $connexion_db->prepare($insert_product);
-	  		$exec_insert_product->bindParam(':id_category',$id_category,PDO::PARAM_INT);
-	  		$exec_insert_product->bindParam(':id_sub_category',$id_sub_category,PDO::PARAM_INT);
+	  		$exec_insert_product->bindParam(':id_sub_category_2',$id_sub_category_2,PDO::PARAM_INT);
 	        $exec_insert_product->bindParam(':product_name',$product_name,PDO::PARAM_STR); 
 	        $exec_insert_product->bindParam(':description',$description,PDO::PARAM_STR);
 	        $exec_insert_product->bindParam(':picture',$picture,PDO::PARAM_STR);
@@ -115,8 +141,8 @@ class Products
 	        $exec_insert_stock_product->execute();
 
 
-			header('Location:stock_management.php#stock_management.php');
-			exit;
+			/*header('Location:stock_management.php#stock_management.php');
+			exit;*/
 		}
 		else{
 		  	echo '<span>Veuillez remplir tous les champs</span>';

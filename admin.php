@@ -69,14 +69,14 @@ session_start();
 
                         <h3>Créer une nouvelle catégorie</h3>
                         <label for="name_category">Entrez le nom de votre catégorie</label>
-                        <input type="text" name="name_category" placeholder="femme" class="input_admin">
+                        <input type="text" name="name_category" placeholder="exemple : femme" class="input_admin">
 
                         <label for="description_category">Entrez une descripton de votre catégorie</label>
                         <textarea type="textarea" name="description_category"></textarea>
 
                         <h3>Créer une nouvelle sous-catégorie</h3>
                         <label for="name_sub_category">Entrez le nom de votre sous-catégorie</label>
-                        <input type="text" name="name_sub_category" placeholder="automne" class="input_admin">
+                        <input type="text" name="name_sub_category" placeholder="exemple : automne" class="input_admin">
 
                         <label for="description_sub_category">Entrez une descripton de votre sous-catégorie</label>
                         <textarea type="textarea" name="description_sub_category"></textarea>
@@ -101,7 +101,7 @@ session_start();
                         <h3>Créer une nouvelle sous-catégorie de niveau 2</h3>
 
                         <label for="name_sub_category_2">Entrez le nom de votre sous-catégorie de niv 2</label>
-                        <input type="text" name="name_sub_category_2" placeholder="automne" class="input_admin">
+                        <input type="text" name="name_sub_category_2" placeholder="exemple : influenceuse" class="input_admin">
 
                         <label for="description_sub_category_2">Entrez une descripton de votre sous-catégorie de niv 2</label>
                         <textarea type="textarea" name="description_sub_category_2"></textarea>

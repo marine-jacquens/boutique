@@ -1,36 +1,39 @@
 <?php
 
-					$connexion_db = $db->connectDb();
-
-					$get_sub_categories_2 = $connexion_db->prepare("SELECT
+					$connexion_db = $db->connectDb();	
+									
+/*					$get_all_categories_info = $connexion_db->prepare("SELECT
 
 					categories.id_category,
 					sub_categories.id_sub_category,
+					sub_categories_2.id_sub_category_2,
+					sub_categories_2.id_category,
+					sub_categories_2.id_sub_category,
 
-					sub_categories_2.name_sub_category_2,
-					sub_categories_2.description_sub_category_2,
-					categories.name_category,
-					categories.description_category,
-					sub_categories.name_sub_category,
-					sub_categories.description_sub_category
+					UPPER(categories.name_category) AS categorie_maj,
+					UPPER(sub_categories.name_sub_category) AS sub_categorie_maj,
+					sub_categories_2.name_sub_category_2
 					
 					FROM categories,sub_categories,sub_categories_2 
 
-					WHERE sub_categories_2.id_category = 1
-					AND sub_categories_2.id_category = categories.id_category
+					WHERE 
+					sub_categories_2.id_category = categories.id_category
 					AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
 
-					");
+					");*/
 
-				    $get_sub_categories_2->execute();
-				    $sub_categories_2 = $get_sub_categories_2->fetchAll(PDO::FETCH_ASSOC);
+					$get_nb_categories = $connexion_db->prepare("SELECT COUNT(DISTINCT id_category) AS nb_categorie, COUNT(DISTINCT id_sub_category) AS nb_sub_categorie FROM sub_categories_2");
+				    $get_nb_categories->execute();
 
+				    
 
+				    /*while($donnees = $get_all_categories_info->fetch()){*/
 
 
 ?>
 
-<aside id="women-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+
+<aside id="cat-1-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
 	<div class="modal-wrapper_menu js-modal-stop">
 
@@ -38,25 +41,15 @@
 			
 			<div class="modal_women_menu">
 
-
+				<?php /*var_dump($get_all_categories_info->fetch())*/  ?>
 
 				<table class="table_menu">
 					<thead>
 						<tr>
-							<?php 
-								$get_category = $connexion_db->prepare("SELECT * FROM categories");
-				    			$get_category->execute();
-				    			$category = $get_category->fetchAll(PDO::FETCH_ASSOC);
-							?>
-							<th><a href="category.php?cat=<?php echo $category[0]['id_category'] ?>">INSPIRATION <?php echo $category[0]['name_category'] ?> </a></th>
+							<th><a href="category.php?cat=<?php ?>">INSPIRATION <?php /*echo $donnees['categorie_maj']*/ ?> </a></th>
 						</tr>
-
-
 						<tr>
-							<th><a href="sub_category.php?sub_cat=5">AUTOMNE</a></th>
-							<th><a href="sub_category.php?sub_cat=5">HIVER</a></th>
-							<th><a href="sub_category.php?sub_cat=5">PRINTEMPS</a></th>
-							<th><a href="sub_category.php?sub_cat=5">ÉTÉ</a></th>
+							<th><a href="sub_category.php?sub_cat=5"><?php /*echo $donnees['sub_categorie_maj']*/ ?></a></th>
 						</tr>
 						
 					</thead>
@@ -84,8 +77,8 @@
 			</div>
 	</div>
 </aside>
-
-<aside id="men-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+<?php /*} $get_all_categories_info->closeCursor();*/ ?>
+<aside id="cat-2-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
 	<div class="modal-wrapper_menu js-modal-stop">
 
@@ -94,7 +87,7 @@
 			<div class="modal_women_menu">
 				<table class="table_menu">
 					<thead>
-						<tr><th><a href="category.php?cat=<?php echo $category[1]['id_category'] ?>">INSPIRATION <?php echo $category[1]['name_category'] ?></a></th></tr>
+						<tr><th><a href="category.php?cat=">INSPIRATION</a></th></tr>
 						<tr>
 							<th><a href="sub_category.php?sub_cat=5">AUTOMNE</a></th>
 							<th><a href="sub_category.php?sub_cat=6">HIVERS</a></th>
@@ -127,7 +120,7 @@
 	</div>
 </aside>
 
-<aside id="child-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+<aside id="cat-3-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
 	<div class="modal-wrapper_menu js-modal-stop">
 
@@ -136,7 +129,7 @@
 			<div class="modal_women_menu">
 				<table class="table_menu">
 					<thead>
-						<tr><th><a href="category.php?cat=<?php echo $category[2]['id_category'] ?>">INSPIRATION <?php echo $category[2]['name_category'] ?></a></th></tr>
+						<tr><th><a href="category.php?cat=<?php?>">INSPIRATION <?php?></a></th></tr>
 						<tr>
 							<th><a href="sub_category.php?sub_cat=9">AUTOMNE</a></th>
 							<th><a href="sub_category.php?sub_cat=10">HIVERS</a></th>

@@ -42,6 +42,8 @@ session_start();
                    $product->register(
                         $_POST['category'],
                         $_POST['sub_category'],
+                        $_POST['sub_category_2'],
+                        $_POST['description_sub_category_2'],
                         $_POST['product_name'],
                         $_POST['description'],
                         $_POST['price'],
@@ -57,6 +59,45 @@ session_start();
                 }
                         
 
+                $get_all_products = $connexion_db->prepare("SELECT 
+                products.id_product,
+                products.id_sub_category_2,
+                products.product_name,
+                products.description,
+                products.picture,
+                products.price, 
+                product_details.size, 
+                product_details.color, 
+                stock_products.stock,
+
+                product_details.id_product, 
+                product_details.id_product_detail,
+                stock_products.id_product_detail,
+
+                sub_categories_2.id_category,
+                categories.id_category,
+                sub_categories_2.id_sub_category,
+                sub_categories.id_sub_category,
+                sub_categories.name_sub_category,
+                categories.name_category,
+                sub_categories_2.id_sub_category_2,
+                sub_categories_2.name_sub_category_2
+
+                FROM 
+
+                products, product_details, stock_products, categories, sub_categories, sub_categories_2
+
+                WHERE  
+                products.id_product = product_details.id_product 
+                AND products.id_sub_category_2 = sub_categories_2.id_sub_category_2
+                AND sub_categories_2.id_category = categories.id_category
+                AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
+                AND product_details.id_product_detail = stock_products.id_product_detail
+
+                ");
+
+                $get_all_products->execute();
+                $all_products = $get_all_products->fetchAll(PDO::FETCH_ASSOC);
             ?>
             
             
@@ -65,33 +106,55 @@ session_start();
                 <h1>Ajouter un produit</h1>
                 <div class="form_admin_body">
                     <div class="form_admin_position">
-                        <label for="category">Sélectionnez la catégorie du produit</label>
+                        <?php
+
+                            $get_all_categories = $connexion_db->prepare("SELECT * FROM categories"); 
+                            $get_all_categories->execute(); 
+
+                            $get_all_sub_categories = $connexion_db->prepare("SELECT * FROM sub_categories"); 
+                            $get_all_sub_categories->execute();
+
+                            $get_all_sub_categories_2 = $connexion_db->prepare("SELECT DISTINCT name_sub_category_2 FROM sub_categories_2");
+                            $get_all_sub_categories_2->execute();
+                        ?>
+
+                        <label for="category">Catégorie du produit</label>
                         <select name="category" class="input_admin">
                             <option value="">--</option>
-                            <option value="femme">Femme</option>
-                            <option value="homme">Homme</option>
-                            <option value="enfant">Enfant</option>
+                            <?php while($option = $get_all_categories->fetch()){?>
+                            <option value="<?php echo $option['id_category'] ?>"><?php echo $option['name_category'] ?></option>
+                            <?php } $get_all_categories->closeCursor();?>
                         </select>
 
-                        <label for="sub_category">Sélectionnez la sous-catégorie du produit</label>
+                        <label for="sub_category">Sous-catégorie du produit</label>
                         <select name="sub_category" class="input_admin">
                             <option value="">--</option>
-                            <option value="automne">Automne</option>
-                            <option value="hiver">Hiver</option>
-                            <option value="printemps">Printemps</option>
-                            <option value="été">Été</option>
+                            <?php while($option = $get_all_sub_categories->fetch()){?>
+                            <option value="<?php echo $option['id_sub_category'] ?>"><?php echo $option['name_sub_category'] ?></option>
+                            <?php } $get_all_sub_categories->closeCursor();?>
                         </select>
 
-                        <label for="product_name">Entrez le nom du produit</label>
-                        <input type="text" name="product_name" class="input_admin">
-
-                        <label for="description">Entrez une descripton détaillée de votre produit</label>
-                        <textarea type="textarea" name="description"></textarea>
-
-                           
+                        <label for="sub_category_2">Sous-catégorie 2 du produit</label>
+                        <select name="sub_category_2" class="input_admin">
+                            <option value="">--</option>
+                            <?php while($option = $get_all_sub_categories_2->fetch()){?>
+                            <option value="<?php echo $option['name_sub_category_2'] ?>"><?php echo $option['name_sub_category_2'] ?></option>
+                            <?php } $get_all_sub_categories_2->closeCursor();?>
+                        </select>
+                       
+                        <label for="description_sub_categories_2">Descripton de votre sous-catégorie 2</label>
+                        <textarea type="textarea" name="description_sub_category_2"></textarea>
+  
                     </div>
 
                     <div class="form_admin_position">
+
+                        <label for="product_name">Nom du produit</label>
+                        <input type="text" name="product_name" class="input_admin">
+
+                        <label for="description">Descripton de votre produit</label>
+                        <textarea type="textarea" name="description"></textarea>
+
                         <label for="file">Choisir une photo</label>
                         <input id="file" type="file" name="picture" class="input_admin input_file">
 
@@ -99,6 +162,9 @@ session_start();
                         <label for="price">Entrez le tarif</label>
                         <input type="number" name="price" step="0.01" class="input_admin">
 
+                                          
+                    </div>
+                    <div class="form_admin_position">
                         <label for="color">Sélectionnez une couleur</label>
                         <select name="color" class="input_admin">
                             <option value="">--</option>
@@ -123,8 +189,8 @@ session_start();
                             <option value="L">L</option>
                         </select>
 
-                        <label for="stock">Entrez le nombre de produits disponibles en stock</label>
-                        <input type="number" name="stock" class="input_admin">                    
+                        <label for="stock">Nombre de produits disponibles en stock</label>
+                        <input type="number" name="stock" class="input_admin">  
                     </div>
                     
                 </div>
@@ -134,51 +200,12 @@ session_start();
                 
             </form>
 
-            <?php    
-
-                $connexion_db = $db->connectDb();
-
-                $get_all_products = $connexion_db->prepare("SELECT 
-                products.id_product,
-                products.id_sub_category,
-                products.id_category,
-                products.product_name,
-                products.description,
-                products.picture,
-                products.price, 
-                product_details.size, 
-                product_details.color, 
-                stock_products.stock,
-
-                product_details.id_product, 
-                product_details.id_product_detail,
-                stock_products.id_product_detail,
-
-                categories.name_category,
-                sub_categories.name_sub_category
-
-                FROM 
-
-                products, product_details, stock_products, categories, sub_categories
-
-                WHERE  
-                products.id_product = product_details.id_product 
-                AND products.id_category = categories.id_category
-                AND products.id_sub_category = sub_categories.id_sub_category
-                AND product_details.id_product_detail = stock_products.id_product_detail
-
-                ");
-
-                $get_all_products->execute();
-                $all_products = $get_all_products->fetchAll(PDO::FETCH_ASSOC);
-
-            ?>
-
             <table class="table_products">
                 <thead>
                     <tr>
                         <th>Catégorie</th>
                         <th>Sous catégorie</th>
+                        <th>Sous catégorie 2</th>
                         <th>ID produit</th>
                         <th>Nom du produit</th>
                         <th>Description</th>
@@ -196,6 +223,7 @@ session_start();
                     <tr>
                         <td class="table_middle"><?php echo $info_products['name_category']?></td>
                         <td class="table_middle"><?php echo $info_products['name_sub_category']?></td>
+                        <td class="table_middle"><?php echo $info_products['name_sub_category_2']?></td>
                         <td class="table_middle"><?php echo $info_products['id_product'] ?></td>
                         <td><?php echo $info_products['product_name'] ?></td>
                         <td class="table_justify"><?php echo $info_products['description'] ?></td>
@@ -234,6 +262,8 @@ session_start();
                     $product->update(
                         $_POST['category'],
                         $_POST['sub_category'],
+                        $_POST['sub_category_2'],
+                        $_POST['description_sub_category_2'],
                         $_POST['product_name'],
                         $_POST['description'],
                         $_POST['price'],
@@ -259,35 +289,65 @@ session_start();
                     <h1 id="modify">Modifier le produit n°<?php echo $get_id_product ?></h1>
                     <div class="form_admin_body">
                         <div class="form_admin_position">
-                            <label for="category">Sélectionner une nouvelle catégorie de produit</label>
+                            <?php
+
+                                $get_all_categories = $connexion_db->prepare("SELECT * FROM categories"); 
+                                $get_all_categories->execute(); 
+
+                                $get_all_sub_categories = $connexion_db->prepare("SELECT * FROM sub_categories"); 
+                                $get_all_sub_categories->execute();
+
+                                $get_all_sub_categories_2 = $connexion_db->prepare("SELECT DISTINCT name_sub_category_2 FROM sub_categories_2");
+                                $get_all_sub_categories_2->execute();
+                        
+
+                            ?>
+                            <label for="category">Nouvelle catégorie </label>
                             <select name="category" class="input_admin">
                                 <option value="">--</option>
-                                <option value="1">Femme</option>
-                                <option value="2">Homme</option>
-                                <option value="3">Enfant</option>
+                                <?php while($option = $get_all_categories->fetch()){?>
+                                <option value="<?php echo $option['id_category'] ?>"><?php echo $option['name_category'] ?></option>
+                                <?php } $get_all_categories->closeCursor();?>
                             </select>
 
-                            <label for="sub_category">Sélectionner une nouvelle sous-catégorie de produit</label>
+                            <label for="sub_category">Nouvelle sous-catégorie de niveau 1 </label>
                             <select name="sub_category" class="input_admin">
                                 <option value="">--</option>
-                                <option value="1">Automne</option>
-                                <option value="2">Hiver</option>
-                                <option value="3">Printemps</option>
-                                <option value="4">Été</option>
+                                <?php while($option = $get_all_sub_categories->fetch()){?>
+                                <option value="<?php echo $option['id_sub_category'] ?>"><?php echo $option['name_sub_category'] ?></option>
+                                <?php } $get_all_sub_categories->closeCursor();?>
                             </select>
 
-                            <label for="product_name">Entrez un nouveau nom de produit</label>
+                            <label for="sub_category_2">Sous-catégorie de niveau 2</label>
+                            <select name="sub_category_2" class="input_admin">
+                                <option value="">--</option>
+                                <?php while($option = $get_all_sub_categories_2->fetch()){?>
+                                <option value="<?php echo $option['name_sub_category_2'] ?>"><?php echo $option['name_sub_category_2'] ?></option>
+                                <?php } $get_all_sub_categories_2->closeCursor();?>
+                            </select>
+
+                            <label for="description_sub_categories_2">Descripton de votre sous-catégorie 2</label>
+                            <textarea type="textarea" name="description_sub_category_2"></textarea>
+                            
+                        </div>
+
+                        <div class="form_admin_position">
+
+                            <label for="product_name">Nom de produit</label>
                             <input type="text" name="product_name" class="input_admin">
 
-                            <label for="description">Entrez une nouvelle descripton du produit</label>
+                            <label for="description">Descripton du produit</label>
                             <textarea type="textarea" name="description"></textarea>
-                        </div>
-                        <div class="form_admin_position">
-                            <label for="file">Choisissez une nouvelle photo</label>
+
+                            <label for="file">Nouvelle photo</label>
                             <input id="file" type="file" name="picture" class="input_admin input_file">
 
-                            <label for="price">Entrez un nouveau tarif</label>
+                            <label for="price">Nouveau tarif</label>
                             <input type="number" name="price" step="0.01" class="input_admin">
+
+                        </div>
+
+                        <div class="form_admin_position">
 
                             <label for="color">Sélectionnez une nouvelle couleur</label>
                             <select name="color" class="input_admin">
@@ -301,7 +361,7 @@ session_start();
                                 <option value="jaune">jaune</option>
                                 <option value="beige">beige</option>
                                 <option value="arc-en-ciel">arc-en-ciel</option>
-                            </select><br>
+                            </select>
 
                             <label for="size">Sélectionnez une nouvelle taille</label>
                             <select name="size" class="input_admin">
@@ -313,7 +373,7 @@ session_start();
                                 <option value="L">L</option>
                             </select>
 
-                            <label for="stock">Entrez le nombre de produits disponibles en stock</label>
+                            <label for="stock">Nombre de produits disponibles en stock</label>
                             <input type="number" name="stock" class="input_admin">
 
                             <!-- RECUPERATION DE L'ID DU PRODUIT ENVOYE PAR HREF-->

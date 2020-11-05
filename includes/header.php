@@ -53,14 +53,20 @@
 	
 	<nav class="navbar">
 		<ul>
-			<?php ?>
-			<li><a href="#women-modal" class="js-modal">FEMME</a></li>
-			<li><a href="#men-modal" class="js-modal">HOMME</a></li>
-			<li><a href="#child-modal" class="js-modal">ENFANT</a></li>
+			<?php 
+
+				$connexion_db = $db->connectDb();
+
+                $get_categories = $connexion_db->prepare("SELECT id_category, UPPER(name_category) AS categorie_maj FROM categories");
+                $get_categories->execute();
+
+                while($info_cat = $get_categories->fetch()){
+			?>
+			<li><a href="#<?php echo "cat-". htmlspecialchars($info_cat['id_category']) ?>-modal" class="js-modal"><?php echo htmlspecialchars($info_cat['categorie_maj']) ?></a></li>
+			<?php } $get_categories->closeCursor();?>
 			<li><a href="new_features.php">NOUVEAUTÉS</a></li>
 			<li><a href="about_us.php">LES COULISSES</a></li>
 		</ul>
 	</nav>
 
 </section>
-
