@@ -26,12 +26,6 @@ class Products
 
 	  	$connexion_db = $this->db->connectDb();
 
-	  	/*var_dump(intval($category));
-	  	var_dump(intval($sub_category));
-	  	var_dump($sub_category_2);
-	  	var_dump($description_sub_category_2);*/
-
-
 	    if(!empty($category && $sub_category && $sub_category_2 && $description_sub_category_2 && $product_name && $description && $price && $size && $color && $stock)){
 
 	    	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -100,7 +94,7 @@ class Products
 	        $file_name=$_FILES["picture"]["name"];
 	        $picture="uploads/$file_name";
 
-	        //SELECTION DE L'ID DE LA SOUS CATEGORIE 2 CORRESPONDANT AUX FORMULAIRE
+	        //SELECTION DE L'ID DE LA SOUS CATEGORIE 2 CORRESPONDANT AU FORMULAIRE
 	        $get_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM sub_categories_2 WHERE id_category = $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$sub_category_2' "); 
 	        $get_id_sub_category_2->execute();
 	        $selected_id_sub_category_2 = $get_id_sub_category_2->fetch();
@@ -115,7 +109,7 @@ class Products
 	        $exec_insert_product->bindParam(':price',$price,PDO::PARAM_INT);
 	        $exec_insert_product->execute();
 
-	        $get_id_product = $connexion_db->prepare("SELECT id_product FROM products WHERE product_name = '$product_name' ");
+	        $get_id_product = $connexion_db->prepare("SELECT id_product FROM products ORDER BY id_product DESC LIMIT 0,1");
 	      	$get_id_product->execute();
 	      	$id_product_checked = $get_id_product->fetch(PDO::FETCH_ASSOC);
 	      	$id_product = intval($id_product_checked['id_product']);
@@ -132,17 +126,16 @@ class Products
 	      	$id_product_detail_checked = $get_id_product_detail->fetch(PDO::FETCH_ASSOC);
 	      	$id_product_detail = intval($id_product_detail_checked['id_product_detail']);
 
-	        $insert_stock_product = "INSERT into stock_products (id_product,id_product_detail,product_name,stock) VALUES (:id_product,:id_product_detail,:product_name,:stock)";
+	        $insert_stock_product = "INSERT into stock_products (id_product_detail,product_name,stock) VALUES (:id_product_detail,:product_name,:stock)";
 	  		$exec_insert_stock_product = $connexion_db->prepare($insert_stock_product);
-	        $exec_insert_stock_product->bindParam(':id_product',$id_product,PDO::PARAM_INT); 
 	        $exec_insert_stock_product->bindParam(':id_product_detail',$id_product_detail,PDO::PARAM_INT);
 	        $exec_insert_stock_product->bindParam(':product_name',$product_name,PDO::PARAM_STR);
 	        $exec_insert_stock_product->bindParam(':stock',$stock,PDO::PARAM_INT);
 	        $exec_insert_stock_product->execute();
 
 
-			/*header('Location:stock_management.php#stock_management.php');
-			exit;*/
+			header('Location:stock_management.php#stock_management.php');
+			exit;
 		}
 		else{
 		  	echo '<span>Veuillez remplir tous les champs</span>';
@@ -150,29 +143,123 @@ class Products
 
   	}
 
-  	public function update($category, $sub_category, $product_name,$description,$price,$size,$color,$stock,$id_product)
+  	public function update($category, $sub_category, $sub_category_2, $description_sub_category_2, $product_name,$description,$price,$size,$color,$stock,$id_product)
   	{
   		$connexion_db = $this->db->connectDb();
 
+  		//RECUPERATION DE L'ID PRODUCT_DETAIL POUR MODIFIER STOCK
+  		$get_id_product_detail = $connexion_db->prepare("SELECT id_product_detail FROM product_details WHERE id_product = $id_product");
+	   	$get_id_product_detail->execute();
+	    $selected_id_product_detail = $get_id_product_detail->fetch(PDO::FETCH_ASSOC);
+	    $id_product_detail = intval($selected_id_product_detail['id_product_detail']);
+
+  		//RECUPERATION DE L'ID SUB CATEGORIE 2 ACTUEL DU PRODUIT  		
+  		$get_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM  products WHERE id_product = $id_product");
+  		$get_id_sub_category_2->execute();
+  		$selected_id_sub_category_2 = $get_id_sub_category_2->fetch(PDO::FETCH_ASSOC);
+  		$id_sub_category_2 = intval($selected_id_sub_category_2['id_sub_category_2']);
+
+  		//SI ON MODIFIE SA CATEGORIE
   		if(!empty($category)){
 
-		    $id_category = intval($category);
+		    //ON RECUPERE L'ID SOUS CAT ET LE NOM DE LA SOUS CAT 2 LIE A L'ID SOUS CATEGORIE 2
+		    $get_id_sub_category = $connexion_db->prepare("SELECT id_sub_category, name_sub_category_2 FROM  sub_categories_2 WHERE id_sub_category_2 = $id_sub_category_2");
+	  		$get_id_sub_category->execute();
+	  		$selected_id_sub_category = $get_id_sub_category->fetch(PDO::FETCH_ASSOC);
+	  		$id_sub_category = intval($selected_id_sub_category['id_sub_category']);
+	  		$name_sub_category_2 = $selected_id_sub_category['name_sub_category_2'];
 
-			$new_category = "UPDATE products SET id_category = :id_category WHERE id_product = $id_product ";
-	      	$update_category = $connexion_db->prepare($new_category);
-	      	$update_category->bindParam(':id_category',$id_category, PDO::PARAM_INT);
-	      	$update_category->execute(); 
+	  		//ON VERIFIE SI LA COMBINAISION ID CATEGORIE + ID SUB CATEGORIE + NOM  A UNE CORRESPONDANCE DANS LA TABLE ID SUB CATEGORIES 2 
+	  		$id_category = intval($category);
+
+		    $check_categories_combination = 
+		    $connexion_db->prepare("SELECT * FROM sub_categories_2 WHERE id_category =  $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$name_sub_category_2' ");
+		    $check_categories_combination->execute();
+		    $checked_categories_combination = $check_categories_combination->fetch(PDO::FETCH_ASSOC);
+
+		    // SI C'EST LE CAS ON UPDATE L'ID SUB CATEGORY 2 DANS LA TABLE PRODUCTS
+		    if(!empty($checked_categories_combination)){
+
+		    	$id_sub_category_2 = intval($checked_categories_combination['id_sub_category_2']);
+
+		    	$new_sub_category_2 = "UPDATE products SET id_sub_category_2 = :id_sub_category_2 WHERE id_product = $id_product ";
+		    	$update_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
+	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
+	      		$update_sub_category_2->execute(); 
+		    }
+		    //SI CE N'EST PAS LE CAS ON CREE LA NOUVELLE COMBINAISON, SELECTIONNE LE NOUVEL ID SUB CAT 2 ET ON L'UPDATE DANS PRODUCTS
+		    else 
+		    {
+		    	$new_sub_category_2 = "INSERT into sub_categories_2 (id_category, id_sub_category, name_sub_category_2) VALUES (:id_category, :id_sub_category, :name_sub_category_2)";
+		    	$insert_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
+		    	$insert_sub_category_2->bindParam(':id_category',$id_category, PDO::PARAM_INT);
+	      		$insert_sub_category_2->bindParam(':id_sub_category',$id_sub_category, PDO::PARAM_INT);
+	      		$insert_sub_category_2->bindParam(':name_sub_category_2',$name_sub_category_2, PDO::PARAM_STR);
+	      		$insert_sub_category_2->execute();
+
+	      		$get_new_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM sub_categories_2 WHERE id_category = $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$name_sub_category_2' ");
+	      		$get_new_id_sub_category_2->execute();
+	      		$new_id_sub_category_2 = $get_new_id_sub_category_2->fetch(PDO::FETCH_ASSOC);
+	      		$id_sub_category_2 = intval($new_id_sub_category_2['id_sub_category_2']);
+
+	      		$new_id_sub_category_2 = "UPDATE products SET id_sub_category_2 = :id_sub_category_2 WHERE id_product = $id_product ";
+		    	$update_sub_category_2 = $connexion_db->prepare($new_id_sub_category_2);
+	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
+	      		$update_sub_category_2->execute();
+
+		    }	
 
 	    }
 
+	    //SI ON MODIFIE SA SOUS CATEGORIE
 	    if(!empty($sub_category)){
 
-	    	$id_sub_category = intval($sub_category);
+	    	//ON RECUPERE L'ID CAT ET LE NOM DE LA SOUS CAT 2 LIE A L'ID SOUS CATEGORIE 2
+		    $get_id_category = $connexion_db->prepare("SELECT id_category, name_sub_category_2 FROM  sub_categories_2 WHERE id_sub_category_2 = $id_sub_category_2");
+	  		$get_id_category->execute();
+	  		$selected_id_category = $get_id_category->fetch(PDO::FETCH_ASSOC);
+	  		$id_category = intval($selected_id_category['id_category']);
+	  		$name_sub_category_2 = $selected_id_category['name_sub_category_2'];
 
-		    $new_sub_category = "UPDATE products SET id_sub_category = :id_sub_category WHERE id_product = $id_product ";
-	      	$update_sub_category = $connexion_db -> prepare($new_sub_category);
-	      	$update_sub_category->bindParam(':id_sub_category',$id_sub_category, PDO::PARAM_INT);
-	      	$update_sub_category->execute(); 
+	  		//ON VERIFIE SI LA COMBINAISION ID CATEGORIE + ID SUB CATEGORIE + NOM  A UNE CORRESPONDANCE DANS LA TABLE ID SUB CATEGORIES 2 
+	  		$id_sub_category = intval($sub_category);
+
+		    $check_categories_combination = 
+		    $connexion_db->prepare("SELECT * FROM sub_categories_2 WHERE id_category =  $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$name_sub_category_2' ");
+		    $check_categories_combination->execute();
+		    $checked_categories_combination = $check_categories_combination->fetch(PDO::FETCH_ASSOC);
+
+		    //SI C'EST LE CAS ON UPDATE L'ID SUB CATEGORY 2 DANS LA TABLE PRODUCTS
+		    if(!empty($checked_categories_combination)){
+
+		    	$id_sub_category_2 = intval($checked_categories_combination['id_sub_category_2']);
+
+		    	$new_sub_category_2 = "UPDATE products SET id_sub_category_2 = :id_sub_category_2 WHERE id_product = $id_product ";
+		    	$update_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
+	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
+	      		$update_sub_category_2->execute(); 
+		    }
+		    //SI CE N'EST PAS LE CAS ON CREE LA NOUVELLE COMBINAISON, SELECTIONNE LE NOUVEL ID SUB CAT 2 ET ON L'UPDATE DANS PRODUCTS
+		    else 
+		    {
+		    	$new_sub_category_2 = "INSERT into sub_categories_2 (id_category, id_sub_category, name_sub_category_2) VALUES (:id_category, :id_sub_category, :name_sub_category_2)";
+		    	$insert_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
+		    	$insert_sub_category_2->bindParam(':id_category',$id_category, PDO::PARAM_INT);
+	      		$insert_sub_category_2->bindParam(':id_sub_category',$id_sub_category, PDO::PARAM_INT);
+	      		$insert_sub_category_2->bindParam(':name_sub_category_2',$name_sub_category_2, PDO::PARAM_STR);
+	      		$insert_sub_category_2->execute();
+
+	      		$get_new_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM sub_categories_2 WHERE id_category = $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$name_sub_category_2' ");
+	      		$get_new_id_sub_category_2->execute();
+	      		$new_id_sub_category_2 = $get_new_id_sub_category_2->fetch(PDO::FETCH_ASSOC);
+	      		$id_sub_category_2 = intval($new_id_sub_category_2['id_sub_category_2']);
+
+	      		$new_id_sub_category_2 = "UPDATE products SET id_sub_category_2 = :id_sub_category_2 WHERE id_product = $id_product ";
+		    	$update_sub_category_2 = $connexion_db->prepare($new_id_sub_category_2);
+	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
+	      		$update_sub_category_2->execute();
+
+		    }	
 	    }
 
 	    if(!empty($product_name)){
@@ -182,7 +269,7 @@ class Products
 	      	$update_product_name->bindParam(':product_name',$product_name, PDO::PARAM_STR);
 	      	$update_product_name->execute(); 
 
-	      	$new_product_name_stock = "UPDATE stock_products SET product_name = :product_name WHERE id_product = $id_product ";
+	      	$new_product_name_stock = "UPDATE stock_products SET product_name = :product_name WHERE id_product_detail = $id_product_detail";
 	      	$update_product_name_stock = $connexion_db -> prepare($new_product_name_stock);
 	      	$update_product_name_stock->bindParam(':product_name',$product_name, PDO::PARAM_STR);
 	      	$update_product_name_stock->execute();
@@ -196,11 +283,6 @@ class Products
 	      	$update_description->execute(); 
 	    }
 
-
-  			
-
-			
-
 			 if($_SERVER["REQUEST_METHOD"] == "POST")
                    {
                         // Vérifie si le fichier a été uploadé sans erreur.
@@ -208,8 +290,6 @@ class Products
 
                         	$file_name=$_FILES["picture"]["name"];
 							$picture="uploads/$file_name";
-
-							var_dump($picture);
 
 							$new_picture = "UPDATE products SET picture = :picture WHERE id_product = $id_product ";
 							$update_picture = $connexion_db -> prepare($new_picture);
@@ -246,10 +326,10 @@ class Products
                                 echo "Error: Téléchargement du fichier impossible. Veuillez réessayer.<br>";
                                         }
                         }
-                        else
+                       /* else
                         {
                             echo "Error: " . $_FILES["picture"]["error"];
-                        }
+                        }*/
                     } 
 
   		
@@ -280,7 +360,7 @@ class Products
 
 	    if(!empty($stock)){
 
-	    	$new_stock = "UPDATE stock_products SET stock = :stock WHERE id_product = $id_product ";
+	    	$new_stock = "UPDATE stock_products SET stock = :stock WHERE id_product_detail = $id_product_detail";
 	      	$update_stock = $connexion_db -> prepare($new_stock);
 	      	$update_stock->bindParam(':stock',$stock, PDO::PARAM_STR);
 	      	$update_stock->execute(); 
@@ -298,10 +378,21 @@ class Products
   	{
   		$connexion_db = $this->db->connectDb();
 
+  		$get_id_product_detail = $connexion_db->prepare("SELECT id_product_detail FROM product_details WHERE id_product = $id_product");
+	    $get_id_product_detail->execute();
+	    $selected_id_product_detail = $get_id_product_detail->fetch(PDO::FETCH_ASSOC);
+	    $id_product_detail = intval($selected_id_product_detail['id_product_detail']);
+
   		$delete_product = $connexion_db->prepare("DELETE FROM products WHERE id_product = $id_product");
         $delete_product->execute();
+        $delete_product_details = $connexion_db->prepare("DELETE FROM product_details WHERE id_product = $id_product");
+        $delete_product->execute();
 
+        $delete_product = $connexion_db->prepare("DELETE FROM stock_products WHERE id_product_detail = $id_product_detail");
+        $delete_product->execute();
 
+        header('Location:stock_management.php#stock_management.php');
+	  	exit;
   	}
 
 

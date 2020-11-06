@@ -91,11 +91,14 @@
 	
 }
 
-.table_products th{text-align:center;}
+.table_products th{
+	text-align:center;
+	font-size:13px;
+}
 
 .table_products td{
 	
-
+font-size:12px;
 }
 
 .table_products button{
@@ -108,6 +111,11 @@
 	transition:.5s;
 }
 
+.table_title{
+	border:1px solid #333;
+	padding: 1%;
+}
+
 .table_middle{
 	text-align: center;
 }
@@ -116,4 +124,19 @@
 	
 	text-align: justify;
 	padding:0.5%;
+	font-size:11px;
+}
+
+.pagination{
+	text-align: center;
+}
+
+.actual_page{
+	color:white;
+	background-color:#333;
+	padding:1%;
+}
+
+.other_pages{
+margin:1%
 }

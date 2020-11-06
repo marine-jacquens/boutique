@@ -54,53 +54,7 @@ session_start();
 
                 }
 
-                if(isset($_POST['delete_product'])){
-                    $product->delete($_POST['id_product']);
-                }
-                        
-
-                $get_all_products = $connexion_db->prepare("SELECT 
-                products.id_product,
-                products.id_sub_category_2,
-                products.product_name,
-                products.description,
-                products.picture,
-                products.price, 
-                product_details.size, 
-                product_details.color, 
-                stock_products.stock,
-
-                product_details.id_product, 
-                product_details.id_product_detail,
-                stock_products.id_product_detail,
-
-                sub_categories_2.id_category,
-                categories.id_category,
-                sub_categories_2.id_sub_category,
-                sub_categories.id_sub_category,
-                sub_categories.name_sub_category,
-                categories.name_category,
-                sub_categories_2.id_sub_category_2,
-                sub_categories_2.name_sub_category_2
-
-                FROM 
-
-                products, product_details, stock_products, categories, sub_categories, sub_categories_2
-
-                WHERE  
-                products.id_product = product_details.id_product 
-                AND products.id_sub_category_2 = sub_categories_2.id_sub_category_2
-                AND sub_categories_2.id_category = categories.id_category
-                AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
-                AND product_details.id_product_detail = stock_products.id_product_detail
-
-                ");
-
-                $get_all_products->execute();
-                $all_products = $get_all_products->fetchAll(PDO::FETCH_ASSOC);
             ?>
-            
-            
 
             <form action="" method="post" enctype="multipart/form-data" class="form_admin">
                 <h1>Ajouter un produit</h1>
@@ -200,8 +154,86 @@ session_start();
                 
             </form>
 
-            <table class="table_products">
+            <?php
+
+                //CREATION PAGINATION TABLEAU PRODUIT
+
+                //définition du nbr de messages visibles par page
+                $produitsParPage = 5; 
+                //récupération du total des messages en bdd
+                $total_produits = $connexion_db->prepare("SELECT COUNT(*) AS total FROM products, product_details, stock_products, categories, sub_categories, sub_categories_2 WHERE  
+                products.id_product = product_details.id_product 
+                AND products.id_sub_category_2 = sub_categories_2.id_sub_category_2
+                AND sub_categories_2.id_category = categories.id_category
+                AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
+                AND product_details.id_product_detail = stock_products.id_product_detail");
+                $total_produits->execute();
+                $donnees_total = $total_produits->fetch();
+                $total = $donnees_total['total'];
+
+                //calcul du nbr de pages à générer en fonction du nbr de messages souhaités par page et du nbr total de messages 
+                $nombreDePages = ceil($total/$produitsParPage);// ceil => arrondit au nbr supérieur
+                
+                 
+                if(isset($_GET['page'])) // Si la variable $_GET['page'] existe...
+                {
+                    $pageActuelle = intval($_GET['page']); // intval retourne un nombre entier
+                 
+                    if($pageActuelle > $nombreDePages) 
+                    {
+                        $pageActuelle = $nombreDePages;
+                    }
+                }
+                else // Sinon
+                {
+                     $pageActuelle = 1; // La page actuelle est la n°1    
+                }
+
+                $premiereEntree = ($pageActuelle-1)*$produitsParPage; // On calcul la première entrée à lire
+ 
+                // La requête sql pour récupérer les messages de la page actuelle.
+                $retour_produits = $connexion_db->prepare('SELECT  
+                products.id_product,
+                products.id_sub_category_2,
+                products.product_name,
+                products.description,
+                products.picture,
+                products.price, 
+                product_details.size, 
+                product_details.color, 
+                stock_products.stock,
+
+                product_details.id_product, 
+                product_details.id_product_detail,
+                stock_products.id_product_detail,
+
+                sub_categories_2.id_category,
+                categories.id_category,
+                sub_categories_2.id_sub_category,
+                sub_categories.id_sub_category,
+                sub_categories.name_sub_category,
+                categories.name_category,
+                sub_categories_2.id_sub_category_2,
+                sub_categories_2.name_sub_category_2
+
+                    FROM products, product_details, stock_products, categories, sub_categories, sub_categories_2
+
+                WHERE  
+                products.id_product = product_details.id_product 
+                AND products.id_sub_category_2 = sub_categories_2.id_sub_category_2
+                AND sub_categories_2.id_category = categories.id_category
+                AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
+                AND product_details.id_product_detail = stock_products.id_product_detail
+
+                ORDER BY products.id_product DESC LIMIT '.$premiereEntree.', '.$produitsParPage.'');
+                $retour_produits->execute();
+
+            ?>
+
+
+            <table class="table_products" id="table_products">
                 <thead>
+                    <tr><th colspan="13" class="table_title">LES PRODUITS</th></tr>
                     <tr>
                         <th>Catégorie</th>
                         <th>Sous catégorie</th>
@@ -219,37 +251,59 @@ session_start();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($all_products as $info_products) {?>
+                    <?php while($donnees_messages = $retour_produits->fetch()) {?>
                     <tr>
-                        <td class="table_middle"><?php echo $info_products['name_category']?></td>
-                        <td class="table_middle"><?php echo $info_products['name_sub_category']?></td>
-                        <td class="table_middle"><?php echo $info_products['name_sub_category_2']?></td>
-                        <td class="table_middle"><?php echo $info_products['id_product'] ?></td>
-                        <td><?php echo $info_products['product_name'] ?></td>
-                        <td class="table_justify"><?php echo $info_products['description'] ?></td>
-                        <td class="table_middle"><?php echo $info_products['size'] ?></td>
-                        <td><?php echo $info_products['color'] ?></td>
-                        <td class="table_middle"><?php echo $info_products['price']." €" ?></td>
-                        <td class="table_middle"><?php echo $info_products['stock'] ?></td>
+                        <td class="table_middle"><?php echo $donnees_messages['name_category']?></td>
+                        <td class="table_middle"><?php echo $donnees_messages['name_sub_category']?></td>
+                        <td class="table_middle"><?php echo $donnees_messages['name_sub_category_2']?></td>
+                        <td class="table_middle"><?php echo $donnees_messages['id_product'] ?></td>
+                        <td><?php echo $donnees_messages['product_name'] ?></td>
+                        <td class="table_justify"><?php echo $donnees_messages['description'] ?></td>
+                        <td class="table_middle"><?php echo $donnees_messages['size'] ?></td>
+                        <td><?php echo $donnees_messages['color'] ?></td>
+                        <td class="table_middle"><?php echo $donnees_messages['price']." €" ?></td>
+                        <td class="table_middle"><?php echo $donnees_messages['stock'] ?></td>
                         <td class="table_middle">
-                            <img src="<?php echo $info_products['picture']?>" width="100">
+                            <img src="<?php echo $donnees_messages['picture']?>" width="100">
                         </td>
                         <td class="table_middle">
                             <!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
-                            <a href="stock_management.php?product_edit=<?php echo $info_products['id_product'] ?>#modify"><i class="fas fa-edit"></i></a>
+                            <a href="stock_management.php?product_edit=<?php echo $donnees_messages['id_product'] ?>#modify"><i class="fas fa-edit"></i></a>
                         </td>
+
+                        <?php 
+                            if(isset($_POST['delete_product'])){
+                                $product->delete($_POST['id_product']);
+                            }
+                        ?>
                         <td class="table_middle">
                             <form method="post" action="">
                                 <button type="submit" name="delete_product"><i class="fas fa-trash-alt"></i></button>
                                 <!-- EFFACE UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
-                                <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                <input type="hidden" name="id_product" value="<?php echo $donnees_messages['id_product'] ?>">
                             </form>
                         </td>
                     </tr><?php } ?>
                 </tbody>
             </table>
 
-            <?php 
+            <?php
+                echo '<p class="pagination">';
+                for($i=1; $i<=$nombreDePages; $i++)
+                {
+                
+                     if($i==$pageActuelle) //S'il s'agit de la page actuelle...
+                     {
+                         echo '<span class="actual_page">'.$i.'</span> '; 
+                     }    
+                     else //Sinon...
+                     {
+                          echo ' <a href="stock_management.php?page='.$i.'#table_products" class="other_pages">'.$i.'</a> ';
+                     }
+                }
+                echo '</p>';
+             
+
 
                 //FORM GENERE EN FONCTION DES INFORMATIONS TRANSMISES DANS LE HREF
                 if (isset($_GET['product_edit'])) { 
@@ -273,14 +327,7 @@ session_start();
                         $_POST['id_product']
                         );
 
-
-
-
-
-
-
                 }
-
 
 
                     ?>
