@@ -1,164 +1,86 @@
 <?php
 
-					$connexion_db = $db->connectDb();	
-									
-/*					$get_all_categories_info = $connexion_db->prepare("SELECT
+	$connexion_db = $db->connectDb();	
 
-					categories.id_category,
-					sub_categories.id_sub_category,
-					sub_categories_2.id_sub_category_2,
-					sub_categories_2.id_category,
-					sub_categories_2.id_sub_category,
+	$get_categories_bis = $connexion_db->prepare("SELECT DISTINCT 
+		categories.id_category, 
+		UPPER(categories.name_category) AS cat_maj,
+		sub_categories_2.id_category
+		FROM categories, sub_categories_2
+		WHERE categories.id_category = sub_categories_2.id_category
+		");
+	$get_categories_bis->execute();
 
-					UPPER(categories.name_category) AS categorie_maj,
-					UPPER(sub_categories.name_sub_category) AS sub_categorie_maj,
-					sub_categories_2.name_sub_category_2
-					
-					FROM categories,sub_categories,sub_categories_2 
+	while($categories = $get_categories_bis->fetch()){ 
+		$id_category = $categories['id_category'];
+		$name_category = $categories['cat_maj'];
 
-					WHERE 
-					sub_categories_2.id_category = categories.id_category
-					AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
+		$get_sub_categories = $connexion_db->prepare("SELECT DISTINCT
+		UPPER(sub_categories.name_sub_category) AS sub_cat_maj, 
+		sub_categories.id_sub_category,
+		sub_categories_2.id_sub_category
 
-					");*/
-
-					$get_nb_categories = $connexion_db->prepare("SELECT COUNT(DISTINCT id_category) AS nb_categorie, COUNT(DISTINCT id_sub_category) AS nb_sub_categorie FROM sub_categories_2");
-				    $get_nb_categories->execute();
-
-				    
-
-				    /*while($donnees = $get_all_categories_info->fetch()){*/
+		FROM sub_categories,sub_categories_2 
+		WHERE id_category = $id_category 
+		AND sub_categories.id_sub_category = sub_categories_2.id_sub_category 
+		ORDER BY sub_categories.id_sub_category" );
+		
+		$get_sub_categories->execute();
 
 
 ?>
+		<aside id="cat-<?php echo $id_category ; ?>-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
+			<div class="modal-wrapper_menu js-modal-stop">
 
-<aside id="cat-1-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+				<div class="menu_title"><h3><a href="category.php?cat=<?php echo $id_category; ?>">INSPIRATION <?php echo $name_category; ?> </a></h3></div>
 
-	<div class="modal-wrapper_menu js-modal-stop">
+				<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
+										
+				<div class="modal_table_menu">
 
-		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
-			
-			<div class="modal_women_menu">
+					<?php
+												
+						while($sub_categories = $get_sub_categories->fetch()){
+						$id_sub_category = $sub_categories['id_sub_category'];
+						$name_sub_category = $sub_categories['sub_cat_maj'];
 
-				<?php /*var_dump($get_all_categories_info->fetch())*/  ?>
+						$get_sub_categories_2 = $connexion_db->prepare("SELECT * FROM sub_categories_2 WHERE id_category = $id_category AND id_sub_category = $id_sub_category");
+						$get_sub_categories_2->execute();
 
-				<table class="table_menu">
-					<thead>
-						<tr>
-							<th><a href="category.php?cat=<?php ?>">INSPIRATION <?php /*echo $donnees['categorie_maj']*/ ?> </a></th>
-						</tr>
-						<tr>
-							<th><a href="sub_category.php?sub_cat=5"><?php /*echo $donnees['sub_categorie_maj']*/ ?></a></th>
-						</tr>
-						
-					</thead>
-					<tbody>
-						<tr>
-							<td>Les Kardashian</td>
-							<td>Romance</td>
-							<td>Romance</td>
-							<td>Queen B</td>
-						</tr>
-						<tr>
-							<td>Les Jenner</td>
-							<td>Comédie</td>
-							<td>Comédie</td>
-							<td>S.Gomez</td>
-						</tr>
-						<tr>
-							<td>Enjoy Phoenix</td>
-							<td>Action</td>
-							<td>Action</td>
-							<td>H.Kiyoko</td>
-						</tr>
-					</tbody>
-				</table>
+					?>
+
+						<table class="table_menu">
+							<thead>
+								<tr>
+									<th><a href="sub_category.php?sub_cat=<?php echo $id_sub_category; ?>"><?php echo $name_sub_category; ?></a></th>
+										</tr>
+												
+							</thead>
+							<tbody>
+								<?php 
+									while($sub_categories_2 = $get_sub_categories_2->fetch()){
+										$id_sub_category_2 = $sub_categories_2['id_sub_category_2'];
+										$name_sub_category_2 = $sub_categories_2['name_sub_category_2'];	    		
+								?>
+										<tr>
+											<td><a href="sub_category_2.php?sub_cat_2=<?php echo $id_sub_category_2; ?>"><?php echo $name_sub_category_2; ?></a></td>
+										</tr>
+										<?php } $get_sub_categories_2->closeCursor(); ?>
+							</tbody>
+						</table>
+					<?php } $get_sub_categories->closeCursor(); ?>
+				</div>
 			</div>
-	</div>
-</aside>
-<?php /*} $get_all_categories_info->closeCursor();*/ ?>
-<aside id="cat-2-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+		</aside>
+	<?php } $get_categories_bis->closeCursor();?>
+				    	
 
-	<div class="modal-wrapper_menu js-modal-stop">
+				    	
 
-		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
-			
-			<div class="modal_women_menu">
-				<table class="table_menu">
-					<thead>
-						<tr><th><a href="category.php?cat=">INSPIRATION</a></th></tr>
-						<tr>
-							<th><a href="sub_category.php?sub_cat=5">AUTOMNE</a></th>
-							<th><a href="sub_category.php?sub_cat=6">HIVERS</a></th>
-							<th><a href="sub_category.php?sub_cat=7">PRINTEMPS</a></th>
-							<th><a href="sub_category.php?sub_cat=8">ÉTÉ</a></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Les Kardashian</td>
-							<td>Romance</td>
-							<td>Romance</td>
-							<td>Queen B</td>
-						</tr>
-						<tr>
-							<td>Les Jenner</td>
-							<td>Comédie</td>
-							<td>Comédie</td>
-							<td>S.Gomez</td>
-						</tr>
-						<tr>
-							<td>Enjoy Phoenix</td>
-							<td>Action</td>
-							<td>Action</td>
-							<td>H.Kiyoko</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-	</div>
-</aside>
 
-<aside id="cat-3-modal" class="modal_menu" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
-	<div class="modal-wrapper_menu js-modal-stop">
 
-		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
-			
-			<div class="modal_women_menu">
-				<table class="table_menu">
-					<thead>
-						<tr><th><a href="category.php?cat=<?php?>">INSPIRATION <?php?></a></th></tr>
-						<tr>
-							<th><a href="sub_category.php?sub_cat=9">AUTOMNE</a></th>
-							<th><a href="sub_category.php?sub_cat=10">HIVERS</a></th>
-							<th><a href="sub_category.php?sub_cat=11">PRINTEMPS</a></th>
-							<th><a href="sub_category.php?sub_cat=12">ÉTÉ</a></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Les Kardashian</td>
-							<td>Romance</td>
-							<td>Romance</td>
-							<td>Queen B</td>
-						</tr>
-						<tr>
-							<td>Les Jenner</td>
-							<td>Comédie</td>
-							<td>Comédie</td>
-							<td>S.Gomez</td>
-						</tr>
-						<tr>
-							<td>Enjoy Phoenix</td>
-							<td>Action</td>
-							<td>Action</td>
-							<td>H.Kiyoko</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-	</div>
-</aside>
+
+
 

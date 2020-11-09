@@ -2,7 +2,7 @@
 
 	<div class="modal-wrapper js-modal-stop">
 		
-		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
+		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 		
 			<?php 
 
@@ -96,7 +96,7 @@
 
 	<div class="modal-wrapper js-modal-stop">
 
-		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
+		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 			
 			<div class="empty-wish">
 				<h1>Ma liste d'envies</h1>
@@ -112,7 +112,7 @@
 
 	<div class="modal-wrapper js-modal-stop">
 
-		<div class="close-btn"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
+		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 			
 		<div class="search-title">
 			<h1>Rechercher</h1>
