@@ -67,18 +67,18 @@ session_start();
 
                     <div class="form_admin_position">
 
-                        <h3>Créer une nouvelle catégorie</h3>
-                        <label for="name_category">Entrez le nom de votre catégorie</label>
+                        <h3>Créer une catégorie</h3>
+                        <label for="name_category">Catégorie</label>
                         <input type="text" name="name_category" placeholder="exemple : femme" class="input_admin">
 
-                        <label for="description_category">Entrez une descripton de votre catégorie</label>
+                        <label for="description_category">Descripton catégorie</label>
                         <textarea type="textarea" name="description_category"></textarea>
 
-                        <h3>Créer une nouvelle sous-catégorie</h3>
+                        <h3>Créer une sous-catégorie</h3>
                         <label for="name_sub_category">Entrez le nom de votre sous-catégorie</label>
                         <input type="text" name="name_sub_category" placeholder="exemple : automne" class="input_admin">
 
-                        <label for="description_sub_category">Entrez une descripton de votre sous-catégorie</label>
+                        <label for="description_sub_category">Descripton sous-catégorie</label>
                         <textarea type="textarea" name="description_sub_category"></textarea>
 
                     </div>
@@ -98,27 +98,27 @@ session_start();
                             $sub_categories = $get_sub_categories->fetchAll(PDO::FETCH_ASSOC);
                         ?>
 
-                        <h3>Créer une nouvelle sous-catégorie de niveau 2</h3>
+                        <h3>Créer une sous-catégorie de niveau 2</h3>
 
-                        <label for="name_sub_category_2">Entrez le nom de votre sous-catégorie de niv 2</label>
+                        <label for="name_sub_category_2">Sous-catégorie de niv 2</label>
                         <input type="text" name="name_sub_category_2" placeholder="exemple : influenceuse" class="input_admin">
 
-                        <label for="description_sub_category_2">Entrez une descripton de votre sous-catégorie de niv 2</label>
+                        <label for="description_sub_category_2">Description sous-catégorie de niv 2</label>
                         <textarea type="textarea" name="description_sub_category_2"></textarea>
 
-                        <label for="category_parent">Entrez la catégorie à laquelle elle se rattache</label>
+                        <label for="category_parent">Catégorie à laquelle elle se rattache</label>
                         <select name="category_parent" class="input_admin">
                             <option value="">--</option>
                             <?php foreach($categories as $info_categories){?>
-                            <option value="<?php echo $info_categories['name_category'] ?>"><?php echo $info_categories['name_category'] ?></option>
+                            <option value="<?php echo $info_categories['id_category'] ?>"><?php echo $info_categories['name_category'] ?></option>
                             <?php } ?>
                         </select>
 
-                        <label for="sub_category_parent">Entrez la sous-catégorie de niveau 1 à laquelle elle se rattache</label>
+                        <label for="sub_category_parent">Sous-catégorie de niveau 1 à laquelle elle se rattache</label>
                         <select name="sub_category_parent" class="input_admin">
                             <option value="">--</option>
                             <?php foreach($sub_categories as $info_sub_categories){?>
-                            <option value="<?php echo $info_sub_categories['name_sub_category'] ?>"><?php echo $info_sub_categories['name_sub_category'] ?></option>
+                            <option value="<?php echo $info_sub_categories['id_sub_category'] ?>"><?php echo $info_sub_categories['name_sub_category'] ?></option>
                             <?php } ?>
                         </select>
 
@@ -129,7 +129,167 @@ session_start();
                 </div>
             </form>
 
+            <?php 
+
+                $get_all_categories = $connexion_db->prepare("SELECT * FROM categories");
+                $get_all_categories->execute();
+
+                $get_all_sub_categories = $connexion_db->prepare("SELECT * FROM sub_categories");
+                $get_all_sub_categories->execute();
+
+                $get_all_sub_categories_2 = $connexion_db->prepare(" SELECT
+                    categories.id_category,
+                    categories.name_category,
+
+                    sub_categories.id_sub_category,
+                    sub_categories.name_sub_category,
+
+                    sub_categories_2.id_sub_category_2,
+                    sub_categories_2.id_category,
+                    sub_categories_2.id_sub_category,
+                    sub_categories_2.name_sub_category_2,
+                    sub_categories_2.description_sub_category_2
+
+                    FROM categories, sub_categories, sub_categories_2
+
+                    WHERE 
+
+                    sub_categories_2.id_category = categories.id_category
+                    AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
+
+                    ORDER BY sub_categories_2.id_sub_category_2
+                    ");
+
+                $get_all_sub_categories_2->execute();
+
+
+
+            ?>
+
+            <table>
+                <thead>
+                    <tr><th colspan="5" class="table_title">LES CATEGORIES</th></tr>
+                    <tr>
+                        <th>ID catégorie</th>
+                        <th>Catégorie</th>
+                        <th>Description catégorie</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($info_categories = $get_all_categories->fetch()){ ?>
+                    <tr>
+                        <td><?php echo $info_categories['id_category'] ?></td>
+                        <td><?php echo $info_categories['name_category'] ?></td>
+                        <td><?php echo $info_categories['description_category'] ?></td>
+                        <td class="table_middle">
+                            <!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
+                            <a href="admin.php?admin_edit=<?php echo $info_categories['id_category'] ?>#modify_admin"><i class="fas fa-edit"></i></a>
+                        </td>
+
+                        <?php 
+                            if(isset($_POST['delete_category'])){
+                                $admin->delete($_POST['id_category']);
+                            }
+                        ?>
+                        <td class="table_middle">
+                            <form method="post" action="">
+                                <button type="submit" name="delete_category"><i class="fas fa-trash-alt"></i></button>
+                                <!-- EFFACE UNIQUEMENT LA LIGNE CONTENANT L'ID DE LA CATEGORIE -->
+                                <input type="hidden" name="id_category" value="<?php echo $info_categories['id_category'] ?>">
+                            </form>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+
+            <table>
+                <thead>
+                    <tr><th colspan="5" class="table_title">LES SOUS CATEGORIES</th></tr>
+                    <tr>
+                        <th>ID sous-catégorie</th>
+                        <th>Sous-catégorie</th>
+                        <th>Description sous-catégorie</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($info_sub_categories = $get_all_sub_categories->fetch()){ ?>
+                    <tr>
+                        <td><?php echo $info_sub_categories['id_sub_category'] ?></td>
+                        <td><?php echo $info_sub_categories['name_sub_category'] ?></td>
+                        <td><?php echo $info_sub_categories['description_sub_category'] ?></td>
+                        <td class="table_middle">
+                            <!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
+                            <a href="admin.php?admin_edit=<?php echo $info_sub_categories['id_sub_category'] ?>#modify_admin"><i class="fas fa-edit"></i></a>
+                        </td>
+
+                        <?php 
+                            if(isset($_POST['delete_category'])){
+                                $admin->delete($_POST['id_category']);
+                            }
+                        ?>
+                        <td class="table_middle">
+                            <form method="post" action="">
+                                <button type="submit" name="delete_sub_category"><i class="fas fa-trash-alt"></i></button>
+                                <!-- EFFACE UNIQUEMENT LA LIGNE CONTENANT L'ID DE LA CATEGORIE -->
+                                <input type="hidden" name="id_sub_category" value="<?php echo $info_sub_categories['id_sub_category'] ?>">
+                            </form>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+
+            <table>
+                <thead>
+                    <tr><th colspan="7" class="table_title">LES SOUS CATEGORIES DE NIVEAU 2</th></tr>
+                    <tr>
+                        <th>Catégorie parent</th>
+                        <th>Sous-catégorie parent</th>
+                        <th>ID sous-catégorie niveau 2</th>
+                        <th>Sous-catégorie niveau 2</th>
+                        <th>Description sous-catégorie niveau 2</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($info_sub_categories_2 = $get_all_sub_categories_2->fetch()){ ?>
+                    <tr>
+                        <td><?php echo $info_sub_categories_2['name_category'] ?></td>
+                        <td><?php echo $info_sub_categories_2['name_sub_category'] ?></td>
+                        <td><?php echo $info_sub_categories_2['id_sub_category_2'] ?></td>
+                        <td><?php echo $info_sub_categories_2['name_sub_category'] ?></td>
+                        <td><?php echo $info_sub_categories_2['description_sub_category_2'] ?></td>
+                        <td class="table_middle">
+                            <!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
+                            <a href="admin.php?admin_edit=<?php echo $info_sub_categories_2['id_sub_category_2'] ?>#modify_admin"><i class="fas fa-edit"></i></a>
+                        </td>
+
+                        <?php 
+                            if(isset($_POST['delete_category'])){
+                                $admin->delete($_POST['id_category']);
+                            }
+                        ?>
+                        <td class="table_middle">
+                            <form method="post" action="">
+                                <button type="submit" name="delete_sub_category_2"><i class="fas fa-trash-alt"></i></button>
+                                <!-- EFFACE UNIQUEMENT LA LIGNE CONTENANT L'ID DE LA CATEGORIE -->
+                                <input type="hidden" name="id_sub_category_2" value="<?php echo $info_sub_categories_2['id_sub_category_2'] ?>">
+                            </form>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+
         </section>
+
+
     </main>
     <footer>
         <?php include("includes/footer.php")?>
