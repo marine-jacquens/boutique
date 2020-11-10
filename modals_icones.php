@@ -152,3 +152,45 @@
 	</div>
 	
 </aside>
+
+<aside id="admin-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+
+	<div class="modal-wrapper js-modal-stop">
+
+		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
+			
+		<div class="personal_space">
+
+			<h1>Bonjour <?php echo $_SESSION['user']['firstname'] ?></h1>
+
+				<table class="table_personal_space">
+					
+					<thead>
+						
+						<tr>
+							<th>Administration générale</th>
+							<th>Les articles</th>
+							<th>Les commandes</th>
+							<th>Les informations utilisateurs</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><a href="admin.php"><i class="fas fa-folder-open"></i></a></td>
+							<td><a href="stock_management.php"><i class="fas fa-cart-plus"></i></a></td>
+							<td><a href="orders_admin.php"><i class="fas fa-truck-loading"></i></a></td>
+							<td><a href="users_admin.php"><i class="fas fa-users-cog"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<form action="" method="post">
+					<input type="submit" name="submit_deconnexion" value="Se déconnecter"class="submit_deconnexion">
+				</form>
+		</div>
+			
+
+
+	</div>
+	
+</aside>

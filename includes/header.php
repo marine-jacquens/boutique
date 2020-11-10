@@ -35,7 +35,7 @@
 			elseif(isset($_SESSION['user']['id_user']) AND $_SESSION['user']['account_type'] == "admin")
 			{?>
 				<a href="#connexion-modal" class="js-modal" id="fas-fa-user"></a>
-				<a href="admin.php" id="fa-toolbox"></a>
+				<a href="#admin-modal"  class="js-modal" id="fa-toolbox"></a>
 			  <?php
 			}
 			else
