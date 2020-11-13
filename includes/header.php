@@ -3,10 +3,12 @@
 	require 'class/users.php';
 	require 'class/products.php';
 	require 'class/administration.php';
+	require 'class/wish_list.php';
 	$db = new Database();
 	$user = new Users($db);
 	$product = new Products($db);
 	$admin = new Admin($db);
+	$wish = new WishList($db);
 	require 'modals_icones.php';
 	require 'modals_menu.php';
 

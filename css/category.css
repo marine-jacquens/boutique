@@ -65,3 +65,29 @@
 	padding-right:8%;
 	padding-left:8%;
 }
+
+.wish_button{
+	background-color: white;
+	border:none;
+
+}
+
+#fa_heart:after,
+#fas_heart:after{
+	content: "\f004";
+	font-family: 'Font Awesome 5 Pro'; 
+	display: block; 
+	text-indent: 0;
+}
+
+#fa_heart:after{font-weight:100;}
+#fas_heart:after{font-weight:900;}
+
+
+#fa_heart:hover:after{
+	font-weight:900;
+}
+
+#fa_heart:after:after{
+	font-weight:900;
+}

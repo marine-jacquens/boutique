@@ -27,21 +27,22 @@ session_start();
         
             $id_category = $_GET['cat'];
             $id_sub_category = $_GET['sub_cat'];
+            $id_sub_category_2 = $_GET['sub_cat_2'];
 
-            $get_products_per_sub_category = $connexion_db->prepare("SELECT DISTINCT
+            $get_products_per_sub_category_2 = $connexion_db->prepare("SELECT DISTINCT
 
             categories.id_category,
             categories.name_category,
 
             sub_categories.id_sub_category,
             sub_categories.name_sub_category,
-            sub_categories.description_sub_category,
 
             sub_categories_2.id_sub_category_2,
             sub_categories_2.id_category,
             sub_categories_2.id_sub_category,
+            sub_categories_2.name_sub_category_2,
+            sub_categories_2.description_sub_category_2,
 
-            
             products.id_product,
             products.id_sub_category_2,
             products.product_name,
@@ -60,14 +61,15 @@ session_start();
             products.id_sub_category_2 = sub_categories_2.id_sub_category_2
             AND sub_categories_2.id_category =  $id_category
             AND sub_categories_2.id_sub_category =  $id_sub_category
+            AND sub_categories_2.id_sub_category_2 =  $id_sub_category_2
             AND categories.id_category = sub_categories_2.id_category
             AND sub_categories.id_sub_category = sub_categories_2.id_sub_category
             AND products.id_product = product_details.id_product
 
             ");
 
-            $get_products_per_sub_category->execute();
-            $all_products = $get_products_per_sub_category->fetchAll(PDO::FETCH_ASSOC);
+            $get_products_per_sub_category_2->execute();
+            $all_products = $get_products_per_sub_category_2->fetchAll(PDO::FETCH_ASSOC);
 
             /*var_dump($all_products);*/
 
@@ -78,14 +80,15 @@ session_start();
                     <ul>
                         <li><a href="index.php">accueil </a>/</li>
                         <li><a href="category.php?cat=<?php echo $id_category ?>"><?php echo $all_products[0]['name_category']?></a> /</li>
-                        <li><strong><?php echo $all_products[0]['name_sub_category'] ?></strong></li>
+                        <li><a href="sub_category.php?cat=<?php echo $id_category?>&amp;sub_cat=<?php echo $id_sub_category?>"><?php echo $all_products[0]['name_sub_category'] ?></a> /</li>
+                        <li><strong><?php echo $all_products[0]['name_sub_category_2'] ?></strong></li>
                     </ul>
                 </div>
                 <div class="description_category">
                     <div class="text_background">
-                        <h1><?php echo $all_products[0]['name_sub_category']  ?></h1>
+                        <h1><?php echo $all_products[0]['name_sub_category_2']  ?></h1>
                         <p>
-                            <?php echo $all_products[0]['description_sub_category']?>
+                            <?php echo $all_products[0]['description_sub_category_2']?>
                         </p>
                     </div>
                 </div>

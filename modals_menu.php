@@ -66,7 +66,7 @@
 										$name_sub_category_2 = $sub_categories_2['name_sub_category_2'];	    		
 								?>
 										<tr>
-											<td><a href="sub_category_2.php?sub_cat_2=<?php echo $id_sub_category_2; ?>"><?php echo $name_sub_category_2; ?></a></td>
+											<td><a href="sub_category_2.php?cat=<?php echo $id_category?>&amp;sub_cat=<?php echo $id_sub_category?>&amp;sub_cat_2=<?php echo $id_sub_category_2; ?>"><?php echo $name_sub_category_2; ?></a></td>
 										</tr>
 										<?php } $get_sub_categories_2->closeCursor(); ?>
 							</tbody>

@@ -81,6 +81,23 @@ session_start();
             </div>
         </section>
         
+        <?php 
+            //ENVOI FORMULAIRE WISH LIST
+            if(isset($_POST['add_wish_list'])){
+            $wish->register($_POST['id_product'],$_POST['id_user']);
+            }
+
+            if(isset($_POST['remove_wish_list'])){
+            $wish->disconnect();
+            }
+
+            $id_user = $_SESSION['user']['id_user'];
+
+            //VERIFICATION WISH LIST UTILISATEUR PLEINE OU VIDE
+            $get_wish_list = $connexion_db->prepare("SELECT id_product FROM wish_list_items WHERE id_user = $id_user ");
+            $get_wish_list->execute();
+
+        ?>
 
         <section class="products">
             <?php foreach($all_products as $info_products){ ?>
@@ -91,7 +108,57 @@ session_start();
                 <div class="info_products">
                     <div class="title_cart">
                         <h3><?php echo $info_products['product_name'] ?></h3>
-                        <i class="fal fa-heart"></i>
+                       
+                            <?php 
+
+                                if(isset ($_SESSION['user']['id_user'])){
+
+                                    if(!empty($get_wish_list->fetchAll(PDO::FETCH_ASSOC)) AND in_array($info_products['id_product'], $get_wish_list->fetchAll(PDO::FETCH_ASSOC)) ){?>
+
+                                        <form action="" method="POST">
+
+                                            <button type="submit" name="remove_wish_list" class="wish_button" id="fas_heart" ></button>
+                                            <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                            <input type="hidden" name="id_user" value="<?php if(isset($_SESSION['user']['id_user'])){echo $_SESSION['user']['id_user']; }  ?>">
+                                        </form>
+
+                                    <?php }else{?>
+
+                                    <form action="" method="POST">
+
+                                        <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
+                                        <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                        <input type="hidden" name="id_user" value="<?php if(isset($_SESSION['user']['id_user'])){echo $_SESSION['user']['id_user']; }  ?>">
+                                    </form>
+
+                                    <?php }        
+
+                                }else{?>
+
+                                    <form action="" method="POST">
+
+                                        <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
+                                        <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                        <input type="hidden" name="id_user" value="<?php if(isset($_SESSION['user']['id_user'])){echo $_SESSION['user']['id_user']; }  ?>">
+                                    </form>
+
+                                    <?php } ?>
+
+                            
+                            
+                            
+                        <!-- <script>
+
+                            const styleElem = document.head.appendChild(document.createElement("style"));
+
+                            document.querySelector('.wish_button > button').addEventListener("click", function(event){
+
+                                event.preventDefault()
+                                styleElem.innerHTML = "#fa_heart:after {font-weight: 900;}";
+
+                            });
+
+                        </script> -->
                     </div>
                     <p>€ <?php echo $info_products['price'] ?></p>
                     <p>Couleur : <?php echo $info_products['color'] ?></p>
@@ -109,6 +176,7 @@ session_start();
     </footer>
     
     <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/wish_heart.js"></script>
 </body>
 </html>
 <?php ob_end_flush();?>

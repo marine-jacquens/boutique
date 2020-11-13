@@ -218,7 +218,7 @@ class Products
   		//SI ON MODIFIE SA CATEGORIE
   		if(!empty($category)){
 
-		    //ON RECUPERE L'ID SOUS CAT ET LE NOM DE LA SOUS CAT 2 LIE A L'ID SOUS CATEGORIE 2
+		    //ON RECUPERE L'ID ET LE NOM  DE LA SOUS CATEGORIE LIES A L'ID SOUS CATEGORIE 2
 		    $get_id_sub_category = $connexion_db->prepare("SELECT id_sub_category, name_sub_category_2 FROM  sub_categories_2 WHERE id_sub_category_2 = $id_sub_category_2");
 	  		$get_id_sub_category->execute();
 	  		$selected_id_sub_category = $get_id_sub_category->fetch(PDO::FETCH_ASSOC);
@@ -282,6 +282,55 @@ class Products
 
 		    $check_categories_combination = 
 		    $connexion_db->prepare("SELECT * FROM sub_categories_2 WHERE id_category =  $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$name_sub_category_2' ");
+		    $check_categories_combination->execute();
+		    $checked_categories_combination = $check_categories_combination->fetch(PDO::FETCH_ASSOC);
+
+		    //SI C'EST LE CAS ON UPDATE L'ID SUB CATEGORY 2 DANS LA TABLE PRODUCTS
+		    if(!empty($checked_categories_combination)){
+
+		    	$id_sub_category_2 = intval($checked_categories_combination['id_sub_category_2']);
+
+		    	$new_sub_category_2 = "UPDATE products SET id_sub_category_2 = :id_sub_category_2 WHERE id_product = $id_product ";
+		    	$update_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
+	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
+	      		$update_sub_category_2->execute(); 
+		    }
+		    //SI CE N'EST PAS LE CAS ON CREE LA NOUVELLE COMBINAISON, SELECTIONNE LE NOUVEL ID SUB CAT 2 ET ON L'UPDATE DANS PRODUCTS
+		    else 
+		    {
+		    	$new_sub_category_2 = "INSERT into sub_categories_2 (id_category, id_sub_category, name_sub_category_2) VALUES (:id_category, :id_sub_category, :name_sub_category_2)";
+		    	$insert_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
+		    	$insert_sub_category_2->bindParam(':id_category',$id_category, PDO::PARAM_INT);
+	      		$insert_sub_category_2->bindParam(':id_sub_category',$id_sub_category, PDO::PARAM_INT);
+	      		$insert_sub_category_2->bindParam(':name_sub_category_2',$name_sub_category_2, PDO::PARAM_STR);
+	      		$insert_sub_category_2->execute();
+
+	      		$get_new_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM sub_categories_2 WHERE id_category = $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$name_sub_category_2' ");
+	      		$get_new_id_sub_category_2->execute();
+	      		$new_id_sub_category_2 = $get_new_id_sub_category_2->fetch(PDO::FETCH_ASSOC);
+	      		$id_sub_category_2 = intval($new_id_sub_category_2['id_sub_category_2']);
+
+	      		$new_id_sub_category_2 = "UPDATE products SET id_sub_category_2 = :id_sub_category_2 WHERE id_product = $id_product ";
+		    	$update_sub_category_2 = $connexion_db->prepare($new_id_sub_category_2);
+	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
+	      		$update_sub_category_2->execute();
+
+		    }	
+	    }
+
+	    //SI ON MODIFIE SA SOUS CATEGORIE 2
+	    if(!empty($sub_category_2)){
+
+	    	//ON RECUPERE L'ID CATEGORIE ET LE NOM DE LA SOUS CATEGORIE 2 LIE A L'ID SOUS CATEGORIE 2
+		    $get_id_category = $connexion_db->prepare("SELECT id_category, id_sub_category FROM  sub_categories_2 WHERE id_sub_category_2 = $id_sub_category_2 ");
+	  		$get_id_category->execute();
+	  		$selected_id_category = $get_id_category->fetch(PDO::FETCH_ASSOC);
+	  		$id_category = intval($selected_id_category['id_category']);
+	  		$id_sub_category = intval($selected_id_category['id_sub_category']);
+
+	  		//ON VERIFIE SI LA COMBINAISION ID CATEGORIE + ID SUB CATEGORIE + NOM A UNE CORRESPONDANCE DANS LA TABLE ID SUB CATEGORIES 2 
+		    $check_categories_combination = 
+		    $connexion_db->prepare("SELECT * FROM sub_categories_2 WHERE id_category =  $id_category AND id_sub_category = $id_sub_category AND name_sub_category_2 = '$sub_category_2' ");
 		    $check_categories_combination->execute();
 		    $checked_categories_combination = $check_categories_combination->fetch(PDO::FETCH_ASSOC);
 
