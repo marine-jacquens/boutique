@@ -24,51 +24,46 @@ session_start();
 	</header>
     <main>
         <?php 
-            $connexion_db = $db->connectDb();
 
             $id_category = $_GET['cat'];
-            $size_1 = 'S';
-            $size_2 = 'unique';
-            
 
-            //selection de : nom produit, photo, prix, taille, couleur. Pour récupérer les détails j'ai besoin de l'id du produit dans detail produit, pour récupérer la catégorie du produit j'ai besoin de l'id sous catégorie dans produit et ensuite de l'id catégorie qui correspond à la sous catégorie dans product
-            $get_products_category = $connexion_db->prepare("SELECT 
+            $get_products_per_category = $connexion_db->prepare("SELECT DISTINCT
 
-                  
+            categories.id_category,
+            categories.name_category,
+            categories.description_category,
+
+            sub_categories_2.id_category,
+            sub_categories_2.id_sub_category_2,
+
             products.id_product,
-            product_details.id_product, 
-            products.id_category,
-            products.id_sub_category,
-
+            products.id_sub_category_2,
             products.product_name,
             products.picture,
-            products.price, 
-            product_details.size, 
-            product_details.color, 
+            products.price,
 
-            categories.name_category,
-            categories.description_category
-            
-              
+            product_details.id_product,
+            product_details.color
+
             FROM 
 
-            products, product_details, categories
+            products, categories, sub_categories_2, product_details
 
             WHERE 
-            products.id_category = $id_category
-            AND categories.id_category = $id_category
-            AND products.id_product = product_details.id_product 
-            AND product_details.size = '$size_1'
 
-
+            products.id_sub_category_2 = sub_categories_2.id_sub_category_2
+            AND sub_categories_2.id_category =  $id_category
+            AND categories.id_category = sub_categories_2.id_category
+            AND products.id_product = product_details.id_product
 
             ");
 
-            $get_products_category->execute();
-            $all_products = $get_products_category->fetchAll(PDO::FETCH_ASSOC);
+            $get_products_per_category->execute();
+            $all_products = $get_products_per_category->fetchAll(PDO::FETCH_ASSOC);
 
-            /*var_dump($all_products);*/
-        ?>
+       
+
+        if(!empty($all_products[0])){?>
         <section>
             <div class="breadcrumb_line">
                 <ul>
@@ -107,7 +102,7 @@ session_start();
             </div>
             <?php } ?>
         </section>
-        
+        <?php }else { echo"<h1 class='building_page'>Oops sorry, page en construction...</h1>";} ?>
     </main>
     <footer>
         <?php include("includes/footer.php")?>

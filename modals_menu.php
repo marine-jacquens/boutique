@@ -12,9 +12,11 @@
 	$get_categories_bis->execute();
 
 	while($categories = $get_categories_bis->fetch()){ 
+
 		$id_category = $categories['id_category'];
 		$name_category = $categories['cat_maj'];
 
+		//RECUPERATION DES SOUS CATEGORIES 
 		$get_sub_categories = $connexion_db->prepare("SELECT DISTINCT
 		UPPER(sub_categories.name_sub_category) AS sub_cat_maj, 
 		sub_categories.id_sub_category,
@@ -53,8 +55,8 @@
 						<table class="table_menu">
 							<thead>
 								<tr>
-									<th><a href="sub_category.php?sub_cat=<?php echo $id_sub_category; ?>"><?php echo $name_sub_category; ?></a></th>
-										</tr>
+									<th><a href="sub_category.php?cat=<?php echo $id_category?>&amp;sub_cat=<?php echo $id_sub_category ?>"><?php echo $name_sub_category; ?></a></th>
+								</tr>
 												
 							</thead>
 							<tbody>

@@ -56,7 +56,7 @@
 }
 
 .input_admin{
-	height:10%;
+	height:auto;
 	font-family: 'Poppins', sans-serif;
 	border:5%;
 }
@@ -85,28 +85,28 @@
 }
 
 
-.table_products{
+.table_admin{
 	margin-top:5%;
 	width:100%;
 	
 }
 
-.table_products th{
+.table_admin th{
 	text-align:center;
 	font-size:13px;
 }
 
-.table_products td{
+.table_admin td{
 	
 font-size:12px;
 }
 
-.table_products button{
+.table_admin button{
 	background: none;
 	border:none;
 }
 
-.table_products i:hover{
+.table_admin i:hover{
 	color:lightgray;
 	transition:.5s;
 }

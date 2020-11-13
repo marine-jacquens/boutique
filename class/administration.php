@@ -16,15 +16,15 @@ class Admin{
 
   	}
 
-  	public function register($name_category,$description_category,$name_sub_category,$description_sub_category,$name_sub_category_2,$description_sub_category_2,$category_parent,$sub_category_parent) {
+  public function register($name_category,$description_category,$name_sub_category,$description_sub_category,$name_sub_category_2,$description_sub_category_2,$category_parent,$sub_category_parent) {
 
-  		$connexion_db = $this->db->connectDb();
+  	$connexion_db = $this->db->connectDb();
   		
   		if(!empty($name_category AND $description_category)){
 
-        $check_categories = $connexion_db->prepare("SELECT * FROM categories WHERE name_category = '$name_category' ");
-        $check_categories->execute();
-        $checked_categories = $check_categories->fetchAll(PDO::FETCH_ASSOC);
+      $check_categories = $connexion_db->prepare("SELECT * FROM categories WHERE name_category = '$name_category' ");
+      $check_categories->execute();
+      $checked_categories = $check_categories->fetchAll(PDO::FETCH_ASSOC);
 
         if(empty($checked_categories[0])){
 
@@ -89,21 +89,175 @@ class Admin{
 
         }else{echo "<span>Cette sous catégorie 2 existe déjà</span>";}
 
-  			
-
   		}
-
-
 
   	}
 
-  	public function update(){
+  	public function updateCategory($id_category,$name_category,$description_category){
 
   		$connexion_db = $this->db->connectDb();
 
-  		
-  		
+      if(!empty($name_category)){
+
+        $new_category_name = "UPDATE categories SET name_category = :name_category WHERE id_category = $id_category";
+        $update_category_name = $connexion_db->prepare($new_category_name);
+        $update_category_name->bindParam(':name_category',$name_category,PDO::PARAM_STR);
+        $update_category_name->execute();
+
+      }
+
+      if(!empty($description_category)){
+
+        $new_category_description = "UPDATE categories SET description_category = :description_category WHERE id_category = $id_category";
+        $update_category_description = $connexion_db->prepare($new_category_description);
+        $update_category_description->bindParam(':description_category',$description_category,PDO::PARAM_STR);
+        $update_category_description->execute();
+
+      }
+
+      header('Location:admin.php#categories');
+      exit;
+  	
   	}
+
+    public function updateSubCategory($id_sub_category,$name_sub_category,$description_sub_category){
+
+      $connexion_db = $this->db->connectDb();
+
+      if(!empty($name_sub_category)){
+
+        $new_sub_category_name = "UPDATE sub_categories SET name_sub_category = :name_sub_category WHERE id_sub_category = $id_sub_category";
+        $update_sub_category_name = $connexion_db->prepare($new_sub_category_name);
+        $update_sub_category_name->bindParam(':name_sub_category',$name_sub_category,PDO::PARAM_STR);
+        $update_sub_category_name->execute();
+
+      }
+
+      if(!empty($description_sub_category)){
+
+        $new_sub_category_description = "UPDATE sub_categories SET description_sub_category = :description_sub_category WHERE id_sub_category = $id_sub_category";
+        $update_sub_category_description = $connexion_db->prepare($new_sub_category_description);
+        $update_sub_category_description->bindParam(':description_sub_category',$description_sub_category,PDO::PARAM_STR);
+        $update_sub_category_description->execute();
+
+      }
+
+      header('Location:admin.php#sub_categories');
+      exit;
+    
+    }
+
+    public function updateSubCategory_2($id_sub_category_2,$name_sub_category_2,$description_sub_category_2, $category_parent, $sub_category_parent){
+
+      $connexion_db = $this->db->connectDb();
+
+      if(!empty($name_sub_category_2)){
+
+        $new_sub_category_2_name = "UPDATE sub_categories_2 SET name_sub_category_2 = :name_sub_category_2 WHERE id_sub_category_2 = $id_sub_category_2";
+        $update_sub_category_2_name = $connexion_db->prepare($new_sub_category_2_name);
+        $update_sub_category_2_name->bindParam(':name_sub_category_2',$name_sub_category_2,PDO::PARAM_STR);
+        $update_sub_category_2_name->execute();
+
+      }
+
+      if(!empty($description_sub_category_2)){
+
+        $new_sub_category_2_description = "UPDATE sub_categories_2 SET description_sub_category_2 = :description_sub_category_2 WHERE id_sub_category_2 = $id_sub_category_2";
+        $update_sub_category_2_description = $connexion_db->prepare($new_sub_category_2_description);
+        $update_sub_category_2_description->bindParam(':description_sub_category_2',$description_sub_category_2,PDO::PARAM_STR);
+        $update_sub_category_2_description->execute();
+
+      }
+
+      if(!empty($category_parent)){
+
+        $id_category = intval($category_parent);
+
+        $new_category_parent = "UPDATE sub_categories_2 SET id_category = :id_category WHERE id_sub_category_2 = $id_sub_category_2";
+        $update_category_parent = $connexion_db->prepare($new_category_parent);
+        $update_category_parent->bindParam(':id_category',$id_category,PDO::PARAM_INT);
+        $update_category_parent->execute();
+
+      }
+
+      if(!empty($sub_category_parent)){
+
+        $id_sub_category = intval($sub_category_parent);
+
+        $new_sub_category_parent = "UPDATE sub_categories_2 SET id_sub_category = :id_sub_category WHERE id_sub_category_2 = $id_sub_category_2";
+        $update_sub_category_parent = $connexion_db->prepare($new_sub_category_parent);
+        $update_sub_category_parent->bindParam(':id_sub_category',$id_sub_category,PDO::PARAM_INT);
+        $update_sub_category_parent->execute();
+
+      }
+
+      header('Location:admin.php#sub_categories_2');
+      exit;
+    
+    }
+
+    public function deleteCategory($id_category){
+
+      $connexion_db = $this->db->connectDb();
+
+      //SUPPRESSION DANS CATEGORIES DE LA CATEGORIE SELECTIONNEE
+      $delete_category = $connexion_db->prepare("DELETE FROM categories WHERE id_category = $id");
+      $delete_category->execute();
+
+        header('Location:admin.php#categories');
+        exit;
+      
+
+    }
+
+    public function deleteSubCategory($id_sub_category){
+
+      $connexion_db = $this->db->connectDb();
+
+      $delete_sub_category = $connexion_db->prepare("DELETE FROM sub_categories WHERE id_sub_category = $id_sub_category");
+      $delete_sub_category->execute();
+
+      header('Location:admin.php#sub_categories');
+      exit;
+      
+
+    }
+
+    public function deleteSubCategory2($id_sub_category_2){
+
+      $connexion_db = $this->db->connectDb();
+
+      if(!empty($id_sub_category_2)){
+
+        $check_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM products WHERE id_sub_category_2 = $id_sub_category_2 ");
+        $check_id_sub_category_2->execute();
+        $checked_id_sub_category_2 = $check_id_sub_category_2->fetchAll(PDO::FETCH_ASSOC);
+
+        if(!empty($checked_id_sub_category_2[0])){
+
+          $get_new_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM sub_categories_2 WHERE id_sub_category_2 != $id_sub_category_2");
+          $get_new_sub_category_2->execute();
+          $new_sub_category_2 = $get_new_sub_category_2->fetchAll(PDO::FETCH_ASSOC);
+
+          $new_id_sub_category_2 = intval($new_sub_category_2[0]);
+          var_dump($new_id_sub_category_2);
+          $new_product_sub_category_2 = " UPDATE products SET id_sub_category_2 = :new_id_sub_category_2 WHERE id_sub_category_2 = $id_sub_category_2 ";
+          $update_product_sub_category_2 = $connexion_db->prepare($new_product_sub_category_2);
+          $update_product_sub_category_2->bindParam(':new_id_sub_category_2',$new_id_sub_category_2,PDO::PARAM_INT);
+          $update_product_sub_category_2->execute(); 
+
+          }
+
+        $delete_sub_category = $connexion_db->prepare("DELETE FROM sub_categories_2 WHERE id_sub_category_2 = $id_sub_category_2");
+        $delete_sub_category->execute();
+
+        header('Location:admin.php#sub_category_2');
+        exit;
+      }
+
+    }
+
+
 }
 
 

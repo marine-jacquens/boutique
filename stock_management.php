@@ -231,7 +231,7 @@ session_start();
             ?>
 
 
-            <table class="table_products" id="table_products">
+            <table class="table_admin" id="table_products">
                 <thead>
                     <tr><th colspan="13" class="table_title">LES PRODUITS</th></tr>
                     <tr>
