@@ -100,7 +100,78 @@
 			
 			<div class="empty-wish">
 				<h1>Ma liste d'envies</h1>
-				<p>Votre Wish List est actuellement vide.</p>
+				<?php 
+
+
+					$connexion_db = $db->connectDb();
+
+					//SI ON RETIRE UN ITEM DE LA WISH LIST
+					if(isset($_POST['remove_wish_list'])){
+		            $wish->update($_POST['id_product'],$_POST['id_user']);
+		            }
+
+		            //SI ON AJOUTE UN ITEM DE LA WISH LIST DANS LE PANIER
+		            /*if(isset($_POST['add_cart'])){
+		            $cart->update($_POST['id_product'],$_POST['id_user']);
+		            }*/
+
+					$id_user = $_SESSION['user']['id_user'];
+					$saved_for_later = true;
+
+
+					$get_wish_list = $connexion_db->prepare(" SELECT DISTINCT wish_list_items.id_user,wish_list_items.id_product,wish_list_items.saved_for_later, products.id_product, products.product_name,products.picture, products.price,product_details.id_product,product_details.color FROM wish_list_items,products,product_details WHERE wish_list_items.id_user = $id_user AND wish_list_items.saved_for_later = $saved_for_later AND wish_list_items.id_product =  products.id_product AND products.id_product = product_details.id_product ORDER BY time_added DESC LIMIT 0,3 ");
+					$get_wish_list->execute();
+					$wish_list = $get_wish_list->fetchAll(PDO::FETCH_ASSOC);
+
+					$count_list_items = $connexion_db->prepare("SELECT COUNT(*) AS nb_items FROM wish_list_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later");
+					$count_list_items->execute();
+					$items = $count_list_items->fetch(PDO::FETCH_ASSOC);
+
+					if(!empty($wish_list[0])){ ?>
+
+						<section class="wish_list_overview">
+							<h3>Votre liste d'envies comprend <?php echo '<strong>'.$items['nb_items'].'</strong> '; if($items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
+
+							<?php if($items['nb_items'] > 3){ ?> <a href="wish_list.php">VOIR TOUS LES ARTICLES</a> <?php } ?>
+
+							<div class="wish_list_products">
+
+								<?php foreach($wish_list as $wish_list_detail){ ?>
+
+									<div class="wish_list">
+										<div class="wish_picture">
+											<img src="<?php echo $wish_list_detail['picture']?>" alt="<?php echo $wish_list_detail['product_name']?>" width="150">
+										</div>
+										<h3><?php echo $wish_list_detail['product_name']?></h3>
+										<p>€ <?php echo $wish_list_detail['price'] ?></p>
+		                    			<p>Couleur : <?php echo $wish_list_detail['color'] ?></p>
+		                    			<form action="" method="POST" class="remove_wish_list">
+		                    				<button type="submit" name="remove_wish_list"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
+		                    				<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
+		                    				<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">
+		                    			</form>
+		                    			<form action="" method="POST" class="add_cart">
+		                    				<button type="submit" name="add_cart">AJOUTER AU PANIER</button>
+		                    				<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">
+		                    			</form>
+									</div>
+
+					 		   	<?php } ?>
+
+					 		</div>
+				 		</section>
+
+			  <?php }
+					
+					else{ ?> 
+
+					<p>Votre Wish List est actuellement vide.</p>
+
+			  <?php } ?>
+
+			
+
+				
 			</div>
 
 	</div>

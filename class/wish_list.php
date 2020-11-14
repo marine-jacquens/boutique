@@ -40,17 +40,25 @@ class WishList{
 
 				$execution_insert->execute();
 
-				$user_wish_list = $connexion_db->prepare("SELECT * FROM wish_list_items WHERE id_user = $id_user_wishList ");
-		      	$user_wish_list->execute();
-		      	$wish_list = $user_wish_list->fetch(PDO::FETCH_ASSOC);
+				header("Refresh:0");
+	    		exit;
 
-    		}elseif(!empty($checked_wish_list) AND $checked_wish_list['saved_for_later'] == false){
+    		}
+
+    		$user_wish_list = $connexion_db->prepare("SELECT * FROM wish_list_items WHERE id_user = $id_user_wishList ");
+		    $user_wish_list->execute();
+		    $wish_list = $user_wish_list->fetch(PDO::FETCH_ASSOC);
+
+    		if(!empty($checked_wish_list) AND $checked_wish_list['saved_for_later'] == false){
 
     			$new_wish_list = " UPDATE wish_list_items SET saved_for_later = :saved_for_later, time_added = :time_added WHERE id_product = $id_product_wishList AND id_user = $id_user_wishList ";
     			$update_wish_list = $connexion_db->prepare($new_wish_list);
 	    		$update_wish_list->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
 	    		$update_wish_list->bindParam(':time_added',$time_added,PDO::PARAM_STR); 
 	    		$update_wish_list->execute();
+
+	    		header("Refresh:0");
+	    		exit;
 
     		}
 
@@ -73,6 +81,9 @@ class WishList{
 	    $update_wish_list->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
 	    $update_wish_list->bindParam(':time_added',$time_added,PDO::PARAM_STR); 
 	    $update_wish_list->execute();
+
+	    header("Refresh:0");
+	    exit;
 
 	}
 

@@ -97,7 +97,7 @@ session_start();
             <?php foreach($all_products as $info_products){ ?>
             <div class="products_card">
                 <div>
-                    <img src="<?php echo $info_products['picture'] ?>" width="300">
+                    <img src="<?php echo $info_products['picture'] ?>" width="300" alt="<?php echo $info_products['product_name'] ?>">
                 </div>
                 <div class="info_products">
                     <div class="title_cart">

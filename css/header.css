@@ -80,6 +80,11 @@
 	font-weight:100;
 }
 
+#fas-fa-heart:after{
+	content: "\f004";
+	font-weight:900;
+}
+
 #fa-shopping-bag:after{
 	content: "\f290";
 	font-weight:100;
@@ -94,6 +99,7 @@
 #fa-user:after,
 #fas-fa-user:after,
 #fa-heart:after,
+#fas-fa-heart:after,
 #fa-shopping-bag:after,
 #fa-toolbox:after{
 	font-family: 'Font Awesome 5 Pro'; 
@@ -301,6 +307,88 @@
 	text-decoration: underline;
 	margin-bottom:5%;
 }
+
+
+
+
+
+
+
+
+/*WISH LIST MODAL*/
+
+.wish_list_overview{
+	display: flex;
+	flex-direction: column;
+	align-items : center;
+	width:100%;
+}
+
+.wish_list_overview h3{font-weight:lighter;}
+
+.wish_list_overview a{
+	border-bottom:1px solid black;
+	font-weight: bolder;
+}
+
+.wish_list_products{
+	display: flex;
+	justify-content: space-around;
+	width:100%;
+}
+
+.wish_list{
+	margin-top:2%;
+	margin-bottom:5%;
+	display: flex;
+	flex-direction: column;
+	width:auto;
+}
+
+.wish_list p{
+	margin-top:1%;
+}
+
+.wish_picture{
+	display: flex;
+	justify-content: center;
+}
+
+.remove_wish_list{
+
+	display: flex;
+	margin-bottom:2%;
+
+}
+
+.remove_wish_list button{
+	background-color: white;
+	border:none;
+}
+
+.remove_wish_list button:hover{
+	transition:.5s;
+	color: lightgray;
+}
+
+.add_cart button{
+	background-color: black;
+	color:white;
+	border:none;
+	padding:2%;
+	width:100%;
+}
+
+.add_cart button:hover{
+	transition:.5s;
+	background-color: white;
+	border:1px solid black;
+	color:black;
+}
+
+
+
+
 
 
 
