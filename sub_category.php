@@ -91,6 +91,18 @@ session_start();
                 </div>
             </section>
 
+            <?php 
+                //ENVOI FORMULAIRE WISH LIST
+                if(isset($_POST['add_wish_list'])){
+                $wish->register($_POST['id_product'],$_POST['id_user']);
+                }
+
+                if(isset($_POST['remove_wish_list'])){
+                $wish->update($_POST['id_product'],$_POST['id_user']);
+                }
+
+            ?>
+
             <section class="products">
                 <?php foreach($all_products as $info_products){ ?>
                 <div class="products_card">
@@ -100,7 +112,67 @@ session_start();
                     <div class="info_products">
                         <div class="title_cart">
                             <h3><?php echo $info_products['product_name'] ?></h3>
-                            <i class="fal fa-heart"></i>
+                            <?php 
+
+                                if(isset($_SESSION['user']['id_user'])){
+
+                                    //VERIFICATION WISH LIST UTILISATEUR PLEINE OU VIDE
+                                    $id_user = $_SESSION['user']['id_user'];
+                                    $id_product = $info_products['id_product'];
+
+                                    $get_wish_list = $connexion_db->prepare("SELECT * FROM wish_list_items WHERE id_user = $id_user AND id_product = $id_product ");
+                                    $get_wish_list->execute();
+                                    $wish_list = $get_wish_list->fetch(PDO::FETCH_ASSOC);
+
+                                    if(!empty($wish_list)){
+
+                                        if($wish_list['saved_for_later'] == true){?>
+
+                                            <form action="" method="POST">
+
+                                            <button type="submit" name="remove_wish_list" class="wish_button" id="fas_heart" ></button>
+                                            <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user']?>">
+
+                                            </form>
+
+
+                                  <?php }
+                                        else{ ?>
+
+                                            <form action="" method="POST">
+
+                                            <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
+                                            <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
+
+                                            </form>
+                                      <?php }        
+
+                                    }
+                                    elseif(empty($wish_list)){?>
+
+                                    <form action="" method="POST">
+
+                                        <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
+                                        <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
+
+                                    </form>
+
+                              <?php }
+
+                                }
+                                else{?>
+
+                                    <form action="" method="POST">
+
+                                        <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
+                                        <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+
+                                    </form>
+
+                          <?php } ?>
                         </div>
                         <p>€ <?php echo $info_products['price'] ?></p>
                         <p>Couleur : <?php echo $info_products['color'] ?></p>

@@ -88,14 +88,8 @@ session_start();
             }
 
             if(isset($_POST['remove_wish_list'])){
-            $wish->disconnect();
+            $wish->update($_POST['id_product'],$_POST['id_user']);
             }
-
-            $id_user = $_SESSION['user']['id_user'];
-
-            //VERIFICATION WISH LIST UTILISATEUR PLEINE OU VIDE
-            $get_wish_list = $connexion_db->prepare("SELECT id_product FROM wish_list_items WHERE id_user = $id_user ");
-            $get_wish_list->execute();
 
         ?>
 
@@ -111,54 +105,65 @@ session_start();
                        
                             <?php 
 
-                                if(isset ($_SESSION['user']['id_user'])){
+                                if(isset($_SESSION['user']['id_user'])){
 
-                                    if(!empty($get_wish_list->fetchAll(PDO::FETCH_ASSOC)) AND in_array($info_products['id_product'], $get_wish_list->fetchAll(PDO::FETCH_ASSOC)) ){?>
+                                    //VERIFICATION WISH LIST UTILISATEUR PLEINE OU VIDE
+                                    $id_user = $_SESSION['user']['id_user'];
+                                    $id_product = $info_products['id_product'];
 
-                                        <form action="" method="POST">
+                                    $get_wish_list = $connexion_db->prepare("SELECT * FROM wish_list_items WHERE id_user = $id_user AND id_product = $id_product ");
+                                    $get_wish_list->execute();
+                                    $wish_list = $get_wish_list->fetch(PDO::FETCH_ASSOC);
+
+                                    if(!empty($wish_list)){
+
+                                        if($wish_list['saved_for_later'] == true){?>
+
+                                            <form action="" method="POST">
 
                                             <button type="submit" name="remove_wish_list" class="wish_button" id="fas_heart" ></button>
                                             <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
-                                            <input type="hidden" name="id_user" value="<?php if(isset($_SESSION['user']['id_user'])){echo $_SESSION['user']['id_user']; }  ?>">
-                                        </form>
+                                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user']?>">
 
-                                    <?php }else{?>
+                                            </form>
+
+
+                                  <?php }
+                                        else{ ?>
+
+                                            <form action="" method="POST">
+
+                                            <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
+                                            <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
+
+                                            </form>
+                                      <?php }        
+
+                                    }
+                                    elseif(empty($wish_list)){?>
 
                                     <form action="" method="POST">
 
                                         <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
                                         <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
-                                        <input type="hidden" name="id_user" value="<?php if(isset($_SESSION['user']['id_user'])){echo $_SESSION['user']['id_user']; }  ?>">
+                                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
+
                                     </form>
 
-                                    <?php }        
+                              <?php }
 
-                                }else{?>
+                                }
+                                else{?>
 
                                     <form action="" method="POST">
 
                                         <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
                                         <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
-                                        <input type="hidden" name="id_user" value="<?php if(isset($_SESSION['user']['id_user'])){echo $_SESSION['user']['id_user']; }  ?>">
+
                                     </form>
 
-                                    <?php } ?>
-
-                            
-                            
-                            
-                        <!-- <script>
-
-                            const styleElem = document.head.appendChild(document.createElement("style"));
-
-                            document.querySelector('.wish_button > button').addEventListener("click", function(event){
-
-                                event.preventDefault()
-                                styleElem.innerHTML = "#fa_heart:after {font-weight: 900;}";
-
-                            });
-
-                        </script> -->
+                          <?php } ?>
                     </div>
                     <p>€ <?php echo $info_products['price'] ?></p>
                     <p>Couleur : <?php echo $info_products['color'] ?></p>

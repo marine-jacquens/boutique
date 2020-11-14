@@ -44,21 +44,36 @@ class WishList{
 		      	$user_wish_list->execute();
 		      	$wish_list = $user_wish_list->fetch(PDO::FETCH_ASSOC);
 
+    		}elseif(!empty($checked_wish_list) AND $checked_wish_list['saved_for_later'] == false){
+
+    			$new_wish_list = " UPDATE wish_list_items SET saved_for_later = :saved_for_later, time_added = :time_added WHERE id_product = $id_product_wishList AND id_user = $id_user_wishList ";
+    			$update_wish_list = $connexion_db->prepare($new_wish_list);
+	    		$update_wish_list->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
+	    		$update_wish_list->bindParam(':time_added',$time_added,PDO::PARAM_STR); 
+	    		$update_wish_list->execute();
+
     		}
 
 			
 		}
 	}
 
-	 public function disconnect()
-	{
-	    $this->id_wish_list = "";
-	    $this->id_product = "";
-	    $this->id_user = "";
-	    $this->saved_for_later = "";
-	    $this->time_added = "";
-	    session_unset();
-	    session_destroy();
+	 public function update($id_product,$id_user){
+
+	 	$connexion_db = $this->db->connectDb();
+
+	 	$id_product_wishList = intval($id_product);
+		$id_user_wishList = intval($id_user);
+		$saved_for_later = false;
+		date_default_timezone_set('Europe/Paris');
+    	$time_added = date("Y-m-d H:i:s");
+
+    	$new_wish_list = " UPDATE wish_list_items SET saved_for_later = :saved_for_later, time_added = :time_added WHERE id_product = $id_product_wishList AND id_user = $id_user_wishList ";
+    	$update_wish_list = $connexion_db->prepare($new_wish_list);
+	    $update_wish_list->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
+	    $update_wish_list->bindParam(':time_added',$time_added,PDO::PARAM_STR); 
+	    $update_wish_list->execute();
+
 	}
 
 
