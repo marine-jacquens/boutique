@@ -10,6 +10,7 @@
 
 				if(isset($_SESSION['user']['id_user']))
 				{ 
+					$id_user = $_SESSION['user']['id_user'];
 					if(isset($_POST['submit_deconnexion']))
 					{
 						$user->disconnect();
@@ -31,7 +32,7 @@
 							<tbody>
 								<tr>
 									<td><a href="profil.php"><i class="fas fa-address-card"></i></a></td>
-									<td><a href="wish_list.php"><i class="fal fa-heart"></i></a></td>
+									<td><a href="wish_list.php?id_user=<?php echo $id_user ?>"><i class="fas fa-heart"></i></a></td>
 									<td><a href="bills_delivery.php"><i class="fad fa-credit-card-front"></i></a></td>
 									<td><a href="order.php"><i class="fad fa-truck-loading"></i></a></td>
 								</tr>
@@ -105,6 +106,8 @@
 
 					$connexion_db = $db->connectDb();
 
+					if(isset($_SESSION['user']['id_user'])){
+
 					//SI ON RETIRE UN ITEM DE LA WISH LIST
 					if(isset($_POST['remove_wish_list'])){
 		            $wish->update($_POST['id_product'],$_POST['id_user']);
@@ -114,8 +117,7 @@
 		            /*if(isset($_POST['add_cart'])){
 		            $cart->update($_POST['id_product'],$_POST['id_user']);
 		            }*/
-
-					$id_user = $_SESSION['user']['id_user'];
+					
 					$saved_for_later = true;
 
 
@@ -123,16 +125,23 @@
 					$get_wish_list->execute();
 					$wish_list = $get_wish_list->fetchAll(PDO::FETCH_ASSOC);
 
-					$count_list_items = $connexion_db->prepare("SELECT COUNT(*) AS nb_items FROM wish_list_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later");
+					
+
+					$id_user = $_SESSION['user']['id_user'];
+
+						$count_list_items = $connexion_db->prepare("SELECT COUNT(*) AS nb_items FROM wish_list_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later");
 					$count_list_items->execute();
 					$items = $count_list_items->fetch(PDO::FETCH_ASSOC);
+
+					}
+					
 
 					if(!empty($wish_list[0])){ ?>
 
 						<section class="wish_list_overview">
 							<h3>Votre liste d'envies comprend <?php echo '<strong>'.$items['nb_items'].'</strong> '; if($items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
 
-							<?php if($items['nb_items'] > 3){ ?> <a href="wish_list.php">VOIR TOUS LES ARTICLES</a> <?php } ?>
+							<?php if($items['nb_items'] > 3){ ?> <a href="wish_list.php?id_user=<?php echo $id_user ?>">VOIR TOUS LES ARTICLES</a> <?php } ?>
 
 							<div class="wish_list_products">
 
@@ -165,7 +174,7 @@
 					
 					else{ ?> 
 
-					<p>Votre Wish List est actuellement vide.</p>
+					<p>Votre liste d'envies est actuellement vide</p>
 
 			  <?php } ?>
 

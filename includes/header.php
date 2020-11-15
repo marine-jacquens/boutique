@@ -47,13 +47,18 @@
 			<?php } 
 
 			//RECUPERATION WISH LIST
-			$connexion_db = $db->connectDb();
+			if(isset($_SESSION['user']['id_user'])){
+
+				$connexion_db = $db->connectDb();
 			$id_user = $_SESSION['user']['id_user'];
 			$saved_for_later = true;
 			$get_wish_list = $connexion_db->prepare("SELECT * FROM wish_list_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later ");
 			$get_wish_list->execute();
 
-			if(!empty($get_wish_list->fetch(PDO::FETCH_ASSOC))){?>
+			if(!empty($get_wish_list->fetch(PDO::FETCH_ASSOC))){
+
+			}?>
+			
 				<a href="#wish-modal" class="js-modal" id="fas-fa-heart"></a>
 			<?php }else{?> <a href="#wish-modal" class="js-modal" id="fa-heart"></a> <?php } ?>
 		<a href="" id="fa-shopping-bag"></a>

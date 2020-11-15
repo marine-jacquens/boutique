@@ -7,16 +7,40 @@
 	z-index: 1;
 }
 
+.profil_page_head{
+	display: flex;
+	flex-direction: column;
+}
+
 .profil_page_head p{
 	width:50%;
 }
 
-.wish_list{
+.wish_page{
+	display: flex;
+	justify-content: space-around;
+}
+
+.complete_wish_list{
+	margin-top:2%;
+	margin-bottom:5%;
+	display: flex;
+	flex-direction: column;
+	width:25%;
+}
+
+
+
+
+.wish_list_empty{
 	display: flex;
 	flex-direction: column;
 	align-items : center;
 }
 
-.wish_list i{
+
+
+.wish_list_empty i{
 	font-size:100px;
 }
+
