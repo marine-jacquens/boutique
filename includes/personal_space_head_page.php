@@ -18,7 +18,7 @@
 
 <div class="profil_menu">
 	<a href="profil.php#detail_account">MON PROFIL</a>
-	<a href="wish_list.php#detail_wishlist">MES ENVIES</a>
+	<a href="wish_list.php?id_user=<?php echo $id_user ?>#detail_wishlist">MES ENVIES</a>
 	<a href="bills_delivery.php#detail_bill_del">MES INFOS FACTURATION ET LIVRAISON</a>
 	<a href="order.php#detail_order">MES COMMANDES</a>
 </div>
