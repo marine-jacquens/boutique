@@ -1,0 +1,35 @@
+.search_page{
+	border-top:1px solid lightgray;
+	padding-right:8%;
+	padding-left:8%;
+
+}
+
+
+.search_results{
+	display: flex;
+	margin-bottom:2%;
+	padding:1%;
+
+}
+
+.search_results:hover{
+	transition:.5s;
+	background-color: #F1F1F1;
+	width:100%;
+	
+	
+}
+
+
+.info_result_product{
+	width:60%;
+}
+
+.image_result_product{
+	display: flex;
+	justify-content: flex-end;
+	width:40%;
+}
+
+.image_result_product img {width:50%;}

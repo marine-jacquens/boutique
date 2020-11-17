@@ -194,38 +194,35 @@
 
 		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 			
-		<div class="search-title">
-			<h1>Rechercher</h1>
-		</div>
+		<div class="search-title"><h1>Rechercher</h1></div>
 
 		<div class="search-console">
 			<article class="product-suggestion">
 				<h2>ARTICLES RECOMMANDÉS</h2>
 				<div class="product-description">
+					<?php 
+		
+					/*$connexion_db = $db->connectDb();*/
+					$get_last_products = $connexion_db->prepare(" SELECT DISTINCT products.id_product,products.product_name,products.picture,products.price,product_details.id_product, product_details.color FROM products, product_details WHERE products.id_product = product_details.id_product LIMIT 0,3 ");
+					$get_last_products->execute();
+					$last_products = $get_last_products->fetchAll(PDO::FETCH_ASSOC);
+
+					foreach($last_products AS $product ){ 
+
+					?>
 					<div class="article">
-						<img src="images/Benedetta_Porcaroli.jpg" alt="Benedetta_Porcaroli" height="200">
-						<p>Nom produit</p>
-						<p>Description</p>
-						<p>Prix</p>
+						<img src="<?php echo $product['picture'] ?>" alt="<?php echo $product['picture'] ?>" height="200">
+						<p><?php echo $product['product_name'] ?></p>
+						<p><?php echo $product['color'] ?></p>
+						<p><?php echo $product['price'].'€' ?></p>
 					</div>
-					<div class="article">
-						<img src="images/Alice_Pagani.png" alt="Alice_Pagani" height="200">
-						<p>Nom produit</p>
-						<p>Description</p>
-						<p>Prix</p>
-					</div>
-					<div class="article">
-						<img src="images/Lorenzo_Zurzolo.jpg" alt="Lorenzo_Zurzolo" height="200">
-						<p>Nom produit</p>
-						<p>Description</p>
-						<p>Prix</p>
-					</div>
+					<?php } ?>
 				</div>
 			</article>
-			<div class="search-form">
-				<form action="" method="post">
-					<input type="search" name="search" class="search" placeholder="Tapez votre recherche">
-					<button type="submit" class="search-button"><i class="fal fa-search"></i></button>
+			<div class="search-form" id="formulaire">
+				<form action="search.php" method="POST">
+					<input type="text" name="search" class="search" placeholder="Tapez votre recherche">
+					<button type="submit" class="search-button" value="Search!"><i class="fal fa-search"></i></button>
 				</form>
 			</div>		
 		</div>

@@ -32,7 +32,7 @@
 		$id_user = $_GET['id_user'];
 
 		//RECUPERATION WISH LIST
-		$get_wish_list = $connexion_db->prepare(" SELECT DISTINCT wish_list_items.id_user,wish_list_items.id_product,wish_list_items.saved_for_later, products.id_product, products.product_name,products.picture, products.price,product_details.id_product,product_details.color FROM wish_list_items,products,product_details WHERE wish_list_items.id_user = $id_user AND wish_list_items.saved_for_later = $saved_for_later AND wish_list_items.id_product =  products.id_product AND products.id_product = product_details.id_product ORDER BY time_added ");
+		$get_wish_list = $connexion_db->prepare(" SELECT DISTINCT wish_list_items.id_user,wish_list_items.id_product,wish_list_items.saved_for_later, products.id_product, products.product_name,products.picture, products.price,product_details.id_product,product_details.color FROM wish_list_items,products,product_details WHERE wish_list_items.id_user = $id_user AND wish_list_items.saved_for_later = $saved_for_later AND wish_list_items.id_product =  products.id_product AND products.id_product = product_details.id_product ORDER BY time_added DESC");
 		$get_wish_list->execute();
 		$wish_list = $get_wish_list->fetchAll(PDO::FETCH_ASSOC);
 
@@ -53,7 +53,7 @@
 				<p>
 					<strong>MES ARTICLES PRÉFÉRÉS</strong> <br><br>
 
-					En sauvegardant des articles dans votre Wish List, vous recevrez des mises à jour sur leur disponibilité et pourrez les partager avec vos amis. Vous pouvez sauvegarder jusqu’à 50 articles et les ajouter à votre panier à tout moment.<br><br>
+					En sauvegardant des articles dans votre liste d'envies, vous recevrez des mises à jour sur leur disponibilité et pourrez les partager avec vos amis. Vous pouvez sauvegarder jusqu’à 50 articles et les ajouter à votre panier à tout moment.<br><br>
 				</p>
 
 				<?php 
@@ -95,12 +95,12 @@
 				else{ ?>
 					<div class="wish_list_empty">
 						<i class="fas fa-heart"></i>
-						<p>Votre Wish List est actuellement vide</p>
+						<p>Votre liste d'envies est actuellement vide</p>
 					</div>
 				<?php } ?>
 			
 		</section>
-	<?php } ?>
+	<?php } else {header('Location:index.php');exit;} ?>
 	</main>
 	<footer>
 		<?php include("includes/footer.php")?>

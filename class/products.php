@@ -199,15 +199,9 @@ class Products
 
   	}
 
-  	public function update($category, $sub_category, $sub_category_2, $description_sub_category_2, $product_name,$description,$price,$size,$color,$stock,$id_product)
+  	public function update($category, $sub_category, $sub_category_2, $description_sub_category_2, $product_name,$description,$price,$size,$color,$stock,$id_product,$id_product_detail)
   	{
   		$connexion_db = $this->db->connectDb();
-
-  		//RECUPERATION DE L'ID PRODUCT_DETAIL POUR MODIFIER STOCK
-  		$get_id_product_detail = $connexion_db->prepare("SELECT id_product_detail FROM product_details WHERE id_product = $id_product");
-	   	$get_id_product_detail->execute();
-	    $selected_id_product_detail = $get_id_product_detail->fetch(PDO::FETCH_ASSOC);
-	    $id_product_detail = intval($selected_id_product_detail['id_product_detail']);
 
   		//RECUPERATION DE L'ID SUB CATEGORIE 2 ACTUEL DU PRODUIT  		
   		$get_id_sub_category_2 = $connexion_db->prepare("SELECT id_sub_category_2 FROM  products WHERE id_product = $id_product");
@@ -242,6 +236,7 @@ class Products
 		    	$update_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
 	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
 	      		$update_sub_category_2->execute(); 
+
 		    }
 		    //SI CE N'EST PAS LE CAS ON CREE LA NOUVELLE COMBINAISON, SELECTIONNE LE NOUVEL ID SUB CAT 2 ET ON L'UPDATE DANS PRODUCTS
 		    else 
@@ -262,6 +257,7 @@ class Products
 		    	$update_sub_category_2 = $connexion_db->prepare($new_id_sub_category_2);
 	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
 	      		$update_sub_category_2->execute();
+
 
 		    }	
 
@@ -294,6 +290,8 @@ class Products
 		    	$update_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
 	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
 	      		$update_sub_category_2->execute(); 
+
+
 		    }
 		    //SI CE N'EST PAS LE CAS ON CREE LA NOUVELLE COMBINAISON, SELECTIONNE LE NOUVEL ID SUB CAT 2 ET ON L'UPDATE DANS PRODUCTS
 		    else 
@@ -343,6 +341,7 @@ class Products
 		    	$update_sub_category_2 = $connexion_db->prepare($new_sub_category_2);
 	      		$update_sub_category_2->bindParam(':id_sub_category_2',$id_sub_category_2, PDO::PARAM_INT);
 	      		$update_sub_category_2->execute(); 
+
 		    }
 		    //SI CE N'EST PAS LE CAS ON CREE LA NOUVELLE COMBINAISON, SELECTIONNE LE NOUVEL ID SUB CAT 2 ET ON L'UPDATE DANS PRODUCTS
 		    else 
@@ -422,7 +421,7 @@ class Products
                                 else
                                 {
                                     move_uploaded_file($_FILES["picture"]["tmp_name"], "uploads/" . $_FILES["picture"]["name"]);
-                                    header('location:profil.php');
+                                    
                                 } 
                             }
                             else
@@ -445,15 +444,17 @@ class Products
 	      	$update_price = $connexion_db -> prepare($new_price);
 	      	$update_price->bindParam(':price',$price, PDO::PARAM_INT);
 	      	$update_price->execute(); 
+
 	    }
 
 	    if(!empty($size)){
 
-	    	$new_size = "UPDATE product_details SET size = :size WHERE id_product = $id_product ";
+	    	$new_size = "UPDATE product_details SET size = :size WHERE id_product = $id_product AND id_product_detail = $id_product_detail";
 	      	$update_size = $connexion_db -> prepare($new_size);
 	      	$update_size->bindParam(':size',$size, PDO::PARAM_STR);
 	      	$update_size->execute(); 
 	    }
+
 
 	    if(!empty($color)){
 
@@ -469,10 +470,14 @@ class Products
 	      	$update_stock = $connexion_db -> prepare($new_stock);
 	      	$update_stock->bindParam(':stock',$stock, PDO::PARAM_STR);
 	      	$update_stock->execute(); 
+
 	    }
 
-	  	header('Location:stock_management.php#stock_management.php');
+	    header('Location:stock_management.php#stock_management.php');
 	  	exit;
+
+
+	  	
 
 
   		

@@ -141,6 +141,11 @@ session_start();
                             <option value="S">S</option>
                             <option value="M">M</option>
                             <option value="L">L</option>
+                            <option value="36">36</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>
+                            <option value="40">40</option>
+
                         </select>
 
                         <label for="stock">Nombre de produits disponibles en stock</label>
@@ -268,7 +273,7 @@ session_start();
                         </td>
                         <td class="table_middle">
                             <!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
-                            <a href="stock_management.php?product_edit=<?php echo $donnees_messages['id_product'] ?>#modify"><i class="fas fa-edit"></i></a>
+                            <a href="stock_management.php?product_edit=<?php echo $donnees_messages['id_product'] ?>&amp;detail=<?php echo $donnees_messages['id_product_detail'] ?>#modify"><i class="fas fa-edit"></i></a>
                         </td>
 
                         <?php 
@@ -306,10 +311,10 @@ session_start();
 
 
                 //FORM GENERE EN FONCTION DES INFORMATIONS TRANSMISES DANS LE HREF
-                if (isset($_GET['product_edit'])) { 
+                if (isset($_GET['product_edit']) AND isset($_GET['detail'])) { 
 
                     $get_id_product = $_GET['product_edit'];
-
+                    $get_id_product_detail = $_GET['detail'];
                      
 
                     if(isset($_POST['update_product'])){
@@ -324,7 +329,8 @@ session_start();
                         $_POST['size'],
                         $_POST['color'], 
                         $_POST['stock'], 
-                        $_POST['id_product']
+                        $_POST['id_product'],
+                        $_POST['id_product_detail']
                         );
 
                 }
@@ -383,7 +389,7 @@ session_start();
                             <label for="product_name">Nom de produit</label>
                             <input type="text" name="product_name" class="input_admin">
 
-                            <label for="description">Descripton du produit</label>
+                            <label for="description">Description du produit</label>
                             <textarea type="textarea" name="description"></textarea>
 
                             <label for="file">Nouvelle photo</label>
@@ -418,6 +424,10 @@ session_start();
                                 <option value="S">S</option>
                                 <option value="M">M</option>
                                 <option value="L">L</option>
+                                <option value="36">36</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
                             </select>
 
                             <label for="stock">Nombre de produits disponibles en stock</label>
@@ -425,6 +435,7 @@ session_start();
 
                             <!-- RECUPERATION DE L'ID DU PRODUIT ENVOYE PAR HREF-->
                             <input type="hidden" name="id_product" value="<?php echo $get_id_product ?>">
+                            <input type="hidden" name="id_product_detail" value="<?php echo $get_id_product_detail ?>">
                         </div>
                     </div>
                     <div class="button_admin_position"><input type="submit" name="update_product" value="ENREGISTRER LES MODIFICATIONS" class="button_admin"></div>
