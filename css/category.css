@@ -1,21 +1,8 @@
-.breadcrumb_line{
-	border-top:1px solid lightgray;
-}
-
-
-.breadcrumb_line li {
-		display: inline;
-		text-transform: uppercase;
-}
-
 .text_background h1 {
 	text-transform: uppercase;
 }
 
-.breadcrumb_line a:hover{
-	transition:1s;
-	color :lightgray;
-}
+
 
 .description_category{
 	background-color:#F2F2F2;
@@ -64,28 +51,6 @@
 	padding-left:8%;
 }
 
-.wish_button{
-	background-color: white;
-	border:none;
-
-}
-
-#fa_heart:after,
-#fas_heart:after{
-	content: "\f004";
-	font-family: 'Font Awesome 5 Pro'; 
-	display: block; 
-	text-indent: 0;
-}
-
-#fa_heart:after{font-weight:100;}
-#fas_heart:after{font-weight:900;}
 
 
-#fa_heart:hover:after{
-	font-weight:900;
-}
 
-#fa_heart:after:after{
-	font-weight:900;
-}

@@ -83,10 +83,7 @@
 		                    	<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
 		                    	<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">
 		                    </form>
-		                    <form action="" method="POST" class="add_cart">
-		                    	<button type="submit" name="add_cart">AJOUTER AU PANIER</button>
-		                    	<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">
-		                    </form>
+		                    <a href="product_page?prod=<?php echo $wish_list_detail['id_product'] ?>" class="see_item">VOIR L'ARTICLE</a>
 						</div>
 
 					<?php } ?>

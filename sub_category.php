@@ -107,11 +107,12 @@ session_start();
                 <?php foreach($all_products as $info_products){ ?>
                 <div class="products_card">
                     <div>
-                        <img src="<?php echo $info_products['picture'] ?>" width="300">
+                        <a href="product_page.php?prod=<?php echo $info_products['id_product'] ?>"><img src="<?php echo $info_products['picture'] ?>" width="300"></a>
                     </div>
                     <div class="info_products">
                         <div class="title_cart">
                             <h3><?php echo $info_products['product_name'] ?></h3>
+                            
                             <?php 
 
                                 if(isset($_SESSION['user']['id_user'])){
@@ -124,55 +125,53 @@ session_start();
                                     $get_wish_list->execute();
                                     $wish_list = $get_wish_list->fetch(PDO::FETCH_ASSOC);
 
+                                    //SI ELLE EST PLEINE
                                     if(!empty($wish_list)){
 
+                                        //ET SI L'OPTION SAUVEGARDE A VALEUR VRAI
                                         if($wish_list['saved_for_later'] == true){?>
 
+                                            <!-- COEUR NOIR REMPLI ET POSSIBILITE D'ENLEVER L'ITEM DE LA LISTE-->
                                             <form action="" method="POST">
 
-                                            <button type="submit" name="remove_wish_list" class="wish_button" id="fas_heart" ></button>
-                                            <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
-                                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user']?>">
+                                                <button type="submit" name="remove_wish_list" class="wish_button fas_heart" ></button>
+                                                <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                                <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user']?>">
 
                                             </form>
 
 
-                                  <?php }
-                                        else{ ?>
+                                        <?php }
 
-                                            <form action="" method="POST">
+                                            //SI L'OPTION SAUVEGARDE A VALEUR FAUX REACTIVER L'ITEM EXISTENT DANS LA WISH LIST
+                                            else{ ?>
 
-                                            <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
+                                                <form action="" method="POST">
+
+                                                    <button type="submit" name="add_wish_list" class="wish_button fa_heart" ></button>
+                                                    <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
+                                                    <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
+
+                                                </form>
+                                          <?php }        
+
+                                        }
+                                        //ET SI LA WISH LIST EST VIDE
+                                        elseif(empty($wish_list)){?>
+
+                                        <!-- CREATION ET ACTIVATION DE L'ITEM DANS LA WISH LIST-->
+                                        <form action="" method="POST">
+
+                                            <button type="submit" name="add_wish_list" class="wish_button fa_heart" ></button>
                                             <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
                                             <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
 
-                                            </form>
-                                      <?php }        
+                                        </form>
 
-                                    }
-                                    elseif(empty($wish_list)){?>
+                                        <?php }
 
-                                    <form action="" method="POST">
 
-                                        <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
-                                        <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
-                                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
-
-                                    </form>
-
-                              <?php }
-
-                                }
-                                else{?>
-
-                                    <form action="" method="POST">
-
-                                        <button type="submit" name="add_wish_list" class="wish_button" id="fa_heart" ></button>
-                                        <input type="hidden" name="id_product" value="<?php echo $info_products['id_product'] ?>">
-
-                                    </form>
-
-                          <?php } ?>
+                                    }?>
                         </div>
                         <p>€ <?php echo $info_products['price'] ?></p>
                         <p>Couleur : <?php echo $info_products['color'] ?></p>

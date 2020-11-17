@@ -1,0 +1,156 @@
+.page_product{
+	display: flex;
+	flex-direction: column;
+	padding-right:8%;
+	padding-left:8%;
+	width:100%;
+
+}
+
+.picture_details{
+	display: flex;
+	justify-content: space-between;
+}
+
+.picture_product img{
+	width:80%;
+}
+
+.details{
+	display: flex;
+	flex-direction: column;
+	width:100%;
+}
+
+.title_heart{
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+
+}
+
+
+.fa_heart:after,
+.fas_heart:after{
+	font-size:25px;
+}
+
+.price_color{
+	border-bottom: 1px solid lightgray;
+	padding-bottom:1%;
+}
+
+.size{
+	display: flex;
+	align-items: baseline;
+	width:100%;
+	height:100%;
+}
+
+.size form{
+	width:100%;
+	height:100%;
+}
+
+.select_size{
+	display: flex;
+	align-items: baseline;
+	width:100%;
+}
+
+.select_size select{
+	margin-left:3%;
+	border:none;
+	font-family: 'Poppins', sans-serif;
+}
+
+.cart_button{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width:100%;
+}
+
+.add_cart_button{
+	background-color:#8B8B8B;
+	color:white;
+	border:none;
+	padding:2%;
+	width:40%;
+	font-weight:bold;
+}
+
+.add_cart_button:hover{
+	transition:.5s;
+	border:2px solid #8B8B8B;
+	color:#8B8B8B;
+	background-color:white;
+}
+
+.delivery{
+	margin-top:5%;
+	display: flex;
+	flex-direction: column;
+	width:100%;
+	align-items: flex-end;
+
+}
+
+.delivery_picture{
+	position :absolute;
+	bottom:-15%;
+	left:-25%;
+}
+
+.delivery_terms{
+	position:relative;
+	display: flex;
+	flex-direction: column;
+	width:60%;
+	background-color: rgba(232,232,232,0.2);
+	padding:3%;
+	text-align: justify;
+}
+
+.delivery_terms a{font-weight:bolder;}
+
+.delivery_terms a:hover {
+	transition:.5s;
+	text-decoration: underline;
+	
+}
+
+.similar_products{
+	display: flex;
+	flex-direction: column;
+	margin-top:10%;
+}
+
+.similar_products h3{
+	text-align: center;
+	margin-bottom:5%;
+}
+
+.products_suggestion{
+	display: flex;
+	justify-content: space-evenly;
+	
+}
+
+.products_suggestion h3{
+	font-weight:lighter;
+	font-size:15px;
+	text-align: left;
+}
+
+.product_card{
+	display: flex;
+	flex-direction: column;
+	width:20%;
+}
+
+.product_card_pic{
+	display: flex;
+	justify-content: center;
+	width:100%;
+}

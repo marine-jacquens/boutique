@@ -88,7 +88,7 @@
 
 
 					?>
-
+					<a href="product_page.php?prod=<?php echo $r['id_product'] ?>">
 					<div class="search_results">
 						<div class="info_result_product">
 							<h3 class="search_result"> <?php echo $r['product_name'] ?></h3> 
@@ -98,10 +98,10 @@
 							<p>Tailles disponibles : <?php foreach($get_size AS $available_size ){ echo $available_size['size'].' ' ;} $get_size_product->closeCursor();?> </p>
 						</div>
 						<div class="image_result_product">
-							<img src=" <?php echo $r['picture'] ?> " alt="<?php echo $r['product_name'] ?>"><br>
+							<img src=" <?php echo $r['picture'] ?> " alt="<?php echo $r['product_name'] ?>">
 						</div>
 					</div>	
-
+					</a>
 				<?php }
 
 			}else{

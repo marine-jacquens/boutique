@@ -32,3 +32,55 @@ p{text-align: justify;}
 main span{
 	color:red;
 }
+
+
+/* PAGES CATEGORIE SOUS CATEGORIE 1 SOUS CATEGORIE 2 PRODUITS */
+
+.breadcrumb_line{
+	border-top:1px solid lightgray;
+}
+
+.breadcrumb_line li {
+	display: inline;
+	text-transform: uppercase;
+}
+
+.breadcrumb_line a:hover{
+	transition:.5s;
+	color :lightgray;
+}
+
+.fa_heart:after,
+.fas_heart:after{
+	content: "\f004";
+	font-family: 'Font Awesome 5 Pro'; 
+	display: block; 
+	text-indent: 0;
+}
+
+.fa_heart:after{font-weight:100;}
+.fas_heart:after{font-weight:900;}
+
+.wish_button{
+	background-color: white;
+	border:none;
+
+}
+
+.see_item{
+	padding:3%;
+	border:1px solid black;
+	font-weight: bold;
+	text-align: center;
+}
+
+.see_item:hover{
+	transition: .5s;
+	color:white;
+	background-color:black;
+
+}
+
+
+/* + wish list */
+
