@@ -90,6 +90,11 @@
 	font-weight:100;
 }
 
+#fas-shopping-bag:after{
+	content: "\f290";
+	font-weight:900;
+}
+
 #fa-toolbox:after{
 	content: "\f552";
 	font-weight:900;
@@ -101,11 +106,17 @@
 #fa-heart:after,
 #fas-fa-heart:after,
 #fa-shopping-bag:after,
-#fa-toolbox:after{
+#fas-shopping-bag:after,
+#fa-toolbox:after,
+.cart_number{
 	font-family: 'Font Awesome 5 Pro'; 
 	display: block; 
 	text-indent: 0;
 	
+}
+
+.cart_number{
+	font-size:12px;
 }
 
 .navbar{
@@ -315,58 +326,58 @@
 
 
 
-/*WISH LIST MODAL*/
+/*WISH LIST ET CART MODALS*/
 
-.wish_list_overview{
+.wish_cart_overview{
 	display: flex;
 	flex-direction: column;
 	align-items : center;
 	width:100%;
 }
 
-.wish_list_overview h3{font-weight:lighter;}
+.wish_cart_overview h3{font-weight:lighter;}
 
-.wish_list_overview a{
+.wish_cart_overview a{
 	border-bottom:1px solid black;
 	font-weight: bolder;
 }
 
-.wish_list_products{
+.wish_cart_products{
 	display: flex;
 	justify-content: space-around;
 	width:100%;
 }
 
-.wish_list{
+.wish_cart_list{
 	margin-top:2%;
-	margin-bottom:5%;
+	/*margin-bottom:5%;*/
 	display: flex;
 	flex-direction: column;
 	width:auto;
 }
 
-.wish_list p{
+.wish_cart_list p{
 	margin-top:1%;
 }
 
-.wish_picture{
+.wish_cart_picture{
 	display: flex;
 	justify-content: center;
 }
 
-.remove_wish_list{
+.remove_wish_cart{
 
 	display: flex;
 	margin-bottom:2%;
 
 }
 
-.remove_wish_list button{
+.remove_wish_cart button{
 	background-color: white;
 	border:none;
 }
 
-.remove_wish_list button:hover{
+.remove_wish_cart button:hover{
 	transition:.5s;
 	color: lightgray;
 }
@@ -386,7 +397,44 @@
 	color:black;
 }
 
+.cart_detail{
+	display: flex;
+	justify-content: space-between;
+}
 
+.total_amount{
+	border-top:1px solid lightgray;
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	width:90%;
+
+}
+
+.total_amount p{font-size:15px;}
+
+.total_amount a{
+	font-weight:bolder;
+	color:white;
+	background-color:black;
+	padding:1%;
+	text-decoration: none;
+}
+
+.total_amount a:hover{
+	transition:.5s;
+	border:1px solid black;
+	background-color: white;
+	color:black;
+}
+
+.total_line{
+	width:100%;
+}
+
+.payment{
+display: flex;
+justify-content: flex-end;}
 
 
 

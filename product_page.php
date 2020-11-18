@@ -168,6 +168,8 @@
 									$get_size_product->execute();
 									$get_size = $get_size_product->fetchAll(PDO::FETCH_ASSOC);
 
+									if(isset($_POST['add_cart'])){$cart->register($_POST['size'],$_POST['id_user']);}
+
 								?>
 								
 								<form action="" method="POST">
@@ -175,16 +177,14 @@
 										<p>Sélectionnez la taille : </p>
 										<select name="size" > 
 											<?php foreach($get_size AS $available_size){?>
-											<option value="<?php echo $available_size['size'] ?>" <?php if($available_size['stock'] == 0){echo "disabled";} ?> ><?php echo $available_size['size'];if($available_size['stock'] == 0){echo " (indisponible)" ;} ?></option>
+											<option value="<?php echo $available_size['id_product_detail'] ?>" <?php if($available_size['stock'] == 0){echo "disabled";} ?> ><?php echo $available_size['size'];if($available_size['stock'] == 0){echo " (indisponible)" ;} ?></option>
 											<?php } ?>
 										</select>
 									</div>
-									<div>
-										<p>Sélectionnez la quantité : </p>
-									</div>
 									<div class="cart_button">
+										<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
 										<input type="submit" name="add_cart" class="add_cart_button" value="AJOUTER AU PANIER">
-										<input type="hidden" name="id_product" value="<?php echo $id_prod ?>">
+										
 									</div>
 									
 								</form> 
@@ -244,6 +244,8 @@
 			            WHERE  
 
 			            sub_categories_2.id_sub_category_2 = $id_sub_cat_2 AND 
+			            products.id_sub_category_2 = sub_categories_2.id_sub_category_2 AND
+			            products.id_product != $id_prod AND 
 			            products.id_product = product_details.id_product 
 
 			            LIMIT 0,3
@@ -251,7 +253,7 @@
 						$get_similar_products->execute();
 						$similar_products = $get_similar_products->fetchAll(PDO::FETCH_ASSOC);
 
-						if(!empty($get_similar_products)){?>
+						if(!empty($similar_products)){?>
 
 							<section class="similar_products">
 								<h3>VOUS AIMEREZ AUSSI</h3>
@@ -269,6 +271,27 @@
 							</section>
 
 						<?php } ?>
+
+						<section class="banner_delivery">
+
+							<div class="banner_delivery_section">
+								<i class="fal fa-truck"></i>
+								<p>LIVRAISON STANDARD</p>
+							</div>
+							<div class="banner_delivery_section">
+								<i class="fal fa-tags"></i>
+								<p>LES DERNIERES TENDANCES A PETIT PRIX</p>
+							</div>
+							<div class="banner_delivery_section">
+								<i class="fal fa-unlock-alt"></i>
+								<p>PAIEMENT SECURISE</p>
+							</div>
+							<div class="banner_delivery_section">
+								<i class="fal fa-gift"></i>
+								<p>EMBALLAGE OFFERT</p>
+							</div>
+
+						</section>
 
 					
 

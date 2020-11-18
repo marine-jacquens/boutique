@@ -100,7 +100,7 @@
 		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 			
 			<div class="empty-wish">
-				<h1>Ma liste d'envies</h1>
+				<h1>Aperçu des derniers articles ajoutés à votre liste d'envies</h1>
 				<?php 
 
 
@@ -138,23 +138,23 @@
 
 					if(!empty($wish_list[0])){ ?>
 
-						<section class="wish_list_overview">
+						<section class="wish_cart_overview">
 							<h3>Votre liste d'envies comprend <?php echo '<strong>'.$items['nb_items'].'</strong> '; if($items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
 
 							<?php if($items['nb_items'] > 3){ ?> <a href="wish_list.php?id_user=<?php echo $id_user ?>">VOIR TOUS LES ARTICLES</a> <?php } ?>
 
-							<div class="wish_list_products">
+							<div class="wish_cart_products">
 
 								<?php foreach($wish_list as $wish_list_detail){ ?>
 
-									<div class="wish_list">
-										<div class="wish_picture">
+									<div class="wish_cart_list">
+										<div class="wish_cart_picture">
 											<img src="<?php echo $wish_list_detail['picture']?>" alt="<?php echo $wish_list_detail['product_name']?>" width="150">
 										</div>
 										<h3><?php echo $wish_list_detail['product_name']?></h3>
 										<p>€ <?php echo $wish_list_detail['price'] ?></p>
 		                    			<p>Couleur : <?php echo $wish_list_detail['color'] ?></p>
-		                    			<form action="" method="POST" class="remove_wish_list">
+		                    			<form action="" method="POST" class="remove_wish_cart">
 		                    				<button type="submit" name="remove_wish_list"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
 		                    				<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
 		                    				<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">
@@ -172,6 +172,152 @@
 					else{ ?> 
 
 					<p>Votre liste d'envies est actuellement vide</p>
+
+			  <?php } ?>
+
+			
+
+				
+			</div>
+
+	</div>
+	
+</aside>
+
+<aside id="cart-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+
+	<div class="modal-wrapper js-modal-stop">
+
+		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
+			
+			<div class="empty-wish">
+				<h1>Aperçu des derniers articles ajoutés au panier</h1>
+				<?php 
+
+					$connexion_db = $db->connectDb();
+
+					if(isset($_SESSION['user']['id_user'])){
+
+						$id_user = $_SESSION['user']['id_user'];
+
+						//SI ON RETIRE UN ITEM DU PANIER
+						if(isset($_POST['remove_cart'])){$cart->removeCart($_POST['id_product'],$_POST['id_user']);}
+
+						//RECUPERATION DU PANIER
+
+						$saved_for_later = true;
+
+						$get_cart_items = $connexion_db->prepare(" SELECT DISTINCT 
+							cart_items.id_user,
+							cart_items.id_product_detail,
+							cart_items.saved_for_later,
+							cart_items.quantity,
+							products.id_product,
+							products.product_name,
+							products.picture, 
+							products.price,
+							product_details.id_product_detail,
+							product_details.id_product,
+							product_details.color,
+							product_details.size, 
+
+							stock_products.id_product_detail, 
+							stock_products.stock
+
+							FROM cart_items,products,product_details,stock_products 
+							WHERE 
+							cart_items.id_user = $id_user AND 
+							cart_items.saved_for_later = $saved_for_later AND 
+							cart_items.id_product_detail = product_details.id_product_detail AND 
+							products.id_product = product_details.id_product AND 
+							product_details.id_product_detail = stock_products.id_product_detail ORDER BY time_added DESC LIMIT 0,3 ");
+						$get_cart_items->execute();
+						$cart_items = $get_cart_items->fetchAll(PDO::FETCH_ASSOC);
+
+						//NBR D'ITEMS DANS LE PANIER
+						$count_cart_items = $connexion_db->prepare("SELECT COUNT(*) AS nb_items FROM cart_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later");
+						$count_cart_items->execute();
+						$nb_items = $count_cart_items->fetch(PDO::FETCH_ASSOC);
+
+						//TOTAL PANIER
+						$amount_cart = $connexion_db->prepare("SELECT DISTINCT 
+							products.id_product,
+							products.price, 
+
+							cart_items.id_product_detail,
+							cart_items.id_user,
+							cart_items.saved_for_later,
+							cart_items.quantity, 
+
+							product_details.id_product_detail,
+							product_details.id_product,   
+
+							SUM(products.price*cart_items.quantity) AS total 
+
+							FROM products, product_details, cart_items 
+
+							WHERE cart_items.id_user = $id_user AND 
+							cart_items.saved_for_later = $saved_for_later AND 
+							products.id_product = product_details.id_product AND 
+							product_details.id_product_detail = cart_items.id_product_detail ");
+
+						$amount_cart->execute();
+						$total = $amount_cart->fetch(PDO::FETCH_ASSOC);
+
+
+
+					}
+					
+					//SI LE PANIER EST PLEIN
+					if(!empty($cart_items[0])){ ?>
+
+						<section class="wish_cart_overview">
+							<h3>Votre panier comprend <?php echo '<strong>'.$nb_items['nb_items'].'</strong> '; if($nb_items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
+
+							<?php if($nb_items['nb_items'] > 3){ ?> <a href="cart_items.php?id_user=<?php echo $id_user ?>">VOIR TOUS LES ARTICLES</a> <?php } ?>
+
+							<div class="wish_cart_products">
+
+								<?php foreach($cart_items as $cart_items_detail){ ?>
+
+									<div class="wish_cart_list">
+										<div class="wish_cart_picture">
+											<img src="<?php echo $cart_items_detail['picture']?>" alt="<?php echo $cart_items_detail['product_name']?>" width="150">
+										</div>
+										<h3><?php echo $cart_items_detail['product_name']?></h3>
+										<p>€ <?php echo $cart_items_detail['price'] ?></p>
+										<div class="cart_detail">
+											<p>Taille : <?php echo $cart_items_detail['size'] ?></p>
+		                    				<p>Couleur : <?php echo $cart_items_detail['color'] ?></p>
+											<p>Quantité : <?php echo $cart_items_detail['quantity'] ?></p>	
+										</div>
+		                    			
+		                    			<form action="" method="POST" class="remove_wish_cart">
+		                    				<button type="submit" name="remove_cart"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
+		                    				<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
+		                    				<input type="hidden" name="id_product" value="<?php echo $cart_items_detail['id_product_detail'] ?>">
+		                    			</form>
+
+		                    			
+									</div>
+
+					 		   	<?php } ?>
+
+					 		</div>
+
+					 		<div class="total_amount">
+								<div class="total_line"><p>Total € <?php echo '<strong>'.$total['total'].'</strong>' ?></p></div>
+								<div class="total_line payment"><a href="">POURSUIVRE LA COMMANDE</a></div>
+							</div>
+
+
+				 		</section>
+
+			  <?php }
+					
+					else{ ?> 
+
+					<p>Votre panier est actuellement vide</p>
 
 			  <?php } ?>
 
