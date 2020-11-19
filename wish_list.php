@@ -72,7 +72,7 @@
 					<?php foreach($wish_list AS $wish_list_detail){ ?>
 
 						<div class="complete_wish_list">
-							<div class="wish_picture">
+							<div class="wish_cart_picture">
 								<img src="<?php echo $wish_list_detail['picture']?>" alt="<?php echo $wish_list_detail['product_name']?>" width="300">
 							</div>
 							<h3><?php echo $wish_list_detail['product_name']?></h3>

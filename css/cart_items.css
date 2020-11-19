@@ -1,0 +1,32 @@
+.section_cart{
+	padding-right:8%;
+	padding-left:8%;
+	width:100%;
+}
+
+.qt_modify{
+	color:white;
+	font-weight:bold;
+	background-color:black;
+	border:2px solid black;
+	padding:2%;
+}
+
+.qt_nb{
+	width:15%;
+	padding:2%;
+}
+
+.qt_modify:hover{
+	transition: .5s;
+	color:black;
+	background-color:white;
+}
+
+
+.caracteristique{
+	display:flex;
+	justify-content: space-between;
+}
+
+.qt_modify{}

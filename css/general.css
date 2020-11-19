@@ -84,3 +84,7 @@ main span{
 
 /* + wish list */
 
+.wish_cart_picture{
+	display: flex;
+	justify-content: center;
+}

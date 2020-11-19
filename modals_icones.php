@@ -274,7 +274,7 @@
 						<section class="wish_cart_overview">
 							<h3>Votre panier comprend <?php echo '<strong>'.$nb_items['nb_items'].'</strong> '; if($nb_items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
 
-							<?php if($nb_items['nb_items'] > 3){ ?> <a href="cart_items.php?id_user=<?php echo $id_user ?>">VOIR TOUS LES ARTICLES</a> <?php } ?>
+							<a href="cart_items.php?id_user=<?php echo $id_user ?>">VOIR ET MODIFIER VOTRE PANIER</a> 
 
 							<div class="wish_cart_products">
 
@@ -350,14 +350,14 @@
 					$get_last_products->execute();
 					$last_products = $get_last_products->fetchAll(PDO::FETCH_ASSOC);
 
-					foreach($last_products AS $product ){ 
+					foreach($last_products AS $product_wish ){ 
 
 					?>
 					<div class="article">
-						<a href="product_page.php?prod=<?php echo $product['id_product'] ?>"><img src="<?php echo $product['picture'] ?>" alt="<?php echo $product['picture'] ?>" height="200"></a>
-						<p><?php echo $product['product_name'] ?></p>
-						<p><?php echo $product['color'] ?></p>
-						<p><?php echo $product['price'].'€' ?></p>
+						<a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>"><img src="<?php echo $$product_wish['picture'] ?>" alt="<?php echo $product_wish['picture'] ?>" height="200"></a>
+						<p><?php echo $product_wish['product_name'] ?></p>
+						<p><?php echo $product_wish['color'] ?></p>
+						<p><?php echo $product_wish['price'].'€' ?></p>
 					</div>
 					<?php } ?>
 				</div>

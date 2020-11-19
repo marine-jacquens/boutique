@@ -90,7 +90,7 @@ class Cart{
 
 	}
 
-	public function update($quantity,$id_product_detail,$id_user){
+	public function update($quantity,$id_user,$id_product_detail){
 
 	 	$connexion_db = $this->db->connectDb();
 
@@ -100,7 +100,7 @@ class Cart{
 
     	$new_cart = " UPDATE cart_items SET quantity = :quantity, time_added = :time_added WHERE id_product_detail = $id_product_detail AND id_user = $id_user ";
     	$update_cart = $connexion_db->prepare($new_cart);
-    	$update_cart->bindParam(':quantity',$qt,PDO::PARAM_STR);
+    	$update_cart->bindParam(':quantity',$qt,PDO::PARAM_INT);
 	    $update_cart->bindParam(':time_added',$time_added,PDO::PARAM_STR); 
 	    $update_cart->execute();
 
