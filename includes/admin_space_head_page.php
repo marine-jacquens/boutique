@@ -20,5 +20,5 @@
 	<a href="admin.php#admin">ADMINISTRATION GÉNÉRALE</a>
 	<a href="stock_management.php#stock_management">LES ARTICLES</a>
 	<a href="">LES COMMANDES</a>
-	<a href="">LES INFORMATIONS UTILISATEURS</a>
+	<a href="account_management.php#account_management">LES INFORMATIONS UTILISATEURS</a>
 </div>

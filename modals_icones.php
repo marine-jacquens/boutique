@@ -354,7 +354,7 @@
 
 					?>
 					<div class="article">
-						<a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>"><img src="<?php echo $$product_wish['picture'] ?>" alt="<?php echo $product_wish['picture'] ?>" height="200"></a>
+						<a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>"><img src="<?php echo $product_wish['picture'] ?>" alt="<?php echo $product_wish['picture'] ?>" height="200"></a>
 						<p><?php echo $product_wish['product_name'] ?></p>
 						<p><?php echo $product_wish['color'] ?></p>
 						<p><?php echo $product_wish['price'].'€' ?></p>
@@ -399,7 +399,7 @@
 							<td><a href="admin.php"><i class="fas fa-folder-open"></i></a></td>
 							<td><a href="stock_management.php"><i class="fas fa-cart-plus"></i></a></td>
 							<td><a href="orders_admin.php"><i class="fas fa-truck-loading"></i></a></td>
-							<td><a href="users_admin.php"><i class="fas fa-users-cog"></i></a></td>
+							<td><a href="account_management.php"><i class="fas fa-users-cog"></i></a></td>
 						</tr>
 					</tbody>
 				</table>

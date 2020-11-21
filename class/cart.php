@@ -109,6 +109,29 @@ class Cart{
 
 	}
 
+	public function delete(){
+
+		$connexion_db = $this->db->connectDb(); 
+
+		//SUPPRIMER LES ITEMS TROP ANCIEN DU TABLEAU DE LISTES D'ENVIES
+		$get_cart_list = $connexion_db->prepare(" SELECT time_added FROM cart_items");
+		$get_cart_list->execute();
+
+		while($time = $get_cart_list->fetch()){
+
+			$jour = $time['time_added']; 
+			$check_date = date("Y-m-d H:i:s", strtotime($jour.'+ 1 year'));
+
+
+			$delete_cart_list = $connexion_db->prepare( " DELETE FROM cart_items WHERE time_added >= '$check_date' " );
+			$delete_cart_list->execute();
+
+			header("Location:account_management.php#table_account_cart");
+	    	exit;
+
+		}
+	}
+
 
 
 

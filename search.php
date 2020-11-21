@@ -36,7 +36,6 @@
 
 			// la requete mysql
 			$q = $connexion_db->prepare("SELECT DISTINCT 
-				
 
 				categories.id_category,
 				categories.name_category,
@@ -95,7 +94,7 @@
 							<p><?php echo $r['description'] ?></p>
 							<p>A retrouver dans : <?php echo $r['name_category']?> / <?php echo $r['name_sub_category'] ?> / <?php echo $r['name_sub_category_2']?></p>
 							<p>Couleur : <?php echo $r['color'] ?></p>
-							<p>Tailles disponibles : <?php foreach($get_size AS $available_size ){ echo $available_size['size'].' ' ;} $get_size_product->closeCursor();?> </p>
+							<p>Tailles disponibles : <?php foreach($get_size AS $available_size ){ echo $available_size['size'].' ' ;} $get_size_product->closeCursor();?></p>
 						</div>
 						<div class="image_result_product">
 							<img src=" <?php echo $r['picture'] ?> " alt="<?php echo $r['product_name'] ?>">

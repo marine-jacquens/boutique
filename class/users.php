@@ -258,16 +258,15 @@ class Users
     header('Location:index.php');
   }
 
-  public function update($lastname, $firstname, $gender, $birthday, $phone, $mail, $password, $password_check)
+  public function update($lastname, $firstname, $gender, $birthday, $phone, $mail, $password, $password_check,$account_type,$rgpd,$newsletter,$id_user)
   {
     $connexion_db = $this->db->connectDb();
-    $session = $_SESSION['user']['id_user'];
     date_default_timezone_set('Europe/Paris');
     $date_modified = date("Y-m-d H:i:s");
 
     if(!empty($lastname))
     {
-      $new_lastname = "UPDATE users SET lastname = :lastname, date_modified = :date_modified WHERE id_user = '$session' ";
+      $new_lastname = "UPDATE users SET lastname = :lastname, date_modified = :date_modified WHERE id_user = $id_user ";
       $update_lastname = $connexion_db -> prepare($new_lastname);
       $update_lastname->bindParam(':lastname',$lastname, PDO::PARAM_STR);
       $update_lastname->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
@@ -276,7 +275,7 @@ class Users
 
     if(!empty($firstname))
     {
-      $new_firstname = "UPDATE users SET firstname=:firstname date_modified = :date_modified WHERE id_user = '$session' ";
+      $new_firstname = "UPDATE users SET firstname=:firstname, date_modified = :date_modified WHERE id_user = $id_user ";
       $update_firstname = $connexion_db -> prepare($new_firstname);
       $update_firstname->bindParam(':firstname',$firstname, PDO::PARAM_STR);
       $update_firstname->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
@@ -285,7 +284,7 @@ class Users
 
     if(!empty($gender))
     {
-      $new_gender = "UPDATE users SET gender=:gender date_modified = :date_modified WHERE id_user = '$session' ";
+      $new_gender = "UPDATE users SET gender = :gender, date_modified = :date_modified WHERE id_user = $id_user ";
       $update_gender = $connexion_db -> prepare($new_gender);
       $update_gender->bindParam(':gender',$gender, PDO::PARAM_STR);
       $update_gender->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
@@ -294,7 +293,7 @@ class Users
 
     if(!empty($birthday))
     {
-      $new_birthday = "UPDATE users SET birthday=:birthday date_modified = :date_modified WHERE id_user = '$session' ";
+      $new_birthday = "UPDATE users SET birthday = :birthday, date_modified = :date_modified WHERE id_user = $id_user ";
       $update_birthday = $connexion_db -> prepare($new_birthday);
       $update_birthday->bindParam(':birthday',$birthday, PDO::PARAM_STR);
       $update_birthday->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
@@ -303,7 +302,7 @@ class Users
 
     if(!empty($phone))
     {
-      $new_phone = "UPDATE users SET phone=:phone date_modified = :date_modified WHERE id_user = '$session' ";
+      $new_phone = "UPDATE users SET phone=:phone, date_modified = :date_modified WHERE id_user = $id_user ";
       $update_phone = $connexion_db -> prepare($new_phone);
       $update_phone->bindParam(':phone',$phone, PDO::PARAM_STR);
       $update_phone->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
@@ -312,13 +311,13 @@ class Users
 
     if(!empty($mail))
     {
-      $check_mail = $connexion_db->prepare("SELECT mail FROM users date_modified = :date_modified WHERE mail = '$mail' ");
+      $check_mail = $connexion_db->prepare("SELECT mail FROM users WHERE mail = '$mail' ");
       $check_mail->execute();
       $checked_mail = $check_mail->fetchAll(PDO::FETCH_ASSOC);
 
       if(empty($checked_mail[0]))
       {
-        $new_mail = "UPDATE users SET mail =:mail  date_modified = :date_modified WHERE id_user = '$session' ";
+        $new_mail = "UPDATE users SET mail =:mail,  date_modified = :date_modified WHERE id_user = $id_user ";
         $update_mail  = $connexion_db -> prepare($new_mail);
         $update_mail->bindParam(':mail',$mail, PDO::PARAM_STR);
         $update_mail->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
@@ -336,7 +335,7 @@ class Users
       {
         $hash=password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
 
-        $new_password = "UPDATE users SET password=:hash date_modified = :date_modified WHERE id_user = '$session' ";
+        $new_password = "UPDATE users SET password=:hash, date_modified = :date_modified WHERE id_user = $id_user ";
         $update_password = $connexion_db -> prepare($new_password);
         $update_password->bindParam(':hash',$hash, PDO::PARAM_STR);
         $update_password->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
@@ -350,7 +349,75 @@ class Users
 
     }
 
-    $this->refresh();
+    if(!empty($account_type)){
+      $new_account_type = "UPDATE users SET account_type=:account_type, date_modified = :date_modified WHERE id_user = $id_user ";
+      $update_account = $connexion_db -> prepare($new_account_type);
+      $update_account->bindParam(':account_type',$account_type, PDO::PARAM_STR);
+      $update_account->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
+      $update_account->execute();   
+    }
+
+    if(!empty($rgpd)){
+
+      if($rgpd=="denial"){
+
+        $autorisation = false;
+
+        $new_rgpd = "UPDATE users SET autorisation_rgpd=:rgpd, date_modified = :date_modified WHERE id_user = $id_user ";
+        $update_rgpd = $connexion_db -> prepare($new_rgpd);
+        $update_rgpd->bindParam(':rgpd',$autorisation, PDO::PARAM_BOOL);
+        $update_rgpd->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
+        $update_rgpd->execute();  
+
+      }
+      else{
+
+        $autorisation = true;
+
+        $new_rgpd = "UPDATE users SET autorisation_rgpd=:rgpd, date_modified = :date_modified WHERE id_user = $id_user ";
+        $update_rgpd = $connexion_db -> prepare($new_rgpd);
+        $update_rgpd->bindParam(':rgpd',$autorisation, PDO::PARAM_BOOL);
+        $update_rgpd->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
+        $update_rgpd->execute(); 
+
+      }
+
+    }
+
+    if(!empty($newsletter)){
+
+      if($newsletter=="denial"){
+
+        $autorisation = false;
+
+        $new_newsletter = "UPDATE newsletter SET autorisation=:autorisation WHERE id_user = $id_user";
+        $update_newsletter = $connexion_db -> prepare($new_newsletter);
+        $update_newsletter->bindParam(':autorisation',$autorisation, PDO::PARAM_BOOL);
+        $update_newsletter->execute();   
+
+
+      }else{
+
+        $autorisation = true;
+
+        $new_newsletter = "UPDATE newsletter SET autorisation=:autorisation WHERE id_user = $id_user";
+        $update_newsletter = $connexion_db -> prepare($new_newsletter);
+        $update_newsletter->bindParam(':autorisation',$autorisation, PDO::PARAM_BOOL);
+        $update_newsletter->execute(); 
+
+      }
+
+    }
+
+    
+
+    
+    
+
+    if(isset($_SESSION['user']['id_user']) AND $_SESSION['user']['id_user']  == $id_user){
+      $this->refresh();
+    }else { header("Location:account_management.php#edit_management"); exit; }
+    
   }
 
 
@@ -405,6 +472,35 @@ class Users
     header('Location:profil.php');
     exit;
 
+  }
+
+  public function delete($id_user){
+
+    $connexion_db = $this->db->connectDb();
+
+    $delete_user = $connexion_db->prepare(" DELETE FROM users WHERE id_user = $id_user "); 
+    $delete_user->execute();
+
+    $delete_user = $connexion_db->prepare(" DELETE FROM newsletter WHERE id_user = $id_user ");
+    $delete_user->execute();
+
+    $delete_user = $connexion_db->prepare(" DELETE FROM cart_items WHERE id_user = $id_user "); 
+    $delete_user->execute();
+
+    $delete_user = $connexion_db->prepare(" DELETE FROM wish_list_items WHERE id_user = $id_user "); 
+    $delete_user->execute();
+
+    $delete_user = $connexion_db->prepare(" DELETE FROM bills_adresses  WHERE id_user = $id_user "); 
+    $delete_user->execute();
+
+    $delete_user = $connexion_db->prepare(" DELETE FROM deliveries_adresses WHERE id_user = $id_user "); 
+    $delete_user->execute();
+
+    $delete_user = $connexion_db->prepare(" DELETE FROM orders  WHERE id_user = $id_user "); 
+    $delete_user->execute();
+
+    header('Location:account_management.php#account_management.php');
+    exit;
   }
 
   

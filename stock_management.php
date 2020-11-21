@@ -32,8 +32,7 @@ session_start();
         <section class="forme stock_management" id="stock_management">
             <?php include("includes/admin_space_head_page.php"); ?>
             <div class="bar">
-                <div class="progression-bar_stock">
-                </div>
+                <div class="progression-bar_stock"></div>
             </div>
 
             <?php
@@ -70,6 +69,7 @@ session_start();
 
                             $get_all_sub_categories_2 = $connexion_db->prepare("SELECT DISTINCT name_sub_category_2 FROM sub_categories_2");
                             $get_all_sub_categories_2->execute();
+                            
                         ?>
 
                         <label for="category">Catégorie du produit</label>

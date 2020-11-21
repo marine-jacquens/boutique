@@ -1,5 +1,6 @@
 .progression-bar_stock,
-.progression-bar_admin {
+.progression-bar_admin,
+.progression-bar_account {
 	position:absolute;
 	top:0;
 	border-bottom: 2px solid black;
@@ -14,6 +15,11 @@
 .progression-bar_stock{
 	width:10%;
 	left:32.5%;
+}
+
+.progression-bar_account{
+	width:20%;
+	right:5%;
 }
 
 
@@ -140,3 +146,22 @@ font-size:12px;
 .other_pages{
 margin:1%
 }
+
+
+
+
+
+.definitive_delete{
+	display: flex;
+	justify-content: center;
+	width:100%;
+}
+
+.definitive_delete button{
+	margin-top:3%;
+	height:40px;
+	background-color:black;
+	color:white;
+
+}
+
