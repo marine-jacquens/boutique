@@ -88,3 +88,13 @@ main span{
 	display: flex;
 	justify-content: center;
 }
+
+.remove_wish_cart button{
+	background-color: white;
+	border:none;
+}
+
+.remove_wish_cart button:hover{
+	transition:.5s;
+	color: lightgray;
+}

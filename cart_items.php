@@ -32,28 +32,7 @@
 
 
 			//RECUPERER LE PANIER 
-			$get_cart = $connexion_db->prepare(" SELECT DISTINCT 
-				cart_items.id_user,
-				cart_items.id_product_detail,
-				cart_items.quantity,
-				cart_items.saved_for_later, 
-
-				products.id_product, 
-				products.product_name,
-				products.picture, 
-				products.price,
-				product_details.id_product_detail,
-				product_details.id_product,
-				product_details.color, 
-				product_details.size, 
-
-				stock_products.id_product_detail,
-				stock_products.stock
-
-				FROM cart_items,products,product_details,stock_products	
-
-				WHERE 
-
+			$get_cart = $connexion_db->prepare(" SELECT DISTINCT cart_items.*, products.*,product_details.*,stock_products.*FROM cart_items,products,product_details,stock_products	WHERE 
 				cart_items.id_user = $id_user AND 
 				cart_items.saved_for_later = $saved_for_later AND 
 				cart_items.id_product_detail = product_details.id_product_detail AND 
@@ -88,7 +67,9 @@
 				<?php foreach($cart_info as $info_cart){ ?>
 
 					<div class="complete_wish_list">
-						<div class="wish_cart_picture"><img src="<?php echo $info_cart['picture'] ?>" alt="<?php echo $info_cart['picture'] ?>" width="300"></div>
+						<div class="wish_cart_picture">
+							<a href="product_page.php?prod=<?php echo $info_cart['id_product'] ?>"><img src="<?php echo $info_cart['picture'] ?>" alt="<?php echo $info_cart['picture'] ?>" width="300"></a>
+						</div>
 						<h3><?php echo $info_cart['product_name'] ?></h3>
 						<p>€ <?php echo $info_cart['price'] ?></p>
 						<div class="caracteristique">
@@ -96,12 +77,21 @@
 							<p>Taille : <?php echo $info_cart['size'] ?></p>
 							<p>Quantité : <?php echo $info_cart['quantity'] ?></p>
 						</div>
-						<form action="" method="POST"a>
+						<form action="" method="POST">
 			        		<input type="number" name="quantity" min="1" max="<?php echo $info_cart['stock'] ?>" value="<?php echo $info_cart['quantity']; ?>" class="qt_nb">
 			        		<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
 			        		<input type="hidden" name="id_product_detail" value="<?php echo $info_cart['id_product_detail'] ?>" >
 			        		<input type="submit" name="cart_update" value="Mise à jour quantité" class="qt_modify">
 			    		</form>
+			    		<?php
+							//SI ON RETIRE UN ITEM DU PANIER
+							if(isset($_POST['remove_cart'])){$cart->removeCart($_POST['id_product'],$_POST['id_user']);}
+						?>
+			    		<form action="" method="POST" class="remove_wish_cart cart_button">
+			                <button type="submit" name="remove_cart"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
+			                <input type="hidden" name="id_user" value="<?php echo $id_user ?>">
+			                <input type="hidden" name="id_product" value="<?php echo $info_cart['id_product_detail'] ?>">
+			            </form>	
 
 					</div>
 				<?php } ?>

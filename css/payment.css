@@ -1,0 +1,173 @@
+.payment_page{
+	border-top:1px solid lightgray;
+	display: flex;
+	justify-content: space-between;
+	padding-right:8%;
+	padding-left:8%;
+}
+
+.info_delivery{width:50%;}
+
+.lastname_firstname{
+	display: flex;
+	justify-content: space-between;
+	width:60%;
+}
+
+.name_position{
+	display: flex;
+	flex-direction: column;
+}
+
+.form_position_part{
+	display: flex;
+	flex-direction: column;
+}
+
+.form_position_part input{
+	padding:2%;
+}
+
+.form_position_name input{padding:5%;}
+
+.button_info_delivery,
+.payment_button{
+	margin-top:3%;
+	width:100%;
+	display: flex;
+	justify-content: center;
+	color:white;
+	background-color:black;
+	padding:3%;
+	border:none;
+}
+
+.button_info_delivery:hover,
+.payment_button:hover{
+	transition:.5s;
+	color:black;
+	background-color:white;
+	border:2px solid black;
+}
+
+.info_payment{
+	display: flex;
+	flex-direction: column;
+	width:40%;
+}
+
+.cart_items_modify{
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+.cart_modify_access:hover{
+	transition:.5s;
+	color: lightgray;
+
+}
+
+.list-items_frame{
+	border-top:1px solid lightgray;
+	height:600px;
+	overflow: auto;
+}
+
+.list-items_frame::-webkit-scrollbar {width: 3px;height: 10px;}
+ 
+.list-items_frame::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+
+}
+ 
+.list-items_frame::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgb(0,0,0); 
+}
+
+.list-items_frame::-webkit-scrollbar-thumb:window-inactive {background: grey;}
+
+.list-items{
+	
+	padding-top:2%;
+	display: flex; 
+	justify-content: space-between;
+	width:100%;
+}
+
+.list-items h3{
+	margin-top:0;
+}
+ 
+.list-items p{
+	margin:0;
+}
+
+.payment_picture_product{
+	width:30%;
+}
+.payment_info_product{
+	width:65%;
+}
+
+.cart_button{
+	margin-top:3%;
+}
+
+.sous_total{
+	margin-top:5%;
+	padding:3%;
+	display: flex;
+	flex-direction:column;
+	border:1px solid black;
+}
+
+.calculation_detail{
+	display: flex;
+	flex-direction: column;
+	
+}
+
+.detail_price{
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-bottom:4%;
+}
+
+.detail_price h4, .detail_price h5, .detail_price p{margin:0;}
+
+.detail_price h5{font-weight: lighter;}
+
+.total_amount_line{
+	border-top:1px solid lightgray;
+	padding-top:5%;
+}
+
+.payment_frame{
+	border-top:1px solid lightgray;
+	margin-top:5%;
+	padding-top:5%;
+	
+}
+
+.form_payment{
+	display: flex;
+	flex-direction: column;
+	
+}
+
+.form_payment input{
+	padding:2%;
+	width:80%;
+	margin-bottom:2%;
+}
+
+.credit_card{
+	display:flex;
+	align-content: baseline;
+	justify-content: space-between;
+}
+
+.credit_card i{font-size:40px;}
+

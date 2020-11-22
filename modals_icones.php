@@ -307,7 +307,7 @@
 
 					 		<div class="total_amount">
 								<div class="total_line"><p>Total € <?php echo '<strong>'.$total['total'].'</strong>' ?></p></div>
-								<div class="total_line payment"><a href="">POURSUIVRE LA COMMANDE</a></div>
+								<div class="total_line payment"><a href="payment.php">POURSUIVRE LA COMMANDE</a></div>
 							</div>
 
 
