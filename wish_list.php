@@ -78,7 +78,7 @@
 							<h3><?php echo $wish_list_detail['product_name']?></h3>
 							<p>€ <?php echo $wish_list_detail['price'] ?></p>
 		                    <p>Couleur : <?php echo $wish_list_detail['color'] ?></p>
-		                    <form action="" method="POST" class="remove_wish_list">
+		                    <form action="" method="POST" class="remove_wish_cart">
 		                    	<button type="submit" name="remove_wish_list"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
 		                    	<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
 		                    	<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">

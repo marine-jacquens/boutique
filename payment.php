@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
 <head>
-	<title>Boutique - Accueil</title>
+	<title>Boutique - Paiement</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=image">
@@ -73,8 +73,8 @@
 						</div>
 						<div class="form_position_part">
 							<h3>Coordonnées</h3>
-							<label for="email">Mail</label>
-							<input type="email" name="email" placeholder="<?php echo $_SESSION['user']['mail'] ?>" required>
+							<label for="mail">Mail</label>
+							<input type="email" name="mail" placeholder="<?php echo $_SESSION['user']['mail'] ?>" required>
 							<label for="phone">Numéro de téléphone</label>
 							<input type="text" name="phone" placeholder="<?php echo $_SESSION['user']['phone'] ?>" required>
 						</div>
@@ -125,7 +125,7 @@
 			                    </form>							
 							</div>
 						</div>
-						<?php } ?>
+						<?php }$get_items->closeCursor(); ?>
 					</div>
 					<div class="sous_total">
 						<?php 
@@ -173,12 +173,13 @@
 						
 					</div>
 					<?php
-
-						if(isset($_POST['register_delivery'])){?>
-
+						if(isset($_POST['register_delivery'])){
+							
+						
+						?>				
 							<div class="payment_frame" id="payment">
 
-								<form method="POST" class="form_payment">
+								<form action="payment.php" method="POST" class="form_payment">
 
 									<label for="cardholder_firstname">Prénom du titulaire*</label>
 									<input type="text" name="cardholder_firstname" placeholder="<?php echo $_SESSION['user']['firstname'] ?>" required>
@@ -199,13 +200,29 @@
 									<label for="CVC_number">Code de sécurité*</label>
 									<input type="password" name="CVC_number" placeholder="CVC" required>
 
+									<input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
+									<input type="hidden" name="lastname" value="<?php echo $_POST['lastname'] ?>">
+									<input type="hidden" name="firstname" value="<?php echo $_POST['firstname'] ?>">
+									<input type="hidden" name="bill_address" value="<?php echo $_POST['bill_address'] ?>">
+									<input type="hidden" name="bill_postcode" value="<?php echo $_POST['bill_postcode'] ?>">
+									<input type="hidden" name="bill_city" value="<?php echo $_POST['bill_city'] ?>">
+									<input type="hidden" name="bill_country" value="<?php echo $_POST['bill_country'] ?>">
+									<input type="hidden" name="delivery_address" value="<?php echo $_POST['delivery_address'] ?>">
+									<input type="hidden" name="delivery_city" value="<?php echo $_POST['delivery_city'] ?>">
+									<input type="hidden" name="delivery_country" value="<?php echo $_POST['delivery_country'] ?>">
+									<input type="hidden" name="delivery_postcode" value="<?php echo $_POST['delivery_postcode'] ?>">
+									<input type="hidden" name="mail" value="<?php echo $_POST['mail'] ?>">
+									<input type="hidden" name="phone" value="<?php echo $_POST['phone'] ?>">
+									<input type="hidden" name="amount" value="<?php echo $total['total'] ?>">
+
 									<input type="submit" name="proceed_payment" value="CONFIRMER LE PAIEMENT" class="payment_button">
 
 								</form>
 
 							</div>
+						<?php } 
 
-							<?php if(isset($_POST['proceed_payment'])){
+							if(isset($_POST['proceed_payment'])){
 
 								//VERIFICATION VALIDITE DU NUMERO DE LA CARTE LA CARTE
 								if(preg_match("#^5[1-5]{3}([- ]?[0-9]{4}){3}$#", $_POST['card_number']) OR preg_match("#^4[0-9]{3}([- ]?[0-9]{4}){3}$#", $_POST['card_number'])){
@@ -213,7 +230,7 @@
 									if(preg_match("#[0-9]{3}#", $_POST['CVC_number'])){
 
 										$order->register(
-											$_SESSION['user']['id_user'],
+											$_POST['id_user'],
 											$_POST['lastname'], 
 											$_POST['firstname'], 
 											$_POST['bill_address'], 
@@ -224,13 +241,15 @@
 											$_POST['delivery_city'], 
 											$_POST['delivery_country'],
 											$_POST['delivery_postcode'],
-											$_POST['email'],
 											$_POST['phone'],
-											$total['total']
+											$_POST['mail'],
+											$_POST['amount']
 
 										);
 
-										
+
+
+
 
 									}else{echo"<span>Le numéro de sécurité de votre carte est invalide</span>";}
 
@@ -239,7 +258,7 @@
 							}
 							
 
-						} ?>
+						 ?>
 					
 					
 				</div>

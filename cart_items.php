@@ -57,9 +57,9 @@
 					</p>
 
 					<?php 
-						if($items['nb_items'] >= 1 ){?>
-							<p>Votre panier comprend <?php echo '<strong>'.$items['nb_items'].' </strong>' ; if($items['nb_items'] > 1){echo"articles";}else{echo"article";} ?> </p>
-						<?php }?>
+						if($nb_items['nb_items'] >= 1 ){?>
+							<p>Votre panier comprend <?php echo '<strong>'.$nb_items['nb_items'].' </strong>' ; if($nb_items['nb_items'] > 1){echo"articles";}else{echo"article";} ?> </p>
+						<?php }else { echo '<p>Votre panier est vide</p>'; } ?>
 
 
 				</div>

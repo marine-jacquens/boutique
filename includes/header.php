@@ -79,7 +79,7 @@
 					<p class="cart_number"><?php echo $nb_items_cart['count']; ?></p>
 
 				<?php } 
-				else{?> <a href="cart_items.php" id="fa-shopping-bag"></a> <?php }
+				else{?> <a href="#cart-modal" class="js-modal" id="fa-shopping-bag"></a> <?php }
 			} ?>
 		
 	</div>

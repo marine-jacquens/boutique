@@ -76,13 +76,10 @@ class Cart{
 	 	$connexion_db = $this->db->connectDb();
 
 		$saved_for_later = false;
-		date_default_timezone_set('Europe/Paris');
-    	$time_added = date("Y-m-d H:i:s");
 
-    	$new_cart = " UPDATE cart_items SET saved_for_later = :saved_for_later, time_added = :time_added WHERE id_product_detail = $id_product_detail AND id_user = $id_user ";
+    	$new_cart = " UPDATE cart_items SET saved_for_later = :saved_for_later WHERE id_product_detail = $id_product_detail AND id_user = $id_user ";
     	$update_cart = $connexion_db->prepare($new_cart);
 	    $update_cart->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
-	    $update_cart->bindParam(':time_added',$time_added,PDO::PARAM_STR); 
 	    $update_cart->execute();
 
 	    header("Refresh:0");
