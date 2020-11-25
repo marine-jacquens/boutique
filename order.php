@@ -23,6 +23,7 @@
 		<?php include("includes/header.php")?>
 	</header>
 	<main>
+		<?php if(isset($_SESSION['user']['id_user'])) { ?>
 		<section class="banner">
 		</section>
 
@@ -31,14 +32,101 @@
 			<?php include("includes/personal_space_head_page.php"); ?>
 			<div class="profil_page_head">
 				<p>
-					<strong>DÉTAILS DU COMPTE</strong> <br><br>
+					<strong>MES COMMANDES</strong> <br><br>
 
-					Enregistrez les informations de votre compte, ajoutez-en de nouvelles et modifiez-les au besoin.<br><br>
+					Retrouvez dans cette section le détail de vos commandes et suivez ainsi les étapes d'acheminement du produit.<br><br>
 
-					Champs obligatoires<span>*</span>
 				</p>
 			</div>
+			<div>
+				<?php
+					//RECUPERER LES COMMANDES DE L'UTILISATEUR
+            	$get_orders_user = $connexion_db->prepare(" SELECT DISTINCT users.*,orders.*,deliveries_addresses.*,bills_addresses.* FROM users,orders,deliveries_addresses,bills_addresses WHERE users.id_user = $id_user AND orders.id_user = users.id_user AND orders.id_delivery_address = deliveries_addresses.id_delivery_address AND orders.id_bill_address = bills_addresses.id_bill_address ORDER BY date_created DESC ");
+            	$get_orders_user->execute();
+                $orders_user_info = $get_orders_user->fetchAll(PDO::FETCH_ASSOC);
+
+
+            	if(isset($_POST['update_order'])){$order->update($_POST['id_order'],$_POST['status']);}
+            	$status = "cancelled";
+            			
+
+                if(!empty($orders_user_info)){
+				?>
+				<table class="table_order_user">
+					<thead>
+						<tr>
+							<th>N°commande</th>
+	            			<th>Adresse</th>
+	            			<th>Produit(s)</th>
+	            			<th>Total</th>
+	            			<th>Statut</th>
+	                        <th>Dernière mise à jour</th>
+	                        <th>Annulation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($orders_user_info as $order_user){ ?>
+						<tr>
+							<td class="table_middle"><?php echo $order_user['id_order'] ?></td>
+							<td class="address_info">
+            				<?php 
+            				echo '<strong>Destinataire</strong> :  '.$order_user['lastname'].' '.$order_user['firstname'].'<br> <strong>Livraison</strong> :  '.$order_user['delivery_address'].' '.$order_user['delivery_postcode'].' '.$order_user['delivery_city'].' '.$order_user['delivery_country'].'<br> 
+            					<strong>Facturation</strong> :  '.$order_user['bill_address'].' '.$order_user['bill_postcode'].' '.$order_user['bill_city'].' '.$order_user['bill_country'] ;
+            				?>
+            				</td>
+            				<?php 
+	            				$id_order = $order_user['id_order'];
+	            				$get_products_order = $connexion_db->prepare(" SELECT DISTINCT products.*, order_items.*, product_details.*,orders.* FROM products,order_items,product_details,orders WHERE orders.id_user = $id_user AND order_items.id_order = $id_order AND order_items.id_order = orders.id_order AND product_details.id_product_detail = order_items.id_product_detail AND product_details.id_product = products.id_product ORDER BY date_created DESC ");
+	            				$get_products_order->execute();
+	                            $products_order = $get_products_order->fetchAll(PDO::FETCH_ASSOC);
+            				
+	            			?>
+	            			<td class="product_info">
+	            				<?php foreach($products_order as $products){
+	            				 echo ' <i class="fas fa-circle"></i> n°'.$products['id_product'].' '.$products['product_name'].' _ taille '.$products['size'].' _ '.$products['color'].' _ € '.$products['price'].'(à l\'unité) x '.$products['quantity'].'<br>';
+	            				} ?>	
+	            			</td>
+	            			<td class="price_td"><?php echo '€ '.$order_user['amount'] ?></td>
+	            			<td class="table_middle status_position"><?php
+
+	            				switch($order_user['status']){
+	            					case $order_user['status'] == "pending" :
+							        ?> <p class="status pending">en attente</p><?php 
+							        break;
+	    						    case $order_user['status'] == "processing" :
+	    						        ?> <p class="status processing">en préparation</p><?php
+	    						        break;
+	    						    case $order_user['status'] == "shipped" :
+	    						        ?> <p class="status shipped">expédiée</p><?php
+	    						        break;
+	    						    case $order_user['status'] == "delivered" :
+	    						        ?><p class="status delivered">livrée</p><?php
+	    						        break;
+	    						    case $order_user['status'] == "cancelled" :
+	    						        ?> <p class="status cancelled">annulée</p><?php
+							        break;
+
+	            				}
+            				?></td>
+            				<td class="table_middle">
+            					<?php if(empty($order_user['date_modified'])){echo $order_user['date_created'] ; }else{echo $order_user['date_modified'] ; } ?>
+            				</td>
+
+            				<td>
+            					<form action="" method="POST">
+            						<input type="hidden" name="id_order" value="<?php echo $id_order ?>">
+            						<input type="hidden" name="status" value="<?php echo $status ?>">
+            						<input type="submit" name="update_order" value="Annuler votre commande" class="button_cancelled">
+            					</form>
+            				</td>
+						</tr>
+					<?php } ?>
+					</tbody>
+				</table>
+			<?php }else {echo " Aucune commande n'a été enregistrée à ce jour " ;} ?>
+			</div>
 		</section>
+		<?php }else {header('Location:index.php');exit;} ?>
 	</main>
 	<footer>
 		<?php include("includes/footer.php")?>

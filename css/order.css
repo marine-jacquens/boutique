@@ -6,3 +6,41 @@
 	width:14%;
 	z-index: 1;
 }
+
+.table_order_user{width:100%;}
+
+.table_order_user{font-size:12px;}
+
+.table_order_user td{
+	border:1px solid black;
+	padding:1%;
+}
+
+.table_middle{text-align:center;}
+
+.product_info i{font-size:5px;}
+
+.button_cancelled{
+	background-color:black;
+	color:white;
+	font-weight:bolder;
+	border:1px solid black;
+	padding:2%;
+	border-radius:3px;
+	width:auto;
+}
+
+.button_cancelled:hover{
+	transition:.5s;
+	border:1px solid red;
+	background-color: white;
+	color:red;
+}
+
+.price_td{width:5%;}
+
+.status_position{
+	width:10%;
+}
+
+.status{text-align: center}

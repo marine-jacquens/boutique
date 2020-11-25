@@ -174,14 +174,23 @@ margin:1%
 
 /* ORDERS MANAGEMENT */
 
-.status{
-	border-radius:50px;
-	font-weight:bolder;
-	padding:1%;
+#orders_management table{border-collapse: collapse;}
+
+#table_orders table,#table_orders td {border:1px solid black;}
+
+.address_info,.product_info{padding:1%;}
+.product_info i{font-size:5px;color:grey;}
+
+.pending:hover{color:red;}
+.processing:hover{color:orange;}
+.shipped:hover{color:blue;}
+.delivered:hover{color:green;}
+.cancelled:hover{color:grey;}
+.status:hover{transition:.5s;background-color:white;}
+
+.table_br{
+	width:5%;
 }
 
-.pending{border:2px solid red;color:red;}
-.processing{border:2px solid orange;color:orange;}
-.shipped{border:2px solid lightblue;color:lightblue;}
-.delivered{border:2px solid lightgreen;color:lightgreen;}
-.cancelled{background-color:grey;color:white;}
+.status_position{width:10%;}
+.amount_position{width:5%;}

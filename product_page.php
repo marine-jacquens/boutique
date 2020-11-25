@@ -30,36 +30,7 @@
 				$id_prod = $_GET['prod'];
 
 				
-				$get_info_product = $connexion_db->prepare(" SELECT 
-
-				categories.id_category,
-	            categories.name_category,
-
-	            sub_categories.id_sub_category,
-	            sub_categories.name_sub_category,
-
-	            sub_categories_2.id_sub_category_2,
-	            sub_categories_2.id_category,
-	            sub_categories_2.id_sub_category,
-	            sub_categories_2.name_sub_category_2,
-
-	            products.id_product,
-	            products.id_sub_category_2,
-	            products.product_name,
-	            products.picture,
-	            products.description,
-	            products.price,
-
-	            product_details.id_product,
-	            product_details.color
-
-	            FROM 
-
-	            products, categories, sub_categories, sub_categories_2, product_details
-
-	            WHERE 
-
-	            products.id_sub_category_2 = sub_categories_2.id_sub_category_2
+				$get_info_product = $connexion_db->prepare(" SELECT categories.*,sub_categories.*,sub_categories_2.*,products.*,product_details.* FROM products, categories, sub_categories, sub_categories_2,product_details WHERE products.id_sub_category_2 = sub_categories_2.id_sub_category_2
 	            AND sub_categories_2.id_category =  categories.id_category
 	            AND sub_categories_2.id_sub_category =  sub_categories.id_sub_category
 	            AND products.id_product = $id_prod
@@ -124,7 +95,7 @@
 
                                         <?php }
 
-                                            //SI L'OPTION SAUVEGARDE A VALEUR FAUX REACTIVER L'ITEM EXISTENT DANS LA WISH LIST
+                                            //SI L'OPTION SAUVEGARDE A VALEUR FAUX REACTIVER L'ITEM EXISTANT DANS LA WISH LIST
                                             else{ ?>
 
                                                 <form action="" method="POST">
@@ -164,14 +135,16 @@
 							<div class="size">
 								<?php
 
-									$get_size_product = $connexion_db->prepare(" SELECT product_details.id_product_detail,product_details.id_product,product_details.size, stock_products.id_product_detail, stock_products.stock FROM product_details, stock_products WHERE product_details.id_product = $id_prod AND product_details.id_product_detail  = stock_products.id_product_detail ");
+									$get_size_product = $connexion_db->prepare(" SELECT product_details.*, stock_products.* FROM product_details, stock_products WHERE product_details.id_product = $id_prod AND product_details.id_product_detail  = stock_products.id_product_detail ");
 									$get_size_product->execute();
 									$get_size = $get_size_product->fetchAll(PDO::FETCH_ASSOC);
 
 									if(isset($_POST['add_cart'])){$cart->register($_POST['size'],$_POST['id_user']);}
 
+									if(isset($_SESSION['user']['id_user'])){
 								?>
 								
+
 								<form action="" method="POST">
 									<div class="select_size">
 										<p>Sélectionnez la taille : </p>
@@ -188,6 +161,7 @@
 									</div>
 									
 								</form> 
+							<?php }else{echo " <br> Pensez à vous inscrire/connecter pour acheter nos produits ";} ?>
 	                   		 	
 							</div>
 							

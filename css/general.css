@@ -120,3 +120,28 @@ main span{
 	flex-direction: column;
 	align-items: center;
 }
+
+
+/* BUTTON STATUS ORDER */
+
+.status{
+	border-radius:50px;
+	font-weight:bolder;
+	padding-top:1%;
+	padding-bottom:1%;
+	padding-right:2%;
+	padding-left:2%;
+	color:white;
+
+}
+
+
+.pending{border:2px solid red;background-color:red;}
+
+.processing{border:2px solid orange;background-color:orange;}
+
+.shipped{border:2px solid blue;background-color:blue;}
+
+.delivered{border:2px solid green;background-color:green;}
+
+.cancelled{border:2px solid grey;background-color:grey;}

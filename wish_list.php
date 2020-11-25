@@ -60,7 +60,7 @@
 					if($items['nb_items'] >= 1 ){?>
 						<p>Votre liste d'envie comprend <?php echo '<strong>'.$items['nb_items'].' </strong>' ; if($items['nb_items'] > 1){echo"articles";}else{echo"article";} ?> </p>
 					<?php }?>
-
+					
 
 			</div>
 

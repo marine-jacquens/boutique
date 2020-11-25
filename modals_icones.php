@@ -25,7 +25,7 @@
 								<tr>
 									<th>Mon profil</th>
 									<th>Ma liste d'envies</th>
-									<th>Mes info facturation et livraison</th>
+									<!-- <th>Mes info facturation et livraison</th> -->
 									<th>Mes commandes</th>
 								</tr>
 							</thead>
@@ -33,7 +33,7 @@
 								<tr>
 									<td><a href="profil.php"><i class="fas fa-address-card"></i></a></td>
 									<td><a href="wish_list.php?id_user=<?php echo $id_user ?>"><i class="fas fa-heart"></i></a></td>
-									<td><a href="bills_delivery.php"><i class="fad fa-credit-card-front"></i></a></td>
+									<!-- <td><a href="bills_delivery.php"><i class="fad fa-credit-card-front"></i></a></td> -->
 									<td><a href="order.php"><i class="fad fa-truck-loading"></i></a></td>
 								</tr>
 							</tbody>

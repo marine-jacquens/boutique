@@ -35,15 +35,16 @@
             <?php 
 
             	//RECUPERER LES COMMANDES 
-            	$get_orders = $connexion_db->prepare(" SELECT DISTINCT orders.*,order_items.*,deliveries_addresses.*,bills_addresses.* FROM orders,order_items,deliveries_addresses,bills_addresses WHERE orders.id_order = order_items.id_order AND orders.id_delivery_address = deliveries_addresses.id_delivery_address AND orders.id_bill_address = bills_addresses.id_bill_address  ORDER BY date_created DESC ");
+            	$get_orders = $connexion_db->prepare(" SELECT DISTINCT users.*,orders.*,deliveries_addresses.*,bills_addresses.* FROM users,orders,deliveries_addresses,bills_addresses WHERE users.id_user = orders.id_user AND orders.id_delivery_address = deliveries_addresses.id_delivery_address AND orders.id_bill_address = bills_addresses.id_bill_address ORDER BY date_created DESC ");
             	$get_orders->execute();
+                $orders_info = $get_orders->fetchAll(PDO::FETCH_ASSOC);
 
-            	if(!empty($get_orders->fetch())){
+            	if(!empty($orders_info)){
             ?>
             <table class="table_admin" id="table_orders">
             	<thead>
             		<tr>
-            			<th colspan="8" class="table_title">LES COMMANDES</th>
+            			<th colspan="8" class="table_title">GESTION DES COMMANDES</th>
             		</tr>
             		<tr>
             			<th>N°commande</th>
@@ -52,78 +53,98 @@
             			<th>Produit(s)</th>
             			<th>Total</th>
             			<th>Statut</th>
-            			<th>Modifier</th>
-            			<th>Annuler</th>
+                        <th>Dernière mise à jour</th>
             		</tr>
             	</thead>
             	<tbody>
-            		<?php while($order = $get_orders->fetch()){ ?>
+            		<?php foreach($orders_info as $order_info){ ?>
             		<tr>
-            			<td><?php echo $order['id_order'] ?></td>
-            			<td class="table_middle"><?php echo $order['id_user'] ?></td>
-            			<td>
+            			<td class="table_middle"><?php echo $order_info['id_order'] ?></td>
+            			<td class="table_middle"><?php echo $order_info['id_user'] ?></td>
+            			<td class="address_info">
             				<?php 
-            				echo 'Livraison :  '.$order['delivery_address'].' '.$order['delivery_postcode'].' '.$order['delivery_city'].' '.$order['delivery_country'].'<br> 
-            					Facturation :  '.$order['bill_address'].' '.$order['bill_postcode'].' '.$order['bill_city'].' '.$order['bill_country'] 
+            				echo '<strong>Destinataire</strong> :  '.$order_info['lastname'].' '.$order_info['firstname'].'<br> <strong>Livraison</strong> :  '.$order_info['delivery_address'].' '.$order_info['delivery_postcode'].' '.$order_info['delivery_city'].' '.$order_info['delivery_country'].'<br> 
+            					<strong>Facturation</strong> :  '.$order_info['bill_address'].' '.$order_info['bill_postcode'].' '.$order_info['bill_city'].' '.$order_info['bill_country'] ;
             				?>
             				
             			</td>
 
             			<?php 
-            				$id_order = $order['id_order'];
+            				$id_order = $order_info['id_order'];
             				$get_products_order = $connexion_db->prepare(" SELECT DISTINCT products.*, order_items.*, product_details.*,orders.* FROM products,order_items,product_details,orders WHERE order_items.id_order = $id_order AND order_items.id_order = orders.id_order AND product_details.id_product_detail = order_items.id_product_detail AND product_details.id_product = products.id_product ORDER BY date_created DESC ");
             				$get_products_order->execute();
+                            $products_order = $get_products_order->fetchAll(PDO::FETCH_ASSOC);
             				
             			?>
-            			<td>
-            				<?php while($products = $get_products_order->fetch()){
-            				 echo ' - n°'.$products['id_product'].' '.$products['product_name'].' _ '.$products['size'].' _ '.$products['color'].' x'.$products['quantity'].'<br>';
+            			<td class="product_info">
+            				<?php foreach($products_order as $products){
+            				 echo ' <i class="fas fa-circle"></i> n°'.$products['id_product'].' '.$products['product_name'].' _ taille '.$products['size'].' _ '.$products['color'].' _ € '.$products['price'].'(à l\'unité) x '.$products['quantity'].'<br>';
             				} ?>	
             			</td>
-            			<td class="table_middle"><?php echo '€'.$order['amount'] ?></td>
-            			<td class="table_middle"><?php
+            			<td class="table_middle amount_position"><?php echo '€ '.$order_info['amount'] ?></td>
+            			<td class="table_middle status_position"><?php
 
-            				switch($order['status']){
-            					case $order['status'] == "en attente de validation" :
-						        ?> <p class="status pending">en attente</p> <?php 
+            				switch($order_info['status']){
+            					case $order_info['status'] == "pending" :
+						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status pending">en attente</a><?php 
 						        break;
-						    case $order['status'] == "validée - en préparation" :
-						        ?> <p class="status processing">en préparation</p> <?php
-						        break;
-						    case $order['status'] == "en cours d'expédition" :
-						        ?> <p class="status shipped">expédiée</p> <?php
-						        break;
-						    case $order['status'] == "livrée" :
-						        ?> <p class="status delivered">livrée</p> <?php
-						        break;
-						    case $order['status'] == "annulée" :
-						        ?> <p class="status cancelled">annulée</p> <?php
+    						    case $order_info['status'] == "processing" :
+    						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status processing">en préparation</a><?php
+    						        break;
+    						    case $order_info['status'] == "shipped" :
+    						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status shipped">expédiée</a><?php
+    						        break;
+    						    case $order_info['status'] == "delivered" :
+    						        ?><a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status delivered">livrée</a><?php
+    						        break;
+    						    case $order_info['status'] == "cancelled" :
+    						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status cancelled">annulée</a><?php
 						        break;
 
             				}
             			?></td>
-            			<td class="table_middle">
-            				<!-- CREATION "SOUS PAGE" POUR MODIFIER UNIQUEMENT LA LIGNE CONTENANT L'ID DE LA COMMANDE -->
-                            <a href="orders_management.php?orders_edit=<?php echo $order['id_order'] ?>#order_edit"><i class="fas fa-edit"></i></a>
-                        </td>
-                         <?php 
-                            if(isset($_POST['canceled_order'])){
-                                $order->cancel($_POST['id_order']);
-                            }
-                        ?>
-                        <td class="table_middle">
-                            <form method="post" action="">
-                                <button type="submit" name="canceled_order"><i class="fal fa-times-circle"></i></button>
-                                <!-- EFFACE UNIQUEMENT LA LIGNE CONTENANT L'ID DU PRODUIT -->
-                                <input type="hidden" name="id_order" value="<?php echo $order['id_order'] ?>">
-                            </form>
-                        </td>
+                        <td class="table_middle"><?php if(empty($order_info['date_modified'])){echo $order_info['date_created'] ; }else{echo $order_info['date_modified'] ; } ?></td>
             		</tr>
             		<?php } ?>
             	</tbody>
 
             </table>
-            <?php } ?>
+            <?php } 
+
+                if(isset($_GET['orders_edit'])){
+
+                    $id_order = $_GET['orders_edit'];
+
+                    if(isset($_POST['update_order'])){$order->update($_POST['id_order'],$_POST['status']);}?>
+
+                    <form action="" method="POST" class="form_admin">
+                        <h1 id="order_edit">Modifier le statut de la commande n°<?php echo $id_order ?></h1>
+                        <div class="form_admin_body">
+                            <div class="form_admin_position">
+                                <label for="status">Sélectionnez un nouveau statut</label>
+                                <select name="status" class="input_admin">
+                                    <option value="">--</option>
+                                    <option value="pending">En attente de validation</option>
+                                    <option value="processing">En cours de préparation</option>
+                                    <option value="shipped">Expédiée</option>
+                                    <option value="delivered">Délivrée</option>
+                                    <option value="cancelled">Annulée</option>
+                                </select>
+                                <input type="hidden" name="id_order" value="<?php echo $id_order ?>">
+                            </div>
+                        </div>
+                        <div class="button_admin_position"><input type="submit" name="update_order" value="ENREGISTRER MODIFICATION" class="button_admin"></div>
+                        
+                        
+                    </form>
+
+
+               <?php }
+
+
+            ?>
+
+
         </section>
 	</main>
 	<footer>

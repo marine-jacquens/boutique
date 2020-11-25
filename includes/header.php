@@ -101,8 +101,8 @@
 			?>
 			<li><a href="#<?php echo "cat-". htmlspecialchars($info_cat['id_category']) ?>-modal" class="js-modal"><?php echo htmlspecialchars($info_cat['categorie_maj']) ?></a></li>
 			<?php } $get_categories->closeCursor();?>
-			<li><a href="new_features.php">NOUVEAUTÉS</a></li>
-			<li><a href="about_us.php">LES COULISSES</a></li>
+			<!-- <li><a href="new_features.php">NOUVEAUTÉS</a></li>
+			<li><a href="about_us.php">LES COULISSES</a></li> -->
 		</ul>
 	</nav>
 

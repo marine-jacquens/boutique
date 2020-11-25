@@ -17,6 +17,7 @@ class Orders
 	public $delivery_country;
 	private $phone;
 	private $mail;
+  public $status;
 
 	public function __construct($db)
   	{
@@ -71,7 +72,7 @@ class Orders
 
 			  date_default_timezone_set('Europe/Paris');
   			$date_created = date("Y-m-d H:i:s");
-  			$status = "en attente de validation";
+  			$status = "pending";
 
   			$new_order = "INSERT into orders (id_user,id_bill_address,id_delivery_address,date_created,status,amount) VALUES (:id_user,:id_bill_address,:id_delivery_address,:date_created,:status,:amount) ";
   			$insert_order = $connexion_db->prepare($new_order);
@@ -95,7 +96,7 @@ class Orders
   			$get_items = $connexion_db->prepare(" SELECT * FROM cart_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later ");
   			$get_items->execute();
 
-  			while($item = $get_items->fetch()){
+  			while($item = $get_items->fetch(PDO::FETCH_ASSOC)){
 
   				$new_order_item = "INSERT into order_items (id_order,id_product_detail,quantity) VALUES (:id_order,:id_product_detail,:quantity) ";
   				$insert_order_item = $connexion_db->prepare($new_order_item); 
@@ -113,6 +114,17 @@ class Orders
           $update_cart->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
           $update_cart->execute();
 
+          //REDUIRE LA QUANTITE ITEMS DISPO DANS STOCK
+          /*$get_quantity = $connexion_db->prepare("SELECT MAX(stock_products.stock) - MIN() ");
+          $get_quantity->execute();
+          $quantity = $get_quantity->fetch(PDO::FETCH_ASSOC);
+
+
+          $new_stock = intval($item['quantity']);
+          $new_stock = " UPDATE stock_products SET stock = :stock WHERE id_product =  ";
+          $update_stock = $connexion_db->prepare($new_stock);
+          $update_stock->bindParam(':stock',$new_stock,PDO::PARAM_BOOL); */
+
 
 
   			}
@@ -127,6 +139,38 @@ class Orders
 
   		}else{echo"<span>Veuillez remplir tous les champs</span>";}
   	}
+
+    public function update($id_order,$status){
+
+      $connexion_db = $this->db->connectDb();
+
+      //MODIFICATION STATUT DE LA COMMANDE 
+      if(!empty($id_order AND $status)){
+
+        //VERIFICATION COMMANDE ANNULE OU PAS
+        $get_info_order = $connexion_db->prepare(" SELECT status FROM orders WHERE id_order = $id_order ");
+        $get_info_order->execute();
+        $info_order = $get_info_order->fetch(PDO::FETCH_ASSOC);
+
+        if($info_order['status'] != "cancelled"){
+
+          date_default_timezone_set('Europe/Paris');
+          $date_modified = date("Y-m-d H:i:s");
+
+          $new_status = " UPDATE orders SET status = :status, date_modified = :date_modified WHERE id_order = $id_order ";
+          $update_status = $connexion_db->prepare($new_status);
+          $update_status->bindParam(':status',$status,PDO::PARAM_STR);
+          $update_status->bindParam(':date_modified',$date_modified,PDO::PARAM_STR);
+          $update_status->execute();
+
+          header('Refresh:0');
+
+        }else{echo "<span>Impossible de modifier le statut d'une commande annulée</span>";}
+
+      }else{echo "<span>Veuillez sélectionner un statut valide</span>";}
+
+
+    }
 
 }
 
