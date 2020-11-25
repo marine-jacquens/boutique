@@ -197,40 +197,7 @@ session_start();
                 $premiereEntree = ($pageActuelle-1)*$produitsParPage; // On calcul la première entrée à lire
  
                 // La requête sql pour récupérer les messages de la page actuelle.
-                $retour_produits = $connexion_db->prepare('SELECT  
-                products.id_product,
-                products.id_sub_category_2,
-                products.product_name,
-                products.description,
-                products.picture,
-                products.price, 
-                product_details.size, 
-                product_details.color, 
-                stock_products.stock,
-
-                product_details.id_product, 
-                product_details.id_product_detail,
-                stock_products.id_product_detail,
-
-                sub_categories_2.id_category,
-                categories.id_category,
-                sub_categories_2.id_sub_category,
-                sub_categories.id_sub_category,
-                sub_categories.name_sub_category,
-                categories.name_category,
-                sub_categories_2.id_sub_category_2,
-                sub_categories_2.name_sub_category_2
-
-                FROM products, product_details, stock_products, categories, sub_categories, sub_categories_2
-
-                WHERE  
-                products.id_product = product_details.id_product 
-                AND products.id_sub_category_2 = sub_categories_2.id_sub_category_2
-                AND sub_categories_2.id_category = categories.id_category
-                AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
-                AND product_details.id_product_detail = stock_products.id_product_detail
-
-                ORDER BY products.id_product DESC LIMIT '.$premiereEntree.', '.$produitsParPage.'');
+                $retour_produits = $connexion_db->prepare('SELECT products.*,product_details.*,stock_products.*,sub_categories_2.*,categories.*,sub_categories.*,categories.* FROM products, product_details, stock_products, categories, sub_categories, sub_categories_2 WHERE products.id_product = product_details.id_product AND products.id_sub_category_2 = sub_categories_2.id_sub_category_2 AND sub_categories_2.id_category = categories.id_category AND sub_categories_2.id_sub_category = sub_categories.id_sub_category AND product_details.id_product_detail = stock_products.id_product_detail ORDER BY products.id_product DESC LIMIT '.$premiereEntree.', '.$produitsParPage.'');
                 $retour_produits->execute();
 
             ?>

@@ -398,7 +398,7 @@
 						<tr>
 							<td><a href="admin.php"><i class="fas fa-folder-open"></i></a></td>
 							<td><a href="stock_management.php"><i class="fas fa-cart-plus"></i></a></td>
-							<td><a href="orders_admin.php"><i class="fas fa-truck-loading"></i></a></td>
+							<td><a href="orders_management.php"><i class="fas fa-truck-loading"></i></a></td>
 							<td><a href="account_management.php"><i class="fas fa-users-cog"></i></a></td>
 						</tr>
 					</tbody>

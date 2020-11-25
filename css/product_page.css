@@ -158,20 +158,3 @@
 	width:100%;
 }
 
-.banner_delivery{
-	margin-top:10%;
-	display: flex;
-	justify-content: space-around;
-	color:white;
-	font-weight:bold;
-	background-color:black;
-	padding:8%;
-}
-
-.banner_delivery i{font-size: 35px}
-
-.banner_delivery_section{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}

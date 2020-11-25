@@ -1,6 +1,7 @@
 .progression-bar_stock,
 .progression-bar_admin,
-.progression-bar_account {
+.progression-bar_account,
+.progression-bar_orders{
 	position:absolute;
 	top:0;
 	border-bottom: 2px solid black;
@@ -20,6 +21,11 @@
 .progression-bar_account{
 	width:20%;
 	right:5%;
+}
+
+.progression-bar_orders{
+	width:12%;
+	right:35.5%;
 }
 
 
@@ -165,3 +171,17 @@ margin:1%
 
 }
 
+
+/* ORDERS MANAGEMENT */
+
+.status{
+	border-radius:50px;
+	font-weight:bolder;
+	padding:1%;
+}
+
+.pending{border:2px solid red;color:red;}
+.processing{border:2px solid orange;color:orange;}
+.shipped{border:2px solid lightblue;color:lightblue;}
+.delivered{border:2px solid lightgreen;color:lightgreen;}
+.cancelled{background-color:grey;color:white;}

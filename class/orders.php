@@ -32,26 +32,26 @@ class Orders
   		if(!empty($id_user && $lastname && $firstname && $bill_address && $bill_postcode && $bill_city && $bill_country && $delivery_address && $delivery_city && $delivery_country && $delivery_postcode && $phone && $mail && $amount))
   		{
 
-  			$new_delivery_address = " INSERT into deliveries_addresses (id_user,delivery_address,city,country,postcode,firstname,lastname,phone,mail) VALUES (:id_user,:delivery_address,:city,:country,:postcode,:firstname,:lastname,:phone,:mail) ";
+  			$new_delivery_address = " INSERT into deliveries_addresses (id_user,delivery_address,delivery_city,delivery_country,delivery_postcode,firstname,lastname,phone,mail) VALUES (:id_user,:delivery_address,:delivery_city,:delivery_country,:delivery_postcode,:firstname,:lastname,:phone,:mail) ";
   			$insert_delivery_address=$connexion_db->prepare($new_delivery_address);
   			$insert_delivery_address->bindParam(':id_user',intval($id_user),PDO::PARAM_INT);
   			$insert_delivery_address->bindParam(':delivery_address',$delivery_address,PDO::PARAM_STR);
-  			$insert_delivery_address->bindParam(':city',$delivery_city,PDO::PARAM_STR);
-  			$insert_delivery_address->bindParam(':country',$delivery_country,PDO::PARAM_STR);
-  			$insert_delivery_address->bindParam(':postcode',$delivery_postcode,PDO::PARAM_STR);
+  			$insert_delivery_address->bindParam(':delivery_city',$delivery_city,PDO::PARAM_STR);
+  			$insert_delivery_address->bindParam(':delivery_country',$delivery_country,PDO::PARAM_STR);
+  			$insert_delivery_address->bindParam(':delivery_postcode',$delivery_postcode,PDO::PARAM_STR);
   			$insert_delivery_address->bindParam(':firstname',$firstname,PDO::PARAM_STR);
   			$insert_delivery_address->bindParam(':lastname',$lastname,PDO::PARAM_STR);
   			$insert_delivery_address->bindParam(':phone',$phone,PDO::PARAM_STR);
   			$insert_delivery_address->bindParam(':mail',$mail,PDO::PARAM_STR);
   			$insert_delivery_address->execute();
 
-  			$new_bill_address = " INSERT into bills_addresses (id_user,bill_address,city,country,postcode,firstname,lastname, phone,mail) VALUES (:id_user,:bill_address,:city,:country,:postcode,:firstname,:lastname,:phone,:mail) ";
+  			$new_bill_address = " INSERT into bills_addresses (id_user,bill_address,bill_city,bill_country,bill_postcode,firstname,lastname, phone,mail) VALUES (:id_user,:bill_address,:bill_city,:bill_country,:bill_postcode,:firstname,:lastname,:phone,:mail) ";
   			$insert_bill_address=$connexion_db->prepare($new_bill_address);
   			$insert_bill_address->bindParam(':id_user',intval($id_user),PDO::PARAM_INT);
   			$insert_bill_address->bindParam(':bill_address',$bill_address,PDO::PARAM_STR);
-  			$insert_bill_address->bindParam(':city',$bill_city,PDO::PARAM_STR);
-  			$insert_bill_address->bindParam(':country',$bill_country,PDO::PARAM_STR);
-  			$insert_bill_address->bindParam(':postcode',$bill_postcode,PDO::PARAM_STR);
+  			$insert_bill_address->bindParam(':bill_city',$bill_city,PDO::PARAM_STR);
+  			$insert_bill_address->bindParam(':bill_country',$bill_country,PDO::PARAM_STR);
+  			$insert_bill_address->bindParam(':bill_postcode',$bill_postcode,PDO::PARAM_STR);
   			$insert_bill_address->bindParam(':firstname',$firstname,PDO::PARAM_STR);
   			$insert_bill_address->bindParam(':lastname',$lastname,PDO::PARAM_STR);
   			$insert_bill_address->bindParam(':phone',$phone,PDO::PARAM_STR);
@@ -112,6 +112,8 @@ class Orders
           $update_cart = $connexion_db->prepare($new_cart);
           $update_cart->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
           $update_cart->execute();
+
+
 
   			}
 
