@@ -30,5 +30,14 @@ class Database
            echo "Erreur : " . $e->getMessage();
         }
     }
+
+
+  public function close(){
+    mysqli_close($this->PDO);
+  }
+
 }
+
+
+
 ?>

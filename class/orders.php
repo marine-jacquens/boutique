@@ -85,7 +85,7 @@ class Orders
   			$insert_order->execute();
 
         //RECUPERATION DU NUMERO DE COMMANDE
-        $get_id_order = $connexion_db->prepare(" SELECT * FROM orders LIMIT 0,1 ");
+        $get_id_order = $connexion_db->prepare(" SELECT * FROM orders ORDER BY date_created DESC LIMIT 0,1  ");
         $get_id_order->execute();
         $order = $get_id_order->fetch(PDO::FETCH_ASSOC);
         $id_order = intval($order['id_order']);
@@ -98,32 +98,46 @@ class Orders
 
   			while($item = $get_items->fetch(PDO::FETCH_ASSOC)){
 
-  				$new_order_item = "INSERT into order_items (id_order,id_product_detail,quantity) VALUES (:id_order,:id_product_detail,:quantity) ";
+          $id_product_detail = intval($item['id_product_detail']);
+          $quantity_items = intval($item['quantity']);
+
+  				$new_order_item = "INSERT INTO order_items (id_order,id_product_detail,quantity) VALUES (:id_order,:id_product_detail,:quantity) ";
   				$insert_order_item = $connexion_db->prepare($new_order_item); 
   				$insert_order_item->bindParam(':id_order',$id_order,PDO::PARAM_INT);
-  				$insert_order_item->bindParam(':id_product_detail',intval($item['id_product_detail']),PDO::PARAM_INT);
-  				$insert_order_item->bindParam(':quantity',intval($item['quantity']),PDO::PARAM_INT);
+  				$insert_order_item->bindParam(':id_product_detail',$id_product_detail,PDO::PARAM_INT);
+  				$insert_order_item->bindParam(':quantity',$quantity_items,PDO::PARAM_INT);
   				$insert_order_item->execute();
+
+          //REDUIRE LA QUANTITE ITEMS DISPO DANS STOCK
+          $get_quantity_stock = $connexion_db->prepare(" SELECT * FROM stock_products WHERE id_product_detail = $id_product_detail ");
+          $get_quantity_stock->execute();
+          
+
+          while($quantity = $get_quantity_stock->fetch(PDO::FETCH_ASSOC)){
+
+            if($quantity['id_product_detail'] == $id_product_detail){
+              $stock = $quantity['stock'] - $quantity_items;
+
+              $new_stock = " UPDATE stock_products SET stock =:stock WHERE id_product_detail = $id_product_detail ";
+              $update_stock = $connexion_db->prepare($new_stock);
+              $update_stock->bindParam(':stock',$stock,PDO::PARAM_INT);
+              $update_stock->execute();
+
+            }
+
+          }
+          
 
           //SUPPRIMER LE PANIER 
           $saved_for_later = false;
-          $id_product_detail = intval($item['id_product_detail']);
 
           $new_cart = " UPDATE cart_items SET saved_for_later = :saved_for_later WHERE id_product_detail = $id_product_detail AND id_user = $id_user ";
           $update_cart = $connexion_db->prepare($new_cart);
           $update_cart->bindParam(':saved_for_later',$saved_for_later,PDO::PARAM_BOOL); 
           $update_cart->execute();
 
-          //REDUIRE LA QUANTITE ITEMS DISPO DANS STOCK
-          /*$get_quantity = $connexion_db->prepare("SELECT MAX(stock_products.stock) - MIN() ");
-          $get_quantity->execute();
-          $quantity = $get_quantity->fetch(PDO::FETCH_ASSOC);
+          
 
-
-          $new_stock = intval($item['quantity']);
-          $new_stock = " UPDATE stock_products SET stock = :stock WHERE id_product =  ";
-          $update_stock = $connexion_db->prepare($new_stock);
-          $update_stock->bindParam(':stock',$new_stock,PDO::PARAM_BOOL); */
 
 
 

@@ -1,7 +1,7 @@
 <section class="footer">
 	<div class="newsletter_footer">
 		<div class="paragraphe_newsletter">
-			<h2>REJOIGNEZ LA #TEAMDUPEZ</h2>
+			<h2 id="TEAMDUPEZ">REJOIGNEZ LA #TEAMDUPEZ</h2>
 			<p>
 				Inscrivez-vous pour découvrir les nouveautés, vous tenir au courant des dernières tendances et être au courant des promotions exclusives.<br><br>Bénéficiez également d’une remise de 10 % sur votre prochaine commande.<br><br><span>*</span>Champs obligatoires
 			</p>
@@ -90,3 +90,4 @@
 		</div>
 	</div>
 </section>
+
