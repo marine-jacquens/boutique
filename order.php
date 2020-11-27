@@ -112,11 +112,11 @@
             					<?php if(empty($order_user['date_modified'])){echo $order_user['date_created'] ; }else{echo $order_user['date_modified'] ; } ?>
             				</td>
 
-            				<td>
+            				<td class="table_middle">
             					<form action="" method="POST">
             						<input type="hidden" name="id_order" value="<?php echo $id_order ?>">
             						<input type="hidden" name="status" value="<?php echo $status ?>">
-            						<input type="submit" name="update_order" value="Annuler votre commande" class="button_cancelled">
+            						<button type="submit" name="update_order" class="button_cancelled"><i class="fal fa-trash-alt"></i></button>
             					</form>
             				</td>
 						</tr>
