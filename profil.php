@@ -1,6 +1,16 @@
 <?php
 ob_start();
-session_start();
+
+//Si une session correspondant à l'id user de conneixon est en cours...
+if(isset($_SESSION['user']['id_user'])){
+
+}
+// Sinon redirection vers la page d'accueil
+else{
+	header("Location:index.php");
+	exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +33,6 @@ session_start();
 		<?php include("includes/header.php")?>
 	</header>
 	<main>
-		<?php 
-			if(isset($_SESSION['user']['id_user'])){?>
 				
 				<section class="banner">
 				</section>
@@ -196,13 +204,7 @@ session_start();
 					</form>
 
 				</section>
-			<?php }
-				else
-				{
-					header("Location:index.php");
-					exit;
-				}
-		?>
+			
 		
 		
 

@@ -136,6 +136,12 @@
 	color:lightgray;
 }
 
+
+
+
+
+
+
 /*BOITE MODAL*/
 
 *:focus{
@@ -182,8 +188,6 @@
 
 .modal-wrapper{animation: slideFromTop .6s both;}
 
-.modal-wrapper_menu{animation: slideFromTopBis .6s both;}	
-
 .modal[aria-hidden="true"], .modal_menu[aria-hidden="true"] {
 /*	animation: fadeOut .6s both;*/
 	animation-name: fadeOut;
@@ -194,46 +198,50 @@
 */	animation-name: slideToBottom;
 }
 
-.modal[aria-hidden="true"] .modal-wrapper_menu{
-/*	animation: slidetoBottom .6s both;
-*/	animation-name: slideToBottomBis;
-}
 
 @keyframes fadeIn {
   from {opacity:0;}
   to {opacity:1;}
 }
 
-
 @keyframes slideFromTop {
   from {transform:translateY(40px);}
   to {transform:translateY(150px);}
 }
-
-@keyframes slideFromTopBis {
-  from {transform:translateY(40px);}
-  to {transform:translateY(200px);}
-}
-
 
 @keyframes fadeOut {
   from {opacity:1;}
   to {opacity:0;}
 }
 
-
 @keyframes slideToBottom {
   from {transform:translateY(150px);}
   to {transform:translateY(40px);}
 }
+
+
+
+
+
+
+
+
+@keyframes slideFromTopBis {
+  from {transform:translateY(40px);}
+  to {transform:translateY(200px);}
+}
+
+.modal-wrapper_menu{animation: slideFromTopBis .6s both;}	
 
 @keyframes slideToBottomBis {
   from {transform:translateY(200px);}
   to {transform:translateY(40px);}
 }
 
-
-
+.modal[aria-hidden="true"] .modal-wrapper_menu{
+/*	animation: slidetoBottom .6s both;
+*/	animation-name: slideToBottomBis;
+}
 
 
 

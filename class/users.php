@@ -27,77 +27,85 @@ class Users
 
     $connexion_db = $this->db->connectDb();
 
+    //Cryptage du mot de passe
     $hash = password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
+
     date_default_timezone_set('Europe/Paris');
     $date_joined = date("Y-m-d H:i:s");
     $account_type = "normal";
 
     if(!empty($lastname && $firstname && $gender && $birthday && $phone && $mail && $password && $password_check))
     {
-      if($password == $password_check)
-      {
-        $check_mail = $connexion_db->prepare("SELECT mail FROM users WHERE mail = '$mail' ");
-        $check_mail->execute();
-        $checked_mail = $check_mail->fetchAll(PDO::FETCH_ASSOC);
 
-        if(empty($checked_mail[0]))
+      //vérifie si le mail est valide
+      if(filter_var($mail, FILTER_VALIDATE_EMAIL)){
+
+        if($password == $password_check)
         {
-          if(!empty($autorisation_rgpd))
+          $check_mail = $connexion_db->prepare("SELECT mail FROM users WHERE mail = '$mail' ");
+          $check_mail->execute();
+          $checked_mail = $check_mail->fetchAll(PDO::FETCH_ASSOC);
+
+          if(empty($checked_mail[0]))
           {
+            if(!empty($autorisation_rgpd))
+            {
 
-            $insert_new_user = "INSERT into users (lastname,firstname,gender,birthday,phone,mail,password,date_joined,account_type,autorisation_rgpd) VALUES (:lastname,:firstname,:gender,:birthday,:phone,:mail,:hash,:date_joined,:account_type,:autorisation_rgpd)";
-            $execution_insert = $connexion_db->prepare($insert_new_user);
-            $execution_insert->bindParam(':lastname',$lastname,PDO::PARAM_STR);
-            $execution_insert->bindParam(':firstname',$firstname,PDO::PARAM_STR);
-            $execution_insert->bindParam(':gender',$gender,PDO::PARAM_STR);
-            $execution_insert->bindParam(':birthday',$birthday,PDO::PARAM_STR);
-            $execution_insert->bindParam(':phone',$phone,PDO::PARAM_STR);
-            $execution_insert->bindParam(':mail',$mail,PDO::PARAM_STR);
-            $execution_insert->bindParam(':hash',$hash,PDO::PARAM_STR);
-            $execution_insert->bindParam(':date_joined',$date_joined,PDO::PARAM_STR);
-            $execution_insert->bindParam(':account_type',$account_type,PDO::PARAM_STR);
-            $execution_insert->bindParam(':autorisation_rgpd',$autorisation_rgpd,PDO::PARAM_BOOL);
-            $execution_insert->execute();
+              $insert_new_user = "INSERT into users (lastname,firstname,gender,birthday,phone,mail,password,date_joined,account_type,autorisation_rgpd) VALUES (:lastname,:firstname,:gender,:birthday,:phone,:mail,:hash,:date_joined,:account_type,:autorisation_rgpd)";
+              $execution_insert = $connexion_db->prepare($insert_new_user);
+              $execution_insert->bindParam(':lastname',$lastname,PDO::PARAM_STR);
+              $execution_insert->bindParam(':firstname',$firstname,PDO::PARAM_STR);
+              $execution_insert->bindParam(':gender',$gender,PDO::PARAM_STR);
+              $execution_insert->bindParam(':birthday',$birthday,PDO::PARAM_STR);
+              $execution_insert->bindParam(':phone',$phone,PDO::PARAM_STR);
+              $execution_insert->bindParam(':mail',$mail,PDO::PARAM_STR);
+              $execution_insert->bindParam(':hash',$hash,PDO::PARAM_STR);
+              $execution_insert->bindParam(':date_joined',$date_joined,PDO::PARAM_STR);
+              $execution_insert->bindParam(':account_type',$account_type,PDO::PARAM_STR);
+              $execution_insert->bindParam(':autorisation_rgpd',$autorisation_rgpd,PDO::PARAM_BOOL);
+              $execution_insert->execute();
 
-            $this->mail = $mail;
-            $this->password = $password;
-            $this->autorisation_newsletter = $autorisation_newsletter;
+              $this->mail = $mail;
+              $this->password = $password;
+              $this->autorisation_newsletter = $autorisation_newsletter;
 
-            $this->newsletterSubscriber($autorisation_newsletter,$mail);
+              $this->newsletterSubscriber($autorisation_newsletter,$mail);
 
-            $this->connect($mail,$password);
-          }
-          else
-          {
-            $autorisation_rgpd = false; 
+              $this->connect($mail,$password);
+            }
+            else
+            {
+              $autorisation_rgpd = false; 
 
-            $insert_new_user = "INSERT into users (lastname,firstname,gender,birthday,phone,mail,password,date_joined,account_type,autorisation_rgpd) VALUES (:lastname,:firstname,:gender,:birthday,:phone,:mail,:hash,:date_joined,:account_type,:autorisation_rgpd)";
-            $execution_insert = $connexion_db->prepare($insert_new_user);
-            $execution_insert->bindParam(':lastname',$lastname,PDO::PARAM_STR);
-            $execution_insert->bindParam(':firstname',$firstname,PDO::PARAM_STR);
-            $execution_insert->bindParam(':gender',$gender,PDO::PARAM_STR);
-            $execution_insert->bindParam(':birthday',$birthday,PDO::PARAM_STR);
-            $execution_insert->bindParam(':phone',$phone,PDO::PARAM_STR);
-            $execution_insert->bindParam(':mail',$mail,PDO::PARAM_STR);
-            $execution_insert->bindParam(':hash',$hash,PDO::PARAM_STR);
-            $execution_insert->bindParam(':date_joined',$date_joined,PDO::PARAM_STR);
-            $execution_insert->bindParam(':account_type',$account_type,PDO::PARAM_STR);
-            $execution_insert->bindParam(':autorisation_rgpd',$autorisation_rgpd,PDO::PARAM_BOOL);
-            $execution_insert->execute();
+              $insert_new_user = "INSERT into users (lastname,firstname,gender,birthday,phone,mail,password,date_joined,account_type,autorisation_rgpd) VALUES (:lastname,:firstname,:gender,:birthday,:phone,:mail,:hash,:date_joined,:account_type,:autorisation_rgpd)";
+              $execution_insert = $connexion_db->prepare($insert_new_user);
+              $execution_insert->bindParam(':lastname',$lastname,PDO::PARAM_STR);
+              $execution_insert->bindParam(':firstname',$firstname,PDO::PARAM_STR);
+              $execution_insert->bindParam(':gender',$gender,PDO::PARAM_STR);
+              $execution_insert->bindParam(':birthday',$birthday,PDO::PARAM_STR);
+              $execution_insert->bindParam(':phone',$phone,PDO::PARAM_STR);
+              $execution_insert->bindParam(':mail',$mail,PDO::PARAM_STR);
+              $execution_insert->bindParam(':hash',$hash,PDO::PARAM_STR);
+              $execution_insert->bindParam(':date_joined',$date_joined,PDO::PARAM_STR);
+              $execution_insert->bindParam(':account_type',$account_type,PDO::PARAM_STR);
+              $execution_insert->bindParam(':autorisation_rgpd',$autorisation_rgpd,PDO::PARAM_BOOL);
+              $execution_insert->execute();
 
-            $this->mail = $mail;
-            $this->password = $password;
-            $this->autorisation_newsletter = $autorisation_newsletter;
+              $this->mail = $mail;
+              $this->password = $password;
+              $this->autorisation_newsletter = $autorisation_newsletter;
 
-            $this->newsletterSubscriber($autorisation_newsletter,$mail);
+              $this->newsletterSubscriber($autorisation_newsletter,$mail);
 
-            $this->connect($mail,$password);
+              $this->connect($mail,$password);
 
-          }
+            }
 
-        }else{echo"<span>Ce mail existe déjà</span>";}
+          }else{echo"<span>Ce mail existe déjà</span>";}
 
-      }else{echo"<span>Les champs mot de passe et confirmation de mot de passe doivent être identiques</span>";}
+        }else{echo"<span>Les champs mot de passe et confirmation de mot de passe doivent être identiques</span>";}
+
+      }else{echo"<span>Mail non conforme</span>";}
 
     }else{echo"<span>Veuillez remplir tous les champs</span>";}
 
@@ -177,9 +185,13 @@ class Users
 
     if(!empty($mail && $password))
     {
-      $user_account = $connexion_db->prepare("SELECT * FROM users WHERE mail = '$mail' ");
-      $user_account->execute();
+      //préparation de la requête en prenant en compte 1 paramètre
+      $user_account = $connexion_db->prepare("SELECT * FROM users WHERE mail = :mail ");
+      //execution de la requête en associant le paramètre à la donnée 
+      $user_account->execute(array('mail' => $mail));
+      //récupération des données utilisateurs 
       $user = $user_account->fetch(PDO::FETCH_ASSOC);
+
 
       $user_newsletter = $connexion_db->prepare("SELECT * FROM newsletter WHERE mail = '$mail' ");
       $user_newsletter->execute();
@@ -204,6 +216,7 @@ class Users
           $this->autorisation_rgpd = $user['autorisation_rgpd'];
           $this->autorisation_newsletter = $newsletter['autorisation'];
 
+          //Création d'un tableau de session user pour y associer toutes les données relatives à l'utilisateur connecté
           $_SESSION['user'] = [
             'id_user' => $this->id_user,
             'lastname' => $this->lastname,
@@ -302,11 +315,17 @@ class Users
 
     if(!empty($phone))
     {
-      $new_phone = "UPDATE users SET phone=:phone, date_modified = :date_modified WHERE id_user = $id_user ";
-      $update_phone = $connexion_db -> prepare($new_phone);
-      $update_phone->bindParam(':phone',$phone, PDO::PARAM_STR);
-      $update_phone->bindParam(':date_modified',$date_modified, PDO::PARAM_STR);
-      $update_phone->execute(); 
+      //vérifie que l'entrée numéro de téléphone ne contient que des chiffres et en nombre limité
+      if(preg_match("#^[0-9]{10}$#",$phone)){
+
+        //mise à jour du numéro de téléphone
+        $new_phone = "UPDATE users SET phone=?, date_modified=? WHERE id_user=? ";
+        $update_phone = $connexion_db->prepare($new_phone);
+        $update_phone->execute([$phone,$date_modified,$id_user]); 
+      }
+      else{
+         echo "Numéro de téléphone non conforme";
+      }  
     }
 
     if(!empty($mail))

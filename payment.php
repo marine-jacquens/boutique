@@ -1,6 +1,5 @@
 <?php
 	ob_start();
-	session_start();
 ?>
 
 <!DOCTYPE html>
@@ -131,10 +130,27 @@
 						<?php 
 
 						//TOTAL PANIER
-						$amount_cart = $connexion_db->prepare("SELECT DISTINCT products.*,cart_items.*,product_details.*,SUM(products.price*cart_items.quantity) AS total FROM products, product_details, cart_items WHERE cart_items.id_user = $id_user AND 
+						$amount_cart = $connexion_db->prepare("SELECT DISTINCT 
+							products.id_product,
+							product_details.id_product,
+							product_details.id_product_detail,
+							cart_items.id_user,
+							cart_items.id_product_detail, 
+							cart_items.saved_for_later,
+							cart_items.quantity
+
+							,SUM(products.price*cart_items.quantity) AS total FROM products, product_details, cart_items WHERE cart_items.id_user = $id_user AND 
 							cart_items.saved_for_later = $saved_for_later AND 
 							products.id_product = product_details.id_product AND 
-							product_details.id_product_detail = cart_items.id_product_detail ");
+							product_details.id_product_detail = cart_items.id_product_detail 
+
+							GROUP BY products.id_product,
+							product_details.id_product,
+							product_details.id_product_detail,
+							cart_items.id_user,
+							cart_items.id_product_detail, 
+							cart_items.saved_for_later,
+							cart_items.quantity");
 						$amount_cart->execute();
 						$total = $amount_cart->fetch(PDO::FETCH_ASSOC);
 

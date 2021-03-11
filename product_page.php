@@ -1,6 +1,5 @@
 <?php
 	ob_start();
-	session_start();
 ?>
 
 <!DOCTYPE html>
@@ -238,7 +237,7 @@
 										<h3><?php echo $suggestion['product_name'] ?></h3>
 										<p>€ <?php echo $suggestion['price'] ?></p>
 										<p>Couleur : <?php echo $suggestion['color'] ?></p>
-										<a href="product_page?prod=<?php echo $suggestion['id_product'] ?>" class="see_item">VOIR L'ARTICLE</a>
+										<a href="product_page.php?prod=<?php echo $suggestion['id_product'] ?>" class="see_item">VOIR L'ARTICLE</a>
 									</div>
 								<?php } ?>
 								</div>

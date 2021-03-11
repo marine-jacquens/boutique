@@ -1,18 +1,6 @@
 <?php
-	require 'class/database.php';
-	require 'class/users.php';
-	require 'class/products.php';
-	require 'class/administration.php';
-	require 'class/wish_list.php';
-	require 'class/cart.php';
-	require 'class/orders.php';
-	$db = new Database();
-	$user = new Users($db);
-	$product = new Products($db);
-	$admin = new Admin($db);
-	$wish = new WishList($db);
-	$cart = new Cart($db);
-	$order = new Orders($db);
+	
+	require	'class/config.php';
 	require 'modals_icones.php';
 	require 'modals_menu.php';
 

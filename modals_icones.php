@@ -6,8 +6,6 @@
 		
 			<?php 
 
-				
-
 				if(isset($_SESSION['user']['id_user']))
 				{ 
 					$id_user = $_SESSION['user']['id_user'];
@@ -108,44 +106,42 @@
 
 					if(isset($_SESSION['user']['id_user'])){
 
-					//SI ON RETIRE UN ITEM DE LA WISH LIST
-					if(isset($_POST['remove_wish_list'])){
-		            $wish->update($_POST['id_product'],$_POST['id_user']);
-		            }
+						//SI ON RETIRE UN ITEM DE LA WISH LIST
+						if(isset($_POST['remove_wish_list'])){$wish->update($_POST['id_product'],$_POST['id_user']); }
 
-		            //SI ON AJOUTE UN ITEM DE LA WISH LIST DANS LE PANIER
-		            /*if(isset($_POST['add_cart'])){
-		            $cart->update($_POST['id_product'],$_POST['id_user']);
-		            }*/
+			            //SI ON AJOUTE UN ITEM DE LA WISH LIST DANS LE PANIER
+			            /*if(isset($_POST['add_cart'])){
+			            $cart->update($_POST['id_product'],$_POST['id_user']);
+			            }*/
 					
-					$saved_for_later = true;
+						$saved_for_later = true;
 
 
-					$get_wish_list = $connexion_db->prepare(" SELECT DISTINCT wish_list_items.id_user,wish_list_items.id_product,wish_list_items.saved_for_later, products.id_product, products.product_name,products.picture, products.price,product_details.id_product,product_details.color FROM wish_list_items,products,product_details WHERE wish_list_items.id_user = $id_user AND wish_list_items.saved_for_later = $saved_for_later AND wish_list_items.id_product =  products.id_product AND products.id_product = product_details.id_product ORDER BY time_added DESC LIMIT 0,3 ");
-					$get_wish_list->execute();
-					$wish_list = $get_wish_list->fetchAll(PDO::FETCH_ASSOC);
+						$get_wish_list = $connexion_db->prepare(" SELECT DISTINCT wish_list_items.*,products.*, product_details.* FROM wish_list_items,products,product_details WHERE wish_list_items.id_user = $id_user AND wish_list_items.saved_for_later = $saved_for_later AND wish_list_items.id_product =  products.id_product AND products.id_product = product_details.id_product ORDER BY time_added DESC LIMIT 0,3 ");
+						$get_wish_list->execute();
+						$wish_list_modals = $get_wish_list->fetchAll(PDO::FETCH_ASSOC);
 
-					
+						
 
-					$id_user = $_SESSION['user']['id_user'];
+						$id_user = $_SESSION['user']['id_user'];
 
 						$count_list_items = $connexion_db->prepare("SELECT COUNT(*) AS nb_items FROM wish_list_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later");
-					$count_list_items->execute();
-					$items = $count_list_items->fetch(PDO::FETCH_ASSOC);
+						$count_list_items->execute();
+						$items_number = $count_list_items->fetch(PDO::FETCH_ASSOC);
+
 
 					}
-					
 
-					if(!empty($wish_list[0])){ ?>
+					if(!empty($wish_list_modals[0])){ ?>
 
 						<section class="wish_cart_overview">
-							<h3>Votre liste d'envies comprend <?php echo '<strong>'.$items['nb_items'].'</strong> '; if($items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
+							<h3>Votre liste d'envies comprend <?php echo '<strong>'.$items_number['nb_items'].'</strong> '; if($items_number['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
 
-							<?php if($items['nb_items'] > 3){ ?> <a href="wish_list.php?id_user=<?php echo $id_user ?>">VOIR TOUS LES ARTICLES</a> <?php } ?>
+							<?php if($items_number['nb_items'] > 3){ ?> <a href="wish_list.php?id_user=<?php echo $id_user ?>">VOIR TOUS LES ARTICLES</a> <?php } ?>
 
 							<div class="wish_cart_products">
 
-								<?php foreach($wish_list as $wish_list_detail){ ?>
+								<?php foreach($wish_list_modals as $wish_list_detail){ ?>
 
 									<div class="wish_cart_list">
 										<div class="wish_cart_picture">
@@ -173,7 +169,9 @@
 
 					<p>Votre liste d'envies est actuellement vide</p>
 
-			  <?php } ?>
+			  <?php } 
+
+					?>
 
 			
 
@@ -205,41 +203,23 @@
 
 						//RECUPERATION DU PANIER
 
-						$saved_for_later = true;
+						$saved_for_later_modals = true;
 
-						$get_cart_items = $connexion_db->prepare(" SELECT DISTINCT 
-							cart_items.id_user,
-							cart_items.id_product_detail,
-							cart_items.saved_for_later,
-							cart_items.quantity,
-							products.id_product,
-							products.product_name,
-							products.picture, 
-							products.price,
-							product_details.id_product_detail,
-							product_details.id_product,
-							product_details.color,
-							product_details.size, 
-
-							stock_products.id_product_detail, 
-							stock_products.stock
-
-							FROM cart_items,products,product_details,stock_products 
-							WHERE 
+						$get_cart_items_modals = $connexion_db->prepare(" SELECT DISTINCT cart_items.*,products.*,product_details.*, stock_products.* FROM cart_items,products,product_details,stock_products WHERE 
 							cart_items.id_user = $id_user AND 
-							cart_items.saved_for_later = $saved_for_later AND 
+							cart_items.saved_for_later = $saved_for_later_modals  AND 
 							cart_items.id_product_detail = product_details.id_product_detail AND 
 							products.id_product = product_details.id_product AND 
 							product_details.id_product_detail = stock_products.id_product_detail ORDER BY time_added DESC LIMIT 0,3 ");
-						$get_cart_items->execute();
-						$cart_items = $get_cart_items->fetchAll(PDO::FETCH_ASSOC);
+						$get_cart_items_modals->execute();
+						$cart_items_info = $get_cart_items_modals->fetchAll(PDO::FETCH_ASSOC);
 
 						//NBR D'ITEMS DANS LE PANIER
 						$count_cart_items = $connexion_db->prepare("SELECT COUNT(*) AS nb_items FROM cart_items WHERE id_user = $id_user AND saved_for_later = $saved_for_later");
 						$count_cart_items->execute();
 						$nb_items = $count_cart_items->fetch(PDO::FETCH_ASSOC);
 
-						//TOTAL PANIER
+						//TOTAL MONTANT PANIER
 						$amount_cart = $connexion_db->prepare("SELECT DISTINCT 
 							products.id_product,
 							products.price, 
@@ -259,17 +239,23 @@
 							WHERE cart_items.id_user = $id_user AND 
 							cart_items.saved_for_later = $saved_for_later AND 
 							products.id_product = product_details.id_product AND 
-							product_details.id_product_detail = cart_items.id_product_detail ");
+							product_details.id_product_detail = cart_items.id_product_detail GROUP BY products.id_product,products.price, 
+
+							cart_items.id_product_detail,
+							cart_items.id_user,
+							cart_items.saved_for_later,
+							cart_items.quantity, 
+
+							product_details.id_product_detail,
+							product_details.id_product ");
 
 						$amount_cart->execute();
-						$total = $amount_cart->fetch(PDO::FETCH_ASSOC);
-
-
+						$total_amount_cart = $amount_cart->fetch(PDO::FETCH_ASSOC);
 
 					}
 					
 					//SI LE PANIER EST PLEIN
-					if(!empty($cart_items[0])){ ?>
+					if(!empty($cart_items_info[0])){ ?>
 
 						<section class="wish_cart_overview">
 							<h3>Votre panier comprend <?php echo '<strong>'.$nb_items['nb_items'].'</strong> '; if($nb_items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
@@ -278,7 +264,7 @@
 
 							<div class="wish_cart_products">
 
-								<?php foreach($cart_items as $cart_items_detail){ ?>
+								<?php foreach($cart_items_info as $cart_items_detail){ ?>
 
 									<div class="wish_cart_list">
 										<div class="wish_cart_picture">
@@ -306,7 +292,7 @@
 					 		</div>
 
 					 		<div class="total_amount">
-								<div class="total_line"><p>Total € <?php echo '<strong>'.$total['total'].'</strong>' ?></p></div>
+								<div class="total_line"><p>Total € <?php echo '<strong>'.$total_amount_cart['total'].'</strong>' ?></p></div>
 								<div class="total_line payment"><a href="payment.php">POURSUIVRE LA COMMANDE</a></div>
 							</div>
 
@@ -329,7 +315,6 @@
 	</div>
 	
 </aside>
-
 
 <aside id="search-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 
@@ -414,3 +399,5 @@
 	</div>
 	
 </aside>
+
+

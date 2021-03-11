@@ -1,6 +1,6 @@
-<?php
+<?php 
 	ob_start();
-	session_start();
+	
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
 		$id_user = $_GET['id_user'];
 
 		//RECUPERATION WISH LIST
-		$get_wish_list = $connexion_db->prepare(" SELECT DISTINCT wish_list_items.id_user,wish_list_items.id_product,wish_list_items.saved_for_later, products.id_product, products.product_name,products.picture, products.price,product_details.id_product,product_details.color FROM wish_list_items,products,product_details WHERE wish_list_items.id_user = $id_user AND wish_list_items.saved_for_later = $saved_for_later AND wish_list_items.id_product =  products.id_product AND products.id_product = product_details.id_product ORDER BY time_added DESC");
+		$get_wish_list = $connexion_db->prepare(" SELECT DISTINCT wish_list_items.id_user,wish_list_items.time_added,wish_list_items.id_product,wish_list_items.saved_for_later, products.id_product, products.product_name,products.picture, products.price,product_details.id_product,product_details.color FROM wish_list_items,products,product_details WHERE wish_list_items.id_user = $id_user AND wish_list_items.saved_for_later = $saved_for_later AND wish_list_items.id_product =  products.id_product AND products.id_product = product_details.id_product ORDER BY wish_list_items.time_added DESC");
 		$get_wish_list->execute();
 		$wish_list = $get_wish_list->fetchAll(PDO::FETCH_ASSOC);
 
