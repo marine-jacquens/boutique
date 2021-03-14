@@ -10,15 +10,18 @@
 
 <section class="top-nav1">
 	<a href="#TEAMDUPEZ">REJOIGNEZ LA #TEAMDUPEZ POUR CONNAITRE LES DERNIERES ACTUALITES DE LA MARQUE</a>
-
 </section>
+
+<div class="logo1">
+		<a href="index.php"><img src="images/logo.png" alt="logo"></a>
+</div>
 
 <section class="top-nav2">
 
 	<div class="sales">
-		<a href=""><i class="fal fa-map-marker-alt"></i> Nos points de vente</a>
+		<a href="" class="contact"><i class="fal fa-user-headset"></i></a>
 	</div>
-	<div class="logo">
+	<div class="logo2">
 		<a href="index.php"><img src="images/logo.png" alt="logo"></a>
 	</div>
 	<div class="icones">

@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
 <head>
+
 	<title>Boutique - Paiement</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,10 @@
     <link rel="stylesheet" href="css/payment.css">
     <link rel="stylesheet" href="css/footer.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    
 </head>
 <body>
 	<header>
@@ -33,11 +38,11 @@
 							<div class="lastname_firstname">
 								<div class="name_position">
 									<label for="lastname">Nom</label>
-									<input type="text" name="lastname" placeholder="<?php echo $_SESSION['user']['lastname'] ?>" required>
+									<input type="text" name="lastname" value="<?php echo $_SESSION['user']['lastname'] ?>" required>
 								</div>	
 								<div class="name_position">
 									<label for="firstname">Prénom</label>
-									<input type="text" name="firstname" placeholder="<?php echo $_SESSION['user']['firstname'] ?>" required>
+									<input type="text" name="firstname" value="<?php echo $_SESSION['user']['firstname'] ?>" required>
 								</div>						
 							</div>
 						</div>
@@ -45,37 +50,37 @@
 						<div class="form_position_part">
 							<h3>Adresse de livraison</h3>
 							<label for="delivery_address">Adresse</label>
-							<input type="text" name="delivery_address" placeholder="21 cours Mirabeau" required>
+							<input type="text" name="delivery_address" value="21 cours Mirabeau" required>
 
 							<label for="delivery_postcode">Code postal</label>
-							<input type="number" name="delivery_postcode" placeholder="13100" required>
+							<input type="number" name="delivery_postcode" value="13100" required>
 							
 							<label for="delivery_city">Ville</label>
-							<input type="text" name="delivery_city" placeholder="Aix-en-Provence" required>
+							<input type="text" name="delivery_city" value="Aix-en-Provence" required>
 
 							<label for="delivery_country">Pays</label>
-							<input type="text" name="delivery_country" placeholder="France" required>
+							<input type="text" name="delivery_country" value="France" required>
 						</div>
 						<div class="form_position_part">
 							<h3>Adresse de facturation</h3>
 							<label for="bill_address">Adresse</label>
-							<input type="text" name="bill_address" placeholder="21 cours Mirabeau" required>
+							<input type="text" name="bill_address" value="21 cours Mirabeau" required>
 
 							<label for="bill_postcode">Code postal</label>
-							<input type="number" name="bill_postcode" placeholder="13100" required>
+							<input type="number" name="bill_postcode" value="13100" required>
 							
 							<label for="bill_city">Ville</label>
-							<input type="text" name="bill_city" placeholder="Aix-en-Provence" required>
+							<input type="text" name="bill_city" value="Aix-en-Provence" required>
 
 							<label for="bill_country">Pays</label>
-							<input type="text" name="bill_country" placeholder="France" required>
+							<input type="text" name="bill_country" value="France" required>
 						</div>
 						<div class="form_position_part">
 							<h3>Coordonnées</h3>
 							<label for="mail">Mail</label>
-							<input type="email" name="mail" placeholder="<?php echo $_SESSION['user']['mail'] ?>" required>
+							<input type="email" name="mail" value="<?php echo $_SESSION['user']['mail'] ?>" required>
 							<label for="phone">Numéro de téléphone</label>
-							<input type="text" name="phone" placeholder="<?php echo $_SESSION['user']['phone'] ?>" required>
+							<input type="text" name="phone" value="<?php echo $_SESSION['user']['phone'] ?>" required>
 						</div>
 						<div>
 							<input type="submit" name="register_delivery" value="CONFIRMER SES INFORMATIONS" class="button_info_delivery">
@@ -195,28 +200,24 @@
 						?>				
 							<div class="payment_frame" id="payment">
 
-								<form action="payment.php" method="POST" class="form_payment">
+								<!-- Afficher les erreurs renvoyées par createToken -->
+								<div id="paymentResponse"></div>
+								
+								<form action="check_payment.php" method="POST" class="form_payment" id="paymentFrm">
 
-									<label for="cardholder_firstname">Prénom du titulaire*</label>
-									<input type="text" name="cardholder_firstname" placeholder="<?php echo $_SESSION['user']['firstname'] ?>" required>
+									<label for="cardholder_firstname">Nom du titulaire</label>
+									<input type="text" name="name" value="<?php echo $_SESSION['user']['firstname'].' '.$_SESSION['user']['lastname'] ?>" required>
 
-									<label for="cardholder_lastname">Nom du titulaire*</label>
-									<input type="text" name="cardholder_lastname" placeholder="<?php echo $_SESSION['user']['lastname'] ?>" required>
+									<label for="card_number">Numéro de carte</label>
+									<div id="card_number"></div>
 
-									<label for="card_number">Numéro de carte*</label>
-									<div class="credit_card">
-										<input type="password" name="card_number" required>
-										<i class="fab fa-cc-mastercard"></i>
-										<i class="fab fa-cc-visa"></i>
-									</div>
-									
-									<label for="card_validity">Date d'expiration*</label>
-									<input type="date" name="card_validity" min="<?php echo date("Y-m-d")?>" required>
+									<label for="card_expiry">Date d'expiration</label>
+									<div id="card_expiry"></div>
 
-									<label for="CVC_number">Code de sécurité*</label>
-									<input type="password" name="CVC_number" placeholder="CVC" required>
+									<label for="card_cvc">Code de sécurité</label>
+									<div id="card_cvc"></div>
 
-									<input type="hidden" name="id_user" value="<?php echo $_SESSION['user']['id_user'] ?>">
+									<input type="hidden" name="lastname" value="<?php echo $_POST['lastname'] ?>">
 									<input type="hidden" name="lastname" value="<?php echo $_POST['lastname'] ?>">
 									<input type="hidden" name="firstname" value="<?php echo $_POST['firstname'] ?>">
 									<input type="hidden" name="bill_address" value="<?php echo $_POST['bill_address'] ?>">
@@ -263,10 +264,6 @@
 
 										);
 
-
-
-
-
 									}else{echo"<span>Le numéro de sécurité de votre carte est invalide</span>";}
 
 								}else{echo "<span>Votre numéro de carte est invalide</span>";}
@@ -285,6 +282,9 @@
 	<footer>
 		<?php include("includes/footer.php")?>
 	</footer>
+
+	<script type='text/javascript' src='config.js'></script>
+	<script type="text/javascript" src="js/payment.js"></script>
 	<script type="text/javascript" src="js/modal.js"></script>
 </body>
 </html>

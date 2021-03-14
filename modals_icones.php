@@ -21,10 +21,10 @@
 						<table class="table_personal_space">
 							<thead>
 								<tr>
-									<th>Mon profil</th>
-									<th>Ma liste d'envies</th>
+									<th><a href="profil.php">Mon profil</a></th>
+									<th><a href="wish_list.php?id_user=<?php echo $id_user ?>">Ma liste d'envies</a></th>
 									<!-- <th>Mes info facturation et livraison</th> -->
-									<th>Mes commandes</th>
+									<th><a href="order.php">Mes commandes</a></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -38,7 +38,7 @@
 						</table>
 
 						<form action="" method="post">
-							<input type="submit" name="submit_deconnexion" value="Se déconnecter"class="submit_deconnexion">
+							<input type="submit" name="submit_deconnexion" value="Se déconnecter" class="submit_deconnexion">
 						</form>
 					</div>
 					
@@ -98,7 +98,7 @@
 		<div class="close-btn close-btn-top"><button class="js-modal-close"><i class="fal fa-times"></i></button></div>
 			
 			<div class="empty-wish">
-				<h1>Aperçu des derniers articles ajoutés à votre liste d'envies</h1>
+				<h1>Aperçu des derniers articles ajoutés à la liste d'envies</h1>
 				<?php 
 
 
@@ -137,17 +137,28 @@
 						<section class="wish_cart_overview">
 							<h3>Votre liste d'envies comprend <?php echo '<strong>'.$items_number['nb_items'].'</strong> '; if($items_number['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
 
-							<?php if($items_number['nb_items'] > 3){ ?> <a href="wish_list.php?id_user=<?php echo $id_user ?>">VOIR TOUS LES ARTICLES</a> <?php } ?>
+							<?php if($items_number['nb_items'] > 3){ ?> <a href="wish_list.php?id_user=<?php echo $id_user ?>" class="linkWishItems">VOIR TOUS LES ARTICLES</a> <?php } ?>
 
 							<div class="wish_cart_products">
 
 								<?php foreach($wish_list_modals as $wish_list_detail){ ?>
 
 									<div class="wish_cart_list">
-										<div class="wish_cart_picture">
-											<img src="<?php echo $wish_list_detail['picture']?>" alt="<?php echo $wish_list_detail['product_name']?>" width="150">
+
+										<div class="containerWish">
+
+											<a href="product_page?prod=<?php echo $wish_list_detail['id_product'] ?>">
+												<img src="<?php echo $wish_list_detail['picture']?>" alt="<?php echo $wish_list_detail['product_name']?>" class="imageWish">
+											</a>
+											<div class="middleWish">
+											    <a href="product_page.php?prod=<?php echo $wish_list_detail['id_product'] ?>" class="textWish">
+											    	<i class="fas fa-eye"></i>
+											    </a>
+											</div>
+											  
 										</div>
-										<h3><?php echo $wish_list_detail['product_name']?></h3>
+
+										<h5><?php echo $wish_list_detail['product_name']?></h5>
 										<p>€ <?php echo $wish_list_detail['price'] ?></p>
 		                    			<p>Couleur : <?php echo $wish_list_detail['color'] ?></p>
 		                    			<form action="" method="POST" class="remove_wish_cart">
@@ -331,7 +342,7 @@
 					<?php 
 		
 					/*$connexion_db = $db->connectDb();*/
-					$get_last_products = $connexion_db->prepare(" SELECT DISTINCT products.id_product,products.product_name,products.picture,products.price,product_details.id_product, product_details.color FROM products, product_details WHERE products.id_product = product_details.id_product LIMIT 0,3 ");
+					$get_last_products = $connexion_db->prepare(" SELECT DISTINCT products.id_product,products.product_name,products.picture,products.price,product_details.id_product, product_details.color FROM products, product_details WHERE products.id_product = product_details.id_product LIMIT 0,3  ");
 					$get_last_products->execute();
 					$last_products = $get_last_products->fetchAll(PDO::FETCH_ASSOC);
 
@@ -339,8 +350,16 @@
 
 					?>
 					<div class="article">
-						<a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>"><img src="<?php echo $product_wish['picture'] ?>" alt="<?php echo $product_wish['picture'] ?>" height="200"></a>
-						<p><?php echo $product_wish['product_name'] ?></p>
+
+						<div class="container">
+
+							<a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>"><img src="<?php echo $product_wish['picture'] ?>" alt="<?php echo $product_wish['picture'] ?>" class="image"></a>
+							  <div class="middle">
+							    <a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>" class="text"><i class="fas fa-eye"></i></div>
+							  </a>
+						</div>
+
+						<h5><a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>"><?php echo $product_wish['product_name'] ?></a></h5>
 						<p><?php echo $product_wish['color'] ?></p>
 						<p><?php echo $product_wish['price'].'€' ?></p>
 					</div>
@@ -373,10 +392,10 @@
 					<thead>
 						
 						<tr>
-							<th>Administration générale</th>
-							<th>Les articles</th>
-							<th>Les commandes</th>
-							<th>Les informations utilisateurs</th>
+							<th><a href="admin.php">Administration générale</a></th>
+							<th><a href="stock_management.php">Les articles</a></th>
+							<th><a href="orders_management.php">Les commandes</a></th>
+							<th><a href="account_management.php">Infos utilisateurs</a></th>
 						</tr>
 					</thead>
 					<tbody>

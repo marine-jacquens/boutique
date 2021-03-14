@@ -88,20 +88,20 @@
 	            			<td class="price_td"><?php echo '€ '.$order_user['amount'] ?></td>
 	            			<td class="table_middle status_position"><?php
 
-	            				switch($order_user['status']){
-	            					case $order_user['status'] == "pending" :
+	            				switch($order_user['order_status']){
+	            					case $order_user['order_status'] == "pending" :
 							        ?> <p class="status pending">en attente</p><?php 
 							        break;
-	    						    case $order_user['status'] == "processing" :
+	    						    case $order_user['order_status'] == "processing" :
 	    						        ?> <p class="status processing">en préparation</p><?php
 	    						        break;
-	    						    case $order_user['status'] == "shipped" :
+	    						    case $order_user['order_status'] == "shipped" :
 	    						        ?> <p class="status shipped">expédiée</p><?php
 	    						        break;
-	    						    case $order_user['status'] == "delivered" :
+	    						    case $order_user['order_status'] == "delivered" :
 	    						        ?><p class="status delivered">livrée</p><?php
 	    						        break;
-	    						    case $order_user['status'] == "cancelled" :
+	    						    case $order_user['order_status'] == "cancelled" :
 	    						        ?> <p class="status cancelled">annulée</p><?php
 							        break;
 

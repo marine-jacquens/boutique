@@ -2,13 +2,7 @@
 
 	$connexion_db = $db->connectDb();	
 
-	$get_categories_bis = $connexion_db->prepare("SELECT DISTINCT 
-		categories.id_category, 
-		UPPER(categories.name_category) AS cat_maj,
-		sub_categories_2.id_category
-		FROM categories, sub_categories_2
-		WHERE categories.id_category = sub_categories_2.id_category
-		");
+	$get_categories_bis = $connexion_db->prepare("SELECT DISTINCT categories.id_category, UPPER(categories.name_category) AS cat_maj, sub_categories_2.id_category FROM categories, sub_categories_2 WHERE categories.id_category = sub_categories_2.id_category");
 	$get_categories_bis->execute();
 
 	while($categories = $get_categories_bis->fetch()){ 
@@ -17,15 +11,7 @@
 		$name_category = $categories['cat_maj'];
 
 		//RECUPERATION DES SOUS CATEGORIES 
-		$get_sub_categories = $connexion_db->prepare("SELECT DISTINCT
-		UPPER(sub_categories.name_sub_category) AS sub_cat_maj, 
-		sub_categories.id_sub_category,
-		sub_categories_2.id_sub_category
-
-		FROM sub_categories,sub_categories_2 
-		WHERE id_category = $id_category 
-		AND sub_categories.id_sub_category = sub_categories_2.id_sub_category 
-		ORDER BY sub_categories.id_sub_category" );
+		$get_sub_categories = $connexion_db->prepare("SELECT DISTINCT UPPER(sub_categories.name_sub_category) AS sub_cat_maj,sub_categories.id_sub_category,sub_categories_2.id_sub_category FROM sub_categories,sub_categories_2 WHERE id_category = $id_category AND sub_categories.id_sub_category = sub_categories_2.id_sub_category ORDER BY sub_categories.id_sub_category" );
 		
 		$get_sub_categories->execute();
 

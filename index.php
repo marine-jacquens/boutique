@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/index.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     
 </head>
 <body>
@@ -102,7 +103,6 @@
 	<footer>
 		<?php include("includes/footer.php")?>
 	</footer>
-	<script type='text/javascript' src='config.js'></script>
 	<script type="text/javascript" src="js/modal.js"></script>
 </body>
 </html>
