@@ -147,7 +147,7 @@
 
 										<div class="containerWish">
 
-											<a href="product_page?prod=<?php echo $wish_list_detail['id_product'] ?>">
+											<a href="product_page.php?prod=<?php echo $wish_list_detail['id_product'] ?>">
 												<img src="<?php echo $wish_list_detail['picture']?>" alt="<?php echo $wish_list_detail['product_name']?>" class="imageWish">
 											</a>
 											<div class="middleWish">
@@ -158,15 +158,18 @@
 											  
 										</div>
 
-										<h5><?php echo $wish_list_detail['product_name']?></h5>
-										<p>€ <?php echo $wish_list_detail['price'] ?></p>
-		                    			<p>Couleur : <?php echo $wish_list_detail['color'] ?></p>
-		                    			<form action="" method="POST" class="remove_wish_cart">
-		                    				<button type="submit" name="remove_wish_list"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
-		                    				<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
-		                    				<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">
-		                    			</form>
-		                    			<a href="product_page?prod=<?php echo $wish_list_detail['id_product'] ?>" class="see_item">VOIR L'ARTICLE</a>
+										<h4><?php echo $wish_list_detail['product_name']?></h4>
+										<div class="wishPriceColor">
+											<p>€ <?php echo $wish_list_detail['price'] ?></p>
+		                    				<p>Couleur : <?php echo $wish_list_detail['color'] ?></p>
+		                    				<form action="" method="POST" class="remove_wish_cart">
+			                    				<button type="submit" name="remove_wish_list" class="miniDelete"><i class="fal fa-trash-alt"></i></button>
+			                    				<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
+			                    				<input type="hidden" name="id_product" value="<?php echo $wish_list_detail['id_product'] ?>">
+			                    			</form>
+										</div>
+		                    			
+		                    		
 									</div>
 
 					 		   	<?php } ?>
@@ -231,7 +234,7 @@
 						$nb_items = $count_cart_items->fetch(PDO::FETCH_ASSOC);
 
 						//TOTAL MONTANT PANIER
-						$amount_cart = $connexion_db->prepare("SELECT DISTINCT 
+						$amount_cart = $connexion_db->prepare("SELECT 
 							products.id_product,
 							products.price, 
 
@@ -261,9 +264,14 @@
 							product_details.id_product ");
 
 						$amount_cart->execute();
-						$total_amount_cart = $amount_cart->fetch(PDO::FETCH_ASSOC);
+
+						$totalAmountCart = 0;
+
+						while($total_amount_cart = $amount_cart->fetch()){$totalAmountCart+=$total_amount_cart['total'];}
 
 					}
+
+
 					
 					//SI LE PANIER EST PLEIN
 					if(!empty($cart_items_info[0])){ ?>
@@ -271,7 +279,7 @@
 						<section class="wish_cart_overview">
 							<h3>Votre panier comprend <?php echo '<strong>'.$nb_items['nb_items'].'</strong> '; if($nb_items['nb_items'] > 1){echo"articles";}else{echo"article";} ?></h3>
 
-							<a href="cart_items.php?id_user=<?php echo $id_user ?>">VOIR ET MODIFIER VOTRE PANIER</a> 
+							<a href="cart_items.php?id_user=<?php echo $id_user ?>" class="linkCartItems">VOIR ET MODIFIER VOTRE PANIER</a> 
 
 							<div class="wish_cart_products">
 
@@ -279,21 +287,22 @@
 
 									<div class="wish_cart_list">
 										<div class="wish_cart_picture">
-											<img src="<?php echo $cart_items_detail['picture']?>" alt="<?php echo $cart_items_detail['product_name']?>" width="150">
+											<img src="<?php echo $cart_items_detail['picture']?>" alt="<?php echo $cart_items_detail['product_name']?>" width="50">
 										</div>
-										<h3><?php echo $cart_items_detail['product_name']?></h3>
-										<p>€ <?php echo $cart_items_detail['price'] ?></p>
-										<div class="cart_detail">
+										<h4><?php echo $cart_items_detail['product_name']?></h4>
+										<div class="items_details">
+											<p>€ <?php echo $cart_items_detail['price'] ?></p>
 											<p>Taille : <?php echo $cart_items_detail['size'] ?></p>
 		                    				<p>Couleur : <?php echo $cart_items_detail['color'] ?></p>
-											<p>Quantité : <?php echo $cart_items_detail['quantity'] ?></p>	
+											<p>Qt : <?php echo $cart_items_detail['quantity'] ?></p>	
+											<form action="" method="POST" class="remove_wish_cart">
+			                    				<button type="submit" name="remove_cart" class="miniDelete"><i class="fal fa-trash-alt"></i></button>
+			                    				<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
+			                    				<input type="hidden" name="id_product" value="<?php echo $cart_items_detail['id_product_detail'] ?>">
+			                    			</form>
 										</div>
 		                    			
-		                    			<form action="" method="POST" class="remove_wish_cart">
-		                    				<button type="submit" name="remove_cart"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
-		                    				<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
-		                    				<input type="hidden" name="id_product" value="<?php echo $cart_items_detail['id_product_detail'] ?>">
-		                    			</form>
+		                    			
 
 		                    			
 									</div>
@@ -303,7 +312,7 @@
 					 		</div>
 
 					 		<div class="total_amount">
-								<div class="total_line"><p>Total € <?php echo '<strong>'.$total_amount_cart['total'].'</strong>' ?></p></div>
+								<div class="total_line"><p>Total € <?php echo '<strong>'.$totalAmountCart.'</strong>' ?></p></div>
 								<div class="total_line payment"><a href="payment.php">POURSUIVRE LA COMMANDE</a></div>
 							</div>
 
@@ -360,8 +369,12 @@
 						</div>
 
 						<h5><a href="product_page.php?prod=<?php echo $product_wish['id_product'] ?>"><?php echo $product_wish['product_name'] ?></a></h5>
-						<p><?php echo $product_wish['color'] ?></p>
-						<p><?php echo $product_wish['price'].'€' ?></p>
+						<div class="items_details">
+
+							<p>Couleur : <?php echo $product_wish['color'] ?></p>
+							<p><?php echo $product_wish['price'].'€' ?></p>
+							
+						</div>
 					</div>
 					<?php } ?>
 				</div>
