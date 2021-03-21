@@ -40,3 +40,35 @@
 	border-bottom: 2px solid lightgray;
 	z-index: 1;
 }
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+
+}
+
+@media screen and (max-width: 768px)
+{
+	.banner{height:300px;}
+}
+
+
+@media screen and (max-width: 630px)
+{
+
+}
+
+
+@media screen and (max-width: 480px)
+{
+
+}

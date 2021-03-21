@@ -1,20 +1,40 @@
 .section_cart{
 	border-top:1px solid lightgray;
-	padding-right:8%;
-	padding-left:8%;
+	padding:5%;
 	width:100%;
+}
+
+.goToPayment{
+	margin-top:10%;
+	margin-bottom:10%;
+	width:100%;
+
+}
+
+.goToPayment a{
+	background-color: black;
+	border:0.1px solid black;
+	color:white;
+	padding:0.5%;
+
+}
+
+.goToPayment a:hover{
+	transition:.5s;
+	color:black;
+	background-color: transparent;
 }
 
 .qt_modify{
 	color:white;
 	font-weight:bold;
 	background-color:black;
-	border:2px solid black;
+	border:0.1px solid black;
 	padding:2%;
 }
 
 .qt_nb{
-	width:15%;
+	width:18%;
 	padding:2%;
 }
 
@@ -32,4 +52,49 @@
 
 .cart_button{
 	margin-top:5%;
+}
+
+.updateDeleteForm{
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+.quantityManager{width:70%;}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-height: 700px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+
+}
+
+@media screen and (max-width: 768px)
+{
+	.goToPayment a{padding:1%;}
+}
+
+
+@media screen and (max-width: 630px)
+{
+
+}
+
+
+@media screen and (max-width: 480px)
+{
+
 }

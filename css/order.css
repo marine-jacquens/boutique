@@ -1,9 +1,9 @@
 .progression-bar{
 	position:absolute;
 	top:0;
-	right:11%;
+	right:0;
 	border-bottom: 2px solid black;
-	width:14%;
+	width:35%;
 	z-index: 1;
 }
 
@@ -38,8 +38,104 @@
 
 .price_td{width:5%;}
 
-.status_position{
-	width:10%;
-}
+.status_position{width:10%;}
 
 .status{text-align: center}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+	.status{font-size:10px;}
+}
+
+@media screen and (max-width: 900px)
+{
+
+	.progression-bar{width:40%;}
+
+	.button_cancelled{
+		padding:2%;
+	}
+
+}
+
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+
+	/* Force table to not be like tables anymore */
+	.table_order_user,
+	.table_order_user thead,
+	.table_order_user tbody,
+	.table_order_user th,
+	.table_order_user td,
+	.table_order_user tr {
+		display: block;
+
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.table_order_user thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+
+	}
+
+	.table_order_user td {
+		/* Behave  like a "row" */
+		position: relative;
+		padding-left: 40%;
+		font-size:12px;
+	}
+
+	.table_order_user td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
+	/*
+	Label the data
+	*/
+	.table_order_user td:nth-of-type(1):before { content: "N°commande"; }
+	.table_order_user td:nth-of-type(2):before { content: "Adresses"; }
+	.table_order_user td:nth-of-type(3):before { content: "Produits"; }
+	.table_order_user td:nth-of-type(4):before { content: "Total"; }
+	.table_order_user td:nth-of-type(5):before { content: "Statut"; }
+	.table_order_user td:nth-of-type(6):before { content: "Dernière mise à jour"; }
+	.table_order_user td:nth-of-type(7):before { content: ""; }
+
+	.status{
+		width:50%;
+		font-size:12px;
+	}
+	.table_middle{text-align:left;}
+	.price_td,.status_position{width:100%;}
+
+}
+
+@media screen and (max-width: 630px)
+{
+
+
+}
+
+
+@media screen and (max-width: 480px)
+{
+
+}

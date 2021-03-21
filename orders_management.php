@@ -33,6 +33,8 @@
 
             <?php 
 
+                if(isset($_SESSION['user']['id_user']) && $_SESSION['user']['account_type'] == "admin"){}else{header('Location:index.php');exit;};
+
             	//RECUPERER LES COMMANDES 
             	$get_orders = $connexion_db->prepare(" SELECT DISTINCT users.*,orders.*,deliveries_addresses.*,bills_addresses.* FROM users,orders,deliveries_addresses,bills_addresses WHERE users.id_user = orders.id_user AND orders.id_delivery_address = deliveries_addresses.id_delivery_address AND orders.id_bill_address = bills_addresses.id_bill_address ORDER BY date_created DESC ");
             	$get_orders->execute();
@@ -40,7 +42,7 @@
 
             	if(!empty($orders_info)){
             ?>
-            <table class="table_admin" id="table_orders">
+            <table class="table_admin order" id="table_orders">
             	<thead>
             		<tr>
             			<th colspan="8" class="table_title">GESTION DES COMMANDES</th>
@@ -81,22 +83,22 @@
             				} ?>	
             			</td>
             			<td class="table_middle amount_position"><?php echo '€ '.$order_info['amount'] ?></td>
-            			<td class="table_middle status_position"><?php
+            			<td class="table_middle status_position" id="statusSize"><?php
 
-            				switch($order_info['status']){
-            					case $order_info['status'] == "pending" :
+            				switch($order_info['order_status']){
+            					case $order_info['order_status'] == "pending" :
 						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status pending">en attente</a><?php 
 						        break;
-    						    case $order_info['status'] == "processing" :
+    						    case $order_info['order_status'] == "processing" :
     						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status processing">en préparation</a><?php
     						        break;
-    						    case $order_info['status'] == "shipped" :
+    						    case $order_info['order_status'] == "shipped" :
     						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status shipped">expédiée</a><?php
     						        break;
-    						    case $order_info['status'] == "delivered" :
+    						    case $order_info['order_status'] == "delivered" :
     						        ?><a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status delivered">livrée</a><?php
     						        break;
-    						    case $order_info['status'] == "cancelled" :
+    						    case $order_info['order_status'] == "cancelled" :
     						        ?> <a href="orders_management.php?orders_edit=<?php echo $order_info['id_order'] ?>#order_edit" class="status cancelled">annulée</a><?php
 						        break;
 

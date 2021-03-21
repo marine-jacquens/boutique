@@ -51,15 +51,13 @@
 				<div class="cart_head">
 					<p>
 						<strong>MES ARTICLES</strong> <br><br>
-
 						En sauvegardant des articles dans votre panier, vous recevrez des mises à jour sur leur disponibilité et pourrez les partager avec vos amis. Vous pouvez sauvegarder jusqu’à 50 articles et les ajouter à votre panier à tout moment.<br><br>
 					</p>
 
 					<?php 
 						if($nb_items['nb_items'] >= 1 ){?>
 							<p>Votre panier comprend <?php echo '<strong>'.$nb_items['nb_items'].' </strong>' ; if($nb_items['nb_items'] > 1){echo"articles";}else{echo"article";} ?> </p>
-						<?php }else { echo '<p>Votre panier est vide</p>'; } ?>
-
+                            <div class="goToPayment"><a href="payment.php">POURSUIVRE LA COMMANDE</a></div>
 
 				</div>
 
@@ -70,33 +68,37 @@
 							<a href="product_page.php?prod=<?php echo $info_cart['id_product'] ?>"><img src="<?php echo $info_cart['picture'] ?>" alt="<?php echo $info_cart['picture'] ?>" width="300"></a>
 						</div>
 						<h3><?php echo $info_cart['product_name'] ?></h3>
-						<p>€ <?php echo $info_cart['price'] ?></p>
 						<div class="caracteristique">
+                            <p>€ <?php echo $info_cart['price'] ?></p>
 							<p>Couleur : <?php echo $info_cart['color'] ?></p>
 							<p>Taille : <?php echo $info_cart['size'] ?></p>
-							<p>Quantité : <?php echo $info_cart['quantity'] ?></p>
+							<p>Qt: <?php echo $info_cart['quantity'] ?></p>
 						</div>
-						<form action="" method="POST">
-			        		<input type="number" name="quantity" min="1" max="<?php echo $info_cart['stock'] ?>" value="<?php echo $info_cart['quantity']; ?>" class="qt_nb">
-			        		<input type="hidden" name="id_user" value="<?php echo $id_user ?>">
-			        		<input type="hidden" name="id_product_detail" value="<?php echo $info_cart['id_product_detail'] ?>" >
-			        		<input type="submit" name="cart_update" value="Mise à jour quantité" class="qt_modify">
-			    		</form>
-			    		<?php
-							//SI ON RETIRE UN ITEM DU PANIER
-							if(isset($_POST['remove_cart'])){$cart->removeCart($_POST['id_product'],$_POST['id_user']);}
-						?>
-			    		<form action="" method="POST" class="remove_wish_cart cart_button">
-			                <button type="submit" name="remove_cart"><i class="fal fa-trash-alt"></i> SUPPRIMER</button>
-			                <input type="hidden" name="id_user" value="<?php echo $id_user ?>">
-			                <input type="hidden" name="id_product" value="<?php echo $info_cart['id_product_detail'] ?>">
-			            </form>	
+                        <div class="updateDeleteForm">
+                            <form action="" method="POST" class="quantityManager">
+                                <input type="number" name="quantity" min="1" max="<?php echo $info_cart['stock'] ?>" value="<?php echo $info_cart['quantity']; ?>" class="qt_nb">
+                                <input type="hidden" name="id_user" value="<?php echo $id_user ?>">
+                                <input type="hidden" name="id_product_detail" value="<?php echo $info_cart['id_product_detail'] ?>" >
+                                <input type="submit" name="cart_update" value="Mise à jour quantité" class="qt_modify">
+                            </form>
+                            <?php
+                            //SI ON RETIRE UN ITEM DU PANIER
+                            if(isset($_POST['remove_cart'])){$cart->removeCart($_POST['id_product'],$_POST['id_user']);}
+                            ?>
+                            <form action="" method="POST" class="remove_wish_cart cart_button">
+                                <button type="submit" name="remove_cart"><i class="fal fa-trash-alt"></i></button>
+                                <input type="hidden" name="id_user" value="<?php echo $id_user ?>">
+                                <input type="hidden" name="id_product" value="<?php echo $info_cart['id_product_detail'] ?>">
+                            </form>
+                        </div>
+
 
 					</div>
 				<?php } ?>
+                            <div class="goToPayment"><a href="payment.php">POURSUIVRE LA COMMANDE</a></div>
+			</section>
 
-			</section>	
-				 
+                        <?php }else { echo '<p>Votre panier est vide</p>'; } ?>
 
 			<?php } ?>
 	</main>

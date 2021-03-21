@@ -97,8 +97,6 @@ class Orders
         $order = $get_id_order->fetch(PDO::FETCH_ASSOC);
         $id_order = intval($order['id_order']);
 
-        return  $id_order;
-
   			//RECUPERERATION ITEMS ET QUANTITE
   			$saved_for_later = true;
 
@@ -152,6 +150,9 @@ class Orders
   			
 
   		}else{echo"<span>Veuillez remplir tous les champs</span>";}
+
+      return  $id_order;
+      
   	}
 
     public function update($id_order,$status){
@@ -162,18 +163,18 @@ class Orders
       if(!empty($id_order AND $status)){
 
         //VERIFICATION COMMANDE ANNULE OU PAS
-        $get_info_order = $connexion_db->prepare(" SELECT status FROM orders WHERE id_order = $id_order ");
+        $get_info_order = $connexion_db->prepare(" SELECT order_status FROM orders WHERE id_order = $id_order ");
         $get_info_order->execute();
         $info_order = $get_info_order->fetch(PDO::FETCH_ASSOC);
 
-        if($info_order['status'] != "cancelled"){
+        if($info_order['order_status'] != "cancelled"){
 
           date_default_timezone_set('Europe/Paris');
           $date_modified = date("Y-m-d H:i:s");
 
-          $new_status = " UPDATE orders SET status = :status, date_modified = :date_modified WHERE id_order = $id_order ";
+          $new_status = " UPDATE orders SET order_status = :order_status, date_modified = :date_modified WHERE id_order = $id_order ";
           $update_status = $connexion_db->prepare($new_status);
-          $update_status->bindParam(':status',$status,PDO::PARAM_STR);
+          $update_status->bindParam(':order_status',$status,PDO::PARAM_STR);
           $update_status->bindParam(':date_modified',$date_modified,PDO::PARAM_STR);
           $update_status->execute();
 

@@ -18,7 +18,7 @@
 
 <div class="profil_menu">
 	<a href="admin.php#admin">ADMINISTRATION GÉNÉRALE</a>
-	<a href="stock_management.php#stock_management">LES ARTICLES</a>
-	<a href="orders_management.php#orders_management">LES COMMANDES</a>
-	<a href="account_management.php#account_management">LES INFORMATIONS UTILISATEURS</a>
+	<a href="stock_management.php#stock_management">ARTICLES</a>
+	<a href="orders_management.php#orders_management">COMMANDES</a>
+	<a href="account_management.php#account_management">GESTION UTILISATEURS</a>
 </div>

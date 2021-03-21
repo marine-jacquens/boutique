@@ -37,6 +37,8 @@ ob_start();
 
             <?php 
 
+            if(isset($_SESSION['user']['id_user']) && $_SESSION['user']['account_type'] == "admin"){}else{header('Location:index.php');exit;};
+
                 if(isset($_POST['create_admin'])){
 
                    $admin->register(
@@ -162,11 +164,10 @@ ob_start();
 
                 $get_all_sub_categories_2->execute();
 
-
-
             ?>
 
-            <table class="table_admin" id="categories">
+            <h1 class="titleTable">LES CATEGORIES</h1>
+            <table class="table_admin cat1" id="categories">
                 <thead>
                     <tr><th colspan="5" class="table_title">LES CATEGORIES</th></tr>
                     <tr>
@@ -248,8 +249,8 @@ ob_start();
 
 
 
-
-            <table class="table_admin" id="sub_categories">
+            <h1 class="titleTable">LES SOUS CATEGORIES</h1>
+            <table class="table_admin cat2" id="sub_categories">
                 <thead>
                     <tr><th colspan="5" class="table_title">LES SOUS CATEGORIES</th></tr>
                     <tr>
@@ -329,7 +330,8 @@ ob_start();
 
             <?php } ?>
 
-            <table class="table_admin" id="sub_category_2">
+            <h1 class="titleTable">LES SOUS CATEGORIES DE NIVEAU 2</h1>
+            <table class="table_admin cat3" id="sub_category_2">
                 <thead>
                     <tr><th colspan="7" class="table_title">LES SOUS CATEGORIES DE NIVEAU 2</th></tr>
                     <tr>

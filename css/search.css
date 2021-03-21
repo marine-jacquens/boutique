@@ -1,15 +1,12 @@
 .search_page{
 	border-top:1px solid lightgray;
-	padding-right:8%;
-	padding-left:8%;
-
 }
 
 
 .search_results{
 	display: flex;
 	margin-bottom:2%;
-	padding:1%;
+	padding:5%;
 
 }
 
@@ -17,8 +14,6 @@
 	transition:.5s;
 	background-color: #F1F1F1;
 	width:100%;
-	
-	
 }
 
 
@@ -33,3 +28,42 @@
 }
 
 .image_result_product img {width:50%;}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-height: 700px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+
+}
+
+@media screen and (max-width: 768px)
+{
+	.search_results{flex-wrap: wrap-reverse;}
+	.info_result_product,.image_result_product{width:100%}
+	.image_result_product{justify-content: center}
+
+
+}
+
+@media screen and (max-width: 630px)
+{
+
+}
+
+@media screen and (max-width: 480px)
+{
+
+}

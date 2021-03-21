@@ -2,14 +2,14 @@
 .progression-bar{
 	position:absolute;
 	top:0;
-	left:11%;
+	left:0;
 	border-bottom: 2px solid black;
-	width:10%;
+	width:35%;
 	z-index: 1;
 }
 
 .profil_page_head{
-	/*width:80%;*/
+	width:80%;
 }
 
 .profil_page_head p{
@@ -22,10 +22,12 @@
 /*	width:80%;
 */}
 
+
+
 .form_image{
 	display: flex;
 	justify-content: space-between;
-
+	align-items: top;
 }
 
 .gender{
@@ -42,9 +44,7 @@
 	width:80%;
 }
 
-.newsletter{
-		width:80%;
-}
+.newsletter{width:80%;}
 
 .profil_picture{
 	display: flex;
@@ -53,9 +53,7 @@
 	width:100%;
 }
 
-.profil_picture img{
-	width:100%;
-}
+.profil_picture img{width:100%;}
 
 .check_box{
 	display: flex;
@@ -88,5 +86,59 @@
 	font-weight:bold;
 	width:100%;
 	border:none;
+
+}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-height: 700px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+	.form_image{
+		flex-wrap: wrap-reverse;
+		text-align: center;
+	}
+
+	.gender{
+		justify-content: center;
+		width: 100%;
+	}
+
+	.profil_page_head {width:100%;}
+
+	.profil_page_head p{width:100%;}
+
+	.newsletter{width:100%;}
+
+	.check_box{flex-wrap: wrap}
+
+	.checkbox_detail,.checkbox_column{width:100%;}
+}
+
+@media screen and (max-width: 768px)
+{
+
+}
+
+@media screen and (max-width: 630px)
+{
+
+
+}
+
+@media screen and (max-width: 480px)
+{
 
 }

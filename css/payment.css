@@ -2,8 +2,9 @@
 	border-top:1px solid lightgray;
 	display: flex;
 	justify-content: space-between;
-	padding-right:8%;
-	padding-left:8%;
+	/*padding-right:8%;
+	padding-left:8%;*/
+	padding:5%;
 }
 
 .info_delivery{width:50%;}
@@ -11,12 +12,13 @@
 .lastname_firstname{
 	display: flex;
 	justify-content: space-between;
-	width:60%;
+	width:100%;
 }
 
 .name_position{
 	display: flex;
 	flex-direction: column;
+	width:45%;
 }
 
 .form_position_part{
@@ -40,6 +42,7 @@
 	background-color:black;
 	padding:3%;
 	border:none;
+	border:0.1px solid black;
 }
 
 .button_info_delivery:hover,
@@ -47,7 +50,6 @@
 	transition:.5s;
 	color:black;
 	background-color:white;
-	border:2px solid black;
 }
 
 .info_payment{
@@ -106,6 +108,9 @@
 .payment_picture_product{
 	width:30%;
 }
+
+.payment_picture_product img{width:100%;}
+
 .payment_info_product{
 	width:65%;
 }
@@ -159,8 +164,17 @@
 
 .form_payment input{
 	padding:2%;
-	width:80%;
+	width:100%;
 	margin-bottom:2%;
+	border:0.1px solid grey;
+	border-radius:2px;
+}
+
+.paymentFormInput{
+	border:0.1px solid grey;
+	border-radius:2px;
+	padding:2%;
+	font-family: 'Poppins', sans-serif;
 }
 
 .credit_card{
@@ -171,3 +185,53 @@
 
 .credit_card i{font-size:40px;}
 
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-height: 700px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+	.payment_info_product h3,
+	.payment_info_product p{
+		font-size:12px;
+	}
+}
+
+@media screen and (max-width: 900px)
+{
+
+
+}
+
+@media screen and (max-width: 768px)
+{
+	.payment_page{flex-wrap:wrap-reverse;}
+	.info_delivery,.info_payment,.payment_frame{width:100%;}
+
+	.payment_frame form{width:100%;}
+
+	.info_delivery{margin-bottom:10%;}
+
+	.payment_info_product h3,
+	.payment_info_product p{
+		font-size:15px;
+	}
+}
+
+
+@media screen and (max-width: 630px)
+{
+
+}
+
+
+@media screen and (max-width: 480px)
+{
+
+}

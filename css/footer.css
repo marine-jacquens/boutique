@@ -2,8 +2,9 @@
 	margin-top: 10%;
 	display:flex;
 	flex-direction:column;
-	padding-right:8%;
-	padding-left:8%;
+	/*padding-right:8%;
+	padding-left:8%;*/
+	padding:5%;
 }
 
 .footer span{color:red;}
@@ -26,21 +27,31 @@
 .form_newsletter{
 	display: flex;
 	flex-direction: column;
+	width:70%;
 }
 
-.mail_newsletter{
-	width:30%;
+.form_newsletter input{
+	width:90%;
 	border:0.1px solid black;
 }
 
+.newsletterInput{
+	display: flex;
+	justify-content: space-between;
+	width:100%;
+}
+
 .submit_mail_button{
-	width:3%;
+	width:9%;
 	background-color: white;
-	border-right: 0.1px solid black;
-	border-top: 0.1px solid black;
-	border-bottom: 0.1px solid black;
-	border-left:none;
-	margin-left:-0.4%;
+	border: 0.1px solid black;
+
+}
+
+.submit_mail_button:hover{
+	transition:.5s;
+	background-color: black;
+	color:white;
 }
 
 .mail_newsletter,.submit_mail_button{
@@ -49,6 +60,7 @@
 
 .footer_table{
 	margin-top:5%;
+	margin-bottom:5%;
 }
 
 .footer_table table{
@@ -67,7 +79,7 @@
 
 
 .footer_table table tr td {
-vertical-align: top;
+	vertical-align: top;
 }
 
 .delivery_places{width:20%;}
@@ -88,6 +100,29 @@ vertical-align: top;
 
 .network_line i{font-size:25px;}
 
+.fa-youtube:hover,
+.fa-twitter-square:hover,
+.fa-facebook-square:hover,
+.fa-instagram-square:hover{
+	transition:.5s;
+}
+
+.fa-youtube:hover{color:#FF0200}
+.fa-twitter-square:hover{color:#1EA1F1}
+.fa-facebook-square:hover{color:#395498}
+
+.fa-instagram-square:hover{
+	background:-moz-linear-gradient(top, #F7D000 0%,#E70F2B 20%,#803DB1 100%);
+	background: -webkit-linear-gradient(top, #F7D000 0%,#E70F2B 20%,#803DB1 100%);
+	background: linear-gradient(to bottom,  #F7D000 0%,#E70F2B 20%,#803DB1 100%);
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color:transparent;
+}
+
+
+
 .footer_end{
 	display: flex;
 }
@@ -103,3 +138,128 @@ vertical-align: top;
 }
 
 .payment_copyright a {text-decoration: underline;}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-height: 700px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+
+}
+
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	.form_newsletter{width:100%}
+
+	/* Force table to not be like tables anymore */
+	.tableInFooter,
+	.tableInFooter thead,
+	.tableInFooter tbody,
+	.tableInFooter th,
+	.tableInFooter td,
+	.tableInFooter tr {
+		display: block;
+
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.tableInFooter thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+
+	}
+
+	tr{border: 0.1px solid var(--buttonAndFooter-color);}
+
+
+	.tableInFooter td {
+		/* Behave  like a "row" */
+		border-bottom: 1px solid #eee;
+		position: relative;
+		padding-left: 30%;
+		font-size:12px;
+		background-color: var(--buttonAndFooter-color);
+
+
+
+	}
+
+	.tableInFooter td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+		color:white;
+	}
+
+	/*
+	Label the data
+	*/
+	.tableInFooter td:nth-of-type(1):before { content: "LIEU DE LIVRAISON"; }
+	.tableInFooter td:nth-of-type(2):before { content: "NOS SERVICES"; }
+	.tableInFooter td:nth-of-type(3):before { content: ""; }
+	.tableInFooter td:nth-of-type(4):before { content: "L'ENTREPRISE"; }
+	.tableInFooter td:nth-of-type(5):before { content: ""; }
+
+
+	.footer_table li{width: 200px;}
+
+	.newsletter_footer{
+		flex-wrap: wrap-reverse;
+	}
+
+	.paragraphe_newsletter,
+	.picture_newsletter{
+		width:100%;
+		/*padding:2%;*/
+	}
+	.mail_newsletter{
+		width:80%;
+		border:0.1px solid black;
+	}
+
+	.submit_mail_button{width:8%;}
+
+	.footer_end{flex-wrap: wrap;}
+
+	.logo_footer,.payment_copyright{width:100%;}
+
+	.logo_footer{
+		display: flex;
+		justify-content: center;
+	}
+}
+
+@media screen and (max-width: 630px)
+{
+
+
+}
+
+
+@media screen and (max-width: 480px)
+{
+
+}

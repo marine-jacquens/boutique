@@ -36,6 +36,8 @@ ob_start();
 
             <?php
 
+                if(isset($_SESSION['user']['id_user']) && $_SESSION['user']['account_type'] == "admin"){}else{header('Location:index.php');exit;};
+
                 if(isset($_POST['insert_product'])){
                    $product->register(
                         $_POST['category'],
@@ -201,8 +203,8 @@ ob_start();
 
             ?>
 
-
-            <table class="table_admin" id="table_products">
+            <h1 class="titleTable">LES PRODUITS</h1>
+            <table class="table_admin prod" id="table_products">
                 <thead>
                     <tr><th colspan="13" class="table_title">LES PRODUITS</th></tr>
                     <tr>
@@ -318,9 +320,11 @@ ob_start();
 
                                 $get_all_sub_categories_2 = $connexion_db->prepare("SELECT DISTINCT name_sub_category_2 FROM sub_categories_2");
                                 $get_all_sub_categories_2->execute();
-                        
 
+                                
+                        
                             ?>
+
                             <label for="category">Nouvelle catégorie </label>
                             <select name="category" class="input_admin">
                                 <option value="">--</option>

@@ -2,15 +2,13 @@ html{scroll-behavior: smooth;}
 
 body{
 	margin:0 auto;
-	padding : 0;
 	font-family: 'Poppins', sans-serif;
 }
 
 :root{
-  --href-hover-color:#D3D3D3;
+	--href-hover-color:#D3D3D3;
+	--buttonAndFooter-color:#8B8B8B;
 }
-
-
 
 input, button, a{
 	outline: none;
@@ -38,8 +36,8 @@ ul{
 	list-style: none;
 }
 
-p{
-	font-size:12px;
+label,p{
+	font-size:14px;
 	text-align: justify;
 }
 
@@ -123,13 +121,15 @@ h5 a:hover{
 /*BANNER DELIVERY*/
 
 .banner_delivery{
-	margin-top:10%;
+	margin-top:5%;
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 	color:white;
 	font-weight:bold;
 	background-color:black;
 	padding:8%;
+	height:300px;
 }
 
 .banner_delivery i{font-size: 35px}
@@ -138,6 +138,18 @@ h5 a:hover{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+/* RESPONSIVE BANNER DELIVERY*/
+
+@media screen and (max-width: 768px)
+{
+	.banner_delivery p {
+		font-size:10px;
+		text-align: center;
+	}
+
+
 }
 
 
@@ -155,12 +167,12 @@ h5 a:hover{
 }
 
 
-.pending{border:2px solid red;background-color:red;}
+.pending{border:0.1px solid black;background-color:black;}
 
-.processing{border:2px solid orange;background-color:orange;}
+.processing{border:0.1px solid orange;background-color:orange;}
 
-.shipped{border:2px solid blue;background-color:blue;}
+.shipped{border:0.1px solid blue;background-color:blue;}
 
-.delivered{border:2px solid green;background-color:green;}
+.delivered{border:0.1px solid green;background-color:green;}
 
-.cancelled{border:2px solid grey;background-color:grey;}
+.cancelled{border:0.1px solid grey;background-color:grey;}

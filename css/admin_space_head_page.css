@@ -10,9 +10,10 @@
 	margin-top:3%;
 	/*display: flex;
 	flex-direction: column;
-	align-items: center;*/
+	align-items: center;
 	padding-right:8%;
-	padding-left:8%;
+	padding-left:8%;*/
+	padding:5%;
 	
 }
 
@@ -29,14 +30,55 @@
 .profil_menu{
 	margin-top: 3%;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	/*width:80%;*/
 	font-weight:bolder;
 }
+
+.profil_menu a{width:20%;}
 
 .bar{
 	position: relative;
 	/*width:80%;*/
 	border-bottom: 2px solid lightgray;
 	z-index: 1;
+}
+
+
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-height: 700px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+
+}
+
+@media screen and (max-width: 768px)
+{
+	.profil_menu a{font-size:14px;}
+}
+
+
+@media screen and (max-width: 630px)
+{
+
+}
+
+
+@media screen and (max-width: 480px)
+{
+
 }

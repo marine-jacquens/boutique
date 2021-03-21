@@ -7,7 +7,8 @@ $ordStatus = 'error';
  
 // Vérifier si le token de stripe n'est pas vide 
 if(!empty($_POST['stripeToken'])){ 
-     
+
+
     //Récupére le token de stripe, la carte et les informations sur l'utilisateur à partir des données du formulaire soumis.
     $token  = $_POST['stripeToken']; 
     $name = $_POST['name']; 
@@ -33,7 +34,6 @@ if(!empty($_POST['stripeToken'])){
      
     if(empty($api_error) && $customer){  
 
-        
          
         // Convert price to cents 
         $itemPriceCents =  ($totalAmount*100); 
@@ -55,13 +55,14 @@ if(!empty($_POST['stripeToken'])){
 
         if(empty($api_error) && $charge){ 
 
-            echo "ça marche";
          
             // Retrieve charge details 
             $chargeJson = $charge->jsonSerialize(); 
          
             // Check whether the charge is successful 
             if($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1){ 
+
+
                 // Transaction details  
                 $transactionID = $chargeJson['balance_transaction']; 
                 $paidAmount = $chargeJson['amount']; 

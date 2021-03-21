@@ -1,55 +1,105 @@
 .text_background h1 {
-	text-transform: uppercase;
+    text-transform: uppercase;
+}
+
+.description_category {
+    background-color: #F2F2F2;
+    padding-right: 8%;
+    padding-left: 8%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.text_background {
+    background-color: white;
+    width: 40%;
+    padding: 2%;
+}
+
+.products {
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    /*padding-right: 8%;
+    padding-left: 8%;*/
+    /*background-color: #03A4F6;*/
+}
+
+.products img{
+    width:80%;
+}
+
+.products h3{
+
+}
+
+.products_card {
+    display: flex;
+    flex-direction:column;
+    width:30%;
+    /*background-color: yellowgreen;*/
+}
+
+.products_card, .info_products {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title_cart {
+    display: flex;
+    align-items: baseline;
+    width: 80%;
+    /*background-color: #6f42c1;*/
+
+}
+
+.title_cart h3 {
+    font-size: 15px;
+}
+
+.building_page {
+    margin-top: 5%;
+    /*padding-right: 8%;
+    padding-left: 8%;*/
+}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+    .text_background {width: 60%;}
+    .products_card {width: 50%;}
+}
+
+@media screen and (max-width: 768px)
+{
+    .text_background {width: 80%;}
 }
 
 
-
-.description_category{
-	background-color:#F2F2F2;
-	padding-right:8%;
-	padding-left:8%;
-	padding-top:2%;
-	padding-bottom:2%;
+@media screen and (max-width: 630px)
+{
+    .text_background {width: 90%;}
+    .products_card {width: 90%;}
 }
 
-.text_background{
-	background-color: white;
-	width:40%;
-	padding:2%;
-}
 
-.products{
-	margin-top:5%;
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	padding-right:8%;
-	padding-left:8%;
-}
-
-.products_card{width:30%;}
-
-.products_card,.info_products{
-	display: flex;
-	flex-direction: column;
+@media screen and (max-width: 480px)
+{
 
 }
 
-.title_cart{
-	display: flex;
-	justify-content: space-between;
-	align-items: baseline;
-	width:75%;
-	
-}
 
-.title_cart h3{font-size:15px;}
-
-.building_page{
-	margin-top:5%;
-	padding-right:8%;
-	padding-left:8%;
-}
 
 
 

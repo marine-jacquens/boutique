@@ -9,30 +9,24 @@
 }
 
 .progression-bar_admin{
-	width:18%;
-	left:5%;
+	width:25%;
+	left:0;
 }
 
 .progression-bar_stock{
-	width:10%;
-	left:32.5%;
+	width:25%;
+	left:25%;
 }
 
 .progression-bar_account{
-	width:20%;
-	right:5%;
+	width:25%;
+	right:0;
 }
 
 .progression-bar_orders{
-	width:12%;
-	right:35.5%;
+	width:25%;
+	right:25%;
 }
-
-
-
-
-
-
 
 .form_admin{
 	margin-top:3%;
@@ -47,8 +41,6 @@
 .form_admin h1{
 	text-align: center;
 }
-
-
 
 .form_admin_body{
 	display: flex;
@@ -95,6 +87,8 @@
 	background-color:black;
 	color:white;
 }
+
+.titleTable{display:none}
 
 
 .table_admin{
@@ -181,7 +175,7 @@ margin:1%
 .address_info,.product_info{padding:1%;}
 .product_info i{font-size:5px;color:grey;}
 
-.pending:hover{color:red;}
+.pending:hover{color:red;border-color:red;}
 .processing:hover{color:orange;}
 .shipped:hover{color:blue;}
 .delivered:hover{color:green;}
@@ -192,5 +186,256 @@ margin:1%
 	width:5%;
 }
 
-.status_position{width:10%;}
+.status_position{
+	padding:1%;
+	width:10%;
+}
 .amount_position{width:5%;}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+	/* Force table to not be like tables anymore */
+	.prod,
+	.order,
+	.prod thead,
+	.order thead,
+	.prod tbody,
+	.order tbody,
+	.prod th,
+	.order th,
+	.prod td,
+	.order td,
+	.prod tr,
+	.order tr{
+		display: block;
+
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.prod thead tr,
+	.order thead tr{
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+
+	}
+
+	tr{border: 0.1px solid var(--buttonAndFooter-color);}
+
+
+	.prod td,
+	.order td{
+		/* Behave  like a "row" */
+		border-bottom: 1px solid #eee;
+		position: relative;
+		padding-left: 30%;
+		font-size:12px;
+	}
+
+	.prod td:before,
+	.order td:before{
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
+	/*Label the data*/
+
+	.prod td:nth-of-type(1):before { content: "CAT"; }
+	.prod td:nth-of-type(2):before { content: "SOUS-CAT"; }
+	.prod td:nth-of-type(3):before { content: "SOUS-CAT NIV 2"; }
+	.prod td:nth-of-type(4):before { content: "ID PRODUIT"; }
+	.prod td:nth-of-type(5):before { content: "NOM"; }
+	.prod td:nth-of-type(6):before { content: "DESCRIPTION"; }
+	.prod td:nth-of-type(7):before { content: "TAILLE"; }
+	.prod td:nth-of-type(8):before { content: "COULEUR"; }
+	.prod td:nth-of-type(9):before { content: "PRIX UNIT"; }
+	.prod td:nth-of-type(10):before { content: "STOCK"; }
+	.prod td:nth-of-type(11):before { content: "PHOTO"; }
+	.prod td:nth-of-type(12):before { content: ""; }
+	.prod td:nth-of-type(12):before { content: ""; }
+
+	.order td:nth-of-type(1):before { content: "N° COMMANDE"; }
+	.order td:nth-of-type(2):before { content: "ID UTISALISATEUR"; }
+	.order td:nth-of-type(3):before { content: "ADRESSE"; }
+	.order td:nth-of-type(4):before { content: "PRODUIT(S)"; }
+	.order td:nth-of-type(5):before { content: "TOTAL"; }
+	.order td:nth-of-type(6):before { content: "";}
+	.order td:nth-of-type(7):before { content: "DERNIERE MISE A JOUR"; }
+
+	.amount_position,.status_position{width:100%;}
+	#table_orders table,#table_orders td {border:0.1px solid var(--buttonAndFooter-color);}
+
+	.status_position a{font-size:10px;}
+
+	#statusSize{
+		text-align: center;
+		padding:1.5%
+	}
+
+}
+
+@media screen and (max-width: 900px)
+{
+
+
+}
+
+@media screen and (max-width: 768px)
+{
+	.form_admin_body{
+		display: flex;
+		flex-direction: column;
+		padding:5%;
+	}
+
+	.form_admin_position{width:100%;}
+
+	.button_admin{width:55%;}
+
+}
+
+@media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	.table_admin,
+	.table_admin thead,
+	.table_admin tbody,
+	.table_admin th,
+	.table_admin td,
+	.table_admin tr {
+		display: block;
+
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.table_admin thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+
+	}
+
+	tr{border: 0.1px solid var(--buttonAndFooter-color);}
+
+
+	.table_admin td {
+		/* Behave  like a "row" */
+		border-bottom: 1px solid #eee;
+		position: relative;
+		padding-left: 35%;
+		font-size:12px;
+
+	}
+
+	.table_admin td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
+	/*
+	Label the data
+	*/
+	.cat1 td:nth-of-type(1):before { content: "ID CATEGORIE"; }
+	.cat1 td:nth-of-type(2):before { content: "NOM"; }
+	.cat1 td:nth-of-type(3):before { content: "DESCRIPTION"; }
+	.cat1 td:nth-of-type(4):before { content: ""; }
+	.cat1 td:nth-of-type(5):before { content: ""; }
+
+	.cat2 td:nth-of-type(1):before { content: "ID SOUS-CAT"; }
+	.cat2 td:nth-of-type(2):before { content: "NOM"; }
+	.cat2 td:nth-of-type(3):before { content: "DESCRIPTION"; }
+	.cat2 td:nth-of-type(4):before { content: ""; }
+	.cat2 td:nth-of-type(5):before { content: ""; }
+
+	.cat3 td:nth-of-type(1):before { content: "ID SOUS-CAT NIV 2"; }
+	.cat3 td:nth-of-type(2):before { content: "NOM"; }
+	.cat3 td:nth-of-type(3):before { content: "DESCRIPTION"; }
+	.cat3 td:nth-of-type(4):before { content: ""; }
+	.cat3 td:nth-of-type(5):before { content: ""; }
+
+	.prod td:nth-of-type(1):before { content: "CAT"; }
+	.prod td:nth-of-type(2):before { content: "SOUS-CAT"; }
+	.prod td:nth-of-type(3):before { content: "SOUS-CAT NIV 2"; }
+	.prod td:nth-of-type(4):before { content: "ID PRODUIT"; }
+	.prod td:nth-of-type(5):before { content: "NOM"; }
+	.prod td:nth-of-type(6):before { content: "DESCRIPTION"; }
+	.prod td:nth-of-type(7):before { content: "TAILLE"; }
+	.prod td:nth-of-type(8):before { content: "COULEUR"; }
+	.prod td:nth-of-type(9):before { content: "PRIX UNIT"; }
+	.prod td:nth-of-type(10):before { content: "STOCK"; }
+	.prod td:nth-of-type(11):before { content: "PHOTO"; }
+	.prod td:nth-of-type(12):before { content: ""; }
+	.prod td:nth-of-type(13):before { content: ""; }
+
+	.account td:nth-of-type(1):before { content: "ID UTILISATEUR"; }
+	.account td:nth-of-type(2):before { content: "NOM"; }
+	.account td:nth-of-type(3):before { content: "PRENOM"; }
+	.account td:nth-of-type(4):before { content: "SEXE"; }
+	.account td:nth-of-type(5):before { content: "DATE DE NAISSANCE"; }
+	.account td:nth-of-type(6):before { content: "TELEPHONE"; }
+	.account td:nth-of-type(7):before { content: "MAIL"; }
+	.account td:nth-of-type(8):before { content: "DATE D'INSCRIPTION"; }
+	.account td:nth-of-type(9):before { content: "DERNIERE MODIFICATION"; }
+	.account td:nth-of-type(10):before { content: "TYPE DE COMPTE"; }
+	.account td:nth-of-type(11):before { content: "RGPD"; }
+	.account td:nth-of-type(12):before { content: "NEWSLETTER"; }
+	.account td:nth-of-type(13):before { content: ""; }
+	.account td:nth-of-type(14):before { content: ""; }
+
+
+	.wish td:nth-of-type(1):before { content: "ID UTILISATEUR"; }
+	.wish  td:nth-of-type(2):before { content: "ID PRODUIT"; }
+	.wish  td:nth-of-type(3):before { content: "PRODUIT(S)"; }
+	.wish  td:nth-of-type(4):before { content: "PHOTO"; }
+	.wish td:nth-of-type(5):before { content: "DATE AJOUT"; }
+
+	.cart td:nth-of-type(1):before { content: "ID UTILISATEUR"; }
+	.cart  td:nth-of-type(2):before { content: "ID PRODUIT"; }
+	.cart  td:nth-of-type(3):before { content: "PRODUIT(S)"; }
+	.cart  td:nth-of-type(4):before { content: "PHOTO"; }
+	.cart  td:nth-of-type(5):before { content: "QUANTITE"; }
+	.cart td:nth-of-type(6):before { content: "DATE AJOUT"; }
+
+
+
+
+
+
+	.table_middle{
+		text-align: left;
+	}
+
+	.titleTable{display:block}
+
+
+
+}
+
+
+@media screen and (max-width: 630px)
+{
+
+}
+
+
+@media screen and (max-width: 480px)
+{
+
+}
