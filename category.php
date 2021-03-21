@@ -26,7 +26,7 @@ ob_start();
 
         $id_category = $_GET['cat'];
 
-        $all_products = $product->getProductsByCategory($id_category);
+        $all_products = $admin->getProductsByCategory($id_category);
 
         if (!empty($all_products[0])) {
             ?>

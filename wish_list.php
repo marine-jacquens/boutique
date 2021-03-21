@@ -97,7 +97,7 @@ ob_start();
                                                value="<?php echo $wish_list_detail['id_product'] ?>">
                                     </form>
                                 </div>
-                                <a href="product_page?prod=<?php echo $wish_list_detail['id_product'] ?>"
+                                <a href="product_page.php?prod=<?php echo $wish_list_detail['id_product'] ?>"
                                    class="see_item">VOIR L'ARTICLE</a>
                             </div>
 

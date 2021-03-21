@@ -483,47 +483,7 @@ class Products
         exit;
     }
 
-    public function getProductsByCategory($id_category)
-    {
 
-        $connexion_db = $this->db->connectDb();
-
-        $get_products_per_category = $connexion_db->prepare("SELECT DISTINCT
-
-            categories.id_category,
-            categories.name_category,
-            categories.description_category,
-
-            sub_categories_2.id_category,
-            sub_categories_2.id_sub_category_2,
-
-            products.id_product,
-            products.id_sub_category_2,
-            products.product_name,
-            products.picture,
-            products.price,
-
-            product_details.id_product,
-            product_details.color
-
-            FROM 
-
-            products, categories, sub_categories_2, product_details
-
-            WHERE 
-
-            products.id_sub_category_2 = sub_categories_2.id_sub_category_2
-            AND sub_categories_2.id_category = ?
-            AND categories.id_category = sub_categories_2.id_category
-            AND products.id_product = product_details.id_product
-
-            ");
-
-        $get_products_per_category->execute([$id_category]);
-        $all_products = $get_products_per_category->fetchAll(PDO::FETCH_ASSOC);
-
-        return $all_products;
-    }
 
 
 }

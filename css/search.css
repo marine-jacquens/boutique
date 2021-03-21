@@ -1,7 +1,6 @@
-.search_page{
-	border-top:1px solid lightgray;
-}
+.search_page{border-top:1px solid lightgray;}
 
+.search_page h1{padding:5%;}
 
 .search_results{
 	display: flex;
@@ -16,10 +15,7 @@
 	width:100%;
 }
 
-
-.info_result_product{
-	width:60%;
-}
+.info_result_product{width:60%;}
 
 .image_result_product{
 	display: flex;

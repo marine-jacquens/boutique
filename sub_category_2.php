@@ -28,47 +28,7 @@ ob_start();
             $id_sub_category = $_GET['sub_cat'];
             $id_sub_category_2 = $_GET['sub_cat_2'];
 
-            $get_products_per_sub_category_2 = $connexion_db->prepare("SELECT DISTINCT
-
-            categories.id_category,
-            categories.name_category,
-
-            sub_categories.id_sub_category,
-            sub_categories.name_sub_category,
-
-            sub_categories_2.id_sub_category_2,
-            sub_categories_2.id_category,
-            sub_categories_2.id_sub_category,
-            sub_categories_2.name_sub_category_2,
-            sub_categories_2.description_sub_category_2,
-
-            products.id_product,
-            products.id_sub_category_2,
-            products.product_name,
-            products.picture,
-            products.price,
-
-            product_details.id_product,
-            product_details.color
-
-            FROM 
-
-            products, categories, sub_categories, sub_categories_2, product_details
-
-            WHERE 
-
-            products.id_sub_category_2 = sub_categories_2.id_sub_category_2
-            AND sub_categories_2.id_category =  $id_category
-            AND sub_categories_2.id_sub_category =  $id_sub_category
-            AND sub_categories_2.id_sub_category_2 =  $id_sub_category_2
-            AND categories.id_category = sub_categories_2.id_category
-            AND sub_categories.id_sub_category = sub_categories_2.id_sub_category
-            AND products.id_product = product_details.id_product
-
-            ");
-
-            $get_products_per_sub_category_2->execute();
-            $all_products = $get_products_per_sub_category_2->fetchAll(PDO::FETCH_ASSOC);
+            $all_products = $admin->getProductsBySubCategory2($id_category,$id_sub_category,$id_sub_category_2);
 
             /*var_dump($all_products);*/
 

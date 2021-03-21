@@ -15,9 +15,13 @@ ob_start();
         <link rel="stylesheet" href="css/header.css">
         <link rel="stylesheet" href="css/footer.css">
         <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/slick.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://js.stripe.com/v3/"></script>
+
+
+
 
     </head>
     <body>
@@ -30,35 +34,38 @@ ob_start();
                     ESTER EXPOSITO</h1></a>
         </section>
         <div class="recommendation">
+            <div class="recommendation_title"><h2>INSPIRATION FEMME ÉTÉ</h2></div>
             <section class="recommendation_1">
-                <div class="recommendation_title"><h2>LES KARDASHIAN</h2></div>
                 <div class="recommendation_1_product">
                     <?php
 
-                    $recherche = 'kardashian';
-                    //SELECTION DES ARTICLES RELATIFS AUX KARDASHIAN
-                    $get_products = $connexion_db->prepare(" SELECT * FROM products WHERE product_name LIKE '%$recherche%' OR description LIKE '%$recherche%' LIMIT 0,3 ");
-                    $get_products->execute();
+                    $id_category = 1 ;
+                    $id_sub_category = 4;
+                    //SELECTION DES ARTICLES RELATIFS A LA SOUS CATEGORIE ETE
+                    $summer_products = $admin->getProductsBySubCategory($id_category,$id_sub_category);
 
-                    while ($products = $get_products->fetch(PDO::FETCH_ASSOC)) {
-                        ?>
+                    foreach($summer_products as $products) {?>
+
                         <div class="card_recommendation">
-                            <div class="card_recommendation_picture">
-                                <a href="product_page.php?prod=<?php echo $products['id_product'] ?>">
-                                    <img src="<?php echo $products['picture'] ?>"
-                                         alt="<?php echo $products['picture'] ?>">
-                                </a>
-                            </div>
-                            <h3><?php echo $products['product_name'] ?></h3>
-                            <p>€ <?php echo $products['price'] ?></p>
-                            <div class="recommendation_button_item"><a
-                                        href="product_page.php?prod=<?php echo $products['id_product'] ?>">VOIR
-                                    L'ARTICLE</a></div>
+                                <div class="card_recommendation_picture">
+                                    <a href="product_page.php?prod=<?php echo $products['id_product'] ?>">
+                                        <img src="<?php echo $products['picture'] ?>" alt="<?php echo $products['picture'] ?>">
+                                    </a>
+                                </div>
+                                <h3><?php echo $products['product_name'] ?></h3>
+                                <p>€ <?php echo $products['price'] ?></p>
+                                <div class="recommendation_button_item">
+                                    <a href="product_page.php?prod=<?php echo $products['id_product'] ?>">VOIR L'ARTICLE</a>
+                                </div>
 
                         </div>
                     <?php }
-                    $get_products->closeCursor(); ?>
+                   ?>
+
+
+
                 </div>
+
             </section>
         </div>
         <section class="recommendation_2">
@@ -113,11 +120,16 @@ ob_start();
             </div>
         </section>
         <?php include("includes/banner_delivery.php") ?>
+
+
     </main>
     <footer>
         <?php include("includes/footer.php") ?>
     </footer>
+    <script src="js/slick.min.js"></script>
+    <script src="js/carrousel.js"></script>
     <script type="text/javascript" src="js/modal.js"></script>
+
     </body>
     </html>
 
