@@ -256,6 +256,7 @@ ob_start();
     <script type='text/javascript' src='config.js'></script>
     <script type="text/javascript" src="js/payment.js"></script>
     <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/autocompletion.js"></script>
     </body>
     </html>
 

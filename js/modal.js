@@ -4,6 +4,7 @@ let modal = null
 const focusableSelector='button,a,input,textarea'
 let focusables = []
 let previouslyFocusedElement = null
+let autocompletion = document.getElementById('autocompletion');
 
 //fonction openModal, prend en paramètre l'événement
 const openModal = function (e) {

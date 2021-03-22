@@ -129,6 +129,7 @@ ob_start();
     <script src="js/slick.min.js"></script>
     <script src="js/carrousel.js"></script>
     <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/autocompletion.js"></script>
 
     </body>
     </html>

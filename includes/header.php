@@ -1,8 +1,8 @@
 <?php
 	
-	require	'class/config.php';
-	require 'modals_icones.php';
-	require 'modals_menu.php';
+	require_once('config.php');
+	require_once('modals_icones.php');
+	require_once('modals_menu.php');
 
 	if(isset($_SESSION['user']['id_user'])){$id_user = $_SESSION['user']['id_user'];};
 

@@ -483,6 +483,32 @@ class Products
         exit;
     }
 
+    public function autocompletion($recherche){
+
+        $connexion_db = $this->db->connectDb();
+
+        //RECUPERATION DES 5 PREMIERES ENTREES EN BDD CORRESPONDANTES A NOTRE RECHERCHE
+        $q = $connexion_db->prepare("SELECT * FROM products WHERE product_name LIKE '%$recherche%' OR description LIKE '%$recherche%' LIMIT 5");
+        $q->execute([]);
+        $search_results = $q->fetchAll(PDO::FETCH_ASSOC);
+
+        $search = null;
+
+        //SI LE RESULTAT N'EST PAS VIDE
+        if(!empty($search_results[0])){
+
+            foreach( $search_results as $r){
+                //STOCK TOUTES LES ENTREES CORRESPONDANTES DANS DES BALISES <a></a> QUI PERMETTRONT D'ACCEDER À LA PAGE DE RECHERCHE
+                $search .="<a href='product_page.php?prod=".$r['id_product']."'><img src=".$r['picture']." alt=".$r['product_name']." width='50'><p class='result'>".$r['product_name']."</p></a>";
+                //echo $r['picture'].'<br>';
+            }
+            return $search ;
+        }
+        else{
+            return '<p class="resultNull">Aucun résultat</p>';
+        }
+    }
+
 
 
 

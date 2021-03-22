@@ -415,10 +415,13 @@
                 </div>
             </article>
             <div class="search-form" id="formulaire">
-                <form action="search.php" method="POST">
-                    <input type="text" name="search" class="search" placeholder="Tapez votre recherche">
+
+                <form action="" method="POST" id="formSearch">
+                    <input type="text" name="search" class="search" id="searchNav" placeholder="Tapez votre recherche">
                     <button type="submit" class="search-button" value="Search!"><i class="fal fa-search"></i></button>
+                    <div class="autocompletion" id="autocompletion"></div>
                 </form>
+
             </div>
         </div>
     </div>

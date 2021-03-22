@@ -16,13 +16,14 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/search.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 	<header>
 		<?php include("includes/header.php")?>
 	</header>
 	<main>
-		<?php if(isset($_POST['search'])) {?>
+		<?php if(isset($_GET['search'])) {?>
 
 		<section class="search_page">
 
@@ -31,7 +32,7 @@
 			<?php
 
 			// Récupère la recherche
-			$recherche = isset($_POST['search']) ? $_POST['search'] : '';
+			$recherche = isset($_GET['search']) ? $_GET['search'] : '';
 
 			// la requete mysql
 			$q = $connexion_db->prepare("SELECT * FROM products WHERE product_name LIKE '%$recherche%' OR description LIKE '%$recherche%'LIMIT 10");
@@ -92,6 +93,7 @@
 		<?php include("includes/footer.php")?>
 	</footer>
 	<script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/autocompletion.js"></script>
 </body>
 </html>
 

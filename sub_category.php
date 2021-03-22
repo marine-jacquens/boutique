@@ -16,6 +16,7 @@ ob_start();
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/category.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 	<header>
@@ -153,6 +154,7 @@ ob_start();
     </footer>
     <script type="text/javascript" src="js/modal.js"></script>
     <script type="text/javascript" src="js/wish_heart.js"></script>
+    <script type="text/javascript" src="js/autocompletion.js"></script>
 </body>
 </html>
 <?php ob_end_flush();?>

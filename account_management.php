@@ -18,6 +18,8 @@ ob_start();
         <link rel="stylesheet" href="css/footer.css">
 
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
     <header>
@@ -399,6 +401,7 @@ ob_start();
         <?php include("includes/footer.php") ?>
     </footer>
     <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/autocompletion.js"></script>
     </body>
     </html>
 
