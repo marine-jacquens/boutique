@@ -65,8 +65,7 @@
 
 .building_page {
     margin-top: 5%;
-    /*padding-right: 8%;
-    padding-left: 8%;*/
+    padding:5%;
 }
 
 @media screen and (max-width: 1440px)
