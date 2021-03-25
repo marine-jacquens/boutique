@@ -4,8 +4,6 @@ var publishableKey = config.STRIPE_PUBLISHABLE_KEY;
 //récupération de la secret key de stripe
 var secretKey = config.STRIPE_SECRET_KEY;
 
-console.log(publishableKey);
-
 //création une instance de l'objet Stripe - L'objet Stripe est le point d'accès au reste du kit de développement Stripe.js
 var stripe = Stripe(publishableKey);
 

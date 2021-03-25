@@ -15,7 +15,10 @@
     width:100%;
 }
 
-.containerCheckPayment h1{text-align: center}
+.containerCheckPayment h1{
+    text-align: center;
+    color: white;
+}
 
 .containerCheckPayment a{
     color:white;

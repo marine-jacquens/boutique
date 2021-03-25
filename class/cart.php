@@ -186,5 +186,51 @@ class Cart
 
     }
 
+    public function checkStock($id_user)
+    {
+
+        $connexion_db = $this->db->connectDb();
+        $saved_for_later = true;
+
+        //SELECTION DES ARTICLES DU PANIER
+        $check_cart = $connexion_db->prepare("SELECT * FROM  cart_items WHERE id_user = ? AND saved_for_later = ?");
+        $check_cart->execute([$id_user, $saved_for_later]);
+
+        //VERIFIE SI LE STOCK DE CHAQUE PRODUIT EST ENCORE DISPO
+        while ($checked_cart = $check_cart->fetch(PDO::FETCH_ASSOC)) {
+            $id_detail = $checked_cart['id_product_detail'];
+
+            $get_stock = $connexion_db->prepare("SELECT * FROM  stock_products WHERE  id_product_detail = ?");
+            $get_stock->execute([$id_detail]);
+
+            while($stockItem = $get_stock->fetch(PDO::FETCH_ASSOC)){
+
+                if ($stockItem['stock'] >= $checked_cart['quantity']) {
+                    return "success";
+                } else {
+                    return $stockItem['product_name']."<br>";
+                }
+
+            }
+
+
+
+        }
+    }
+
+    public function refresh($id_user){
+
+        $connexion_db = $this->db->connectDb();
+        $quantity = 0;
+        $saved_for_later = 0;
+
+        $refresh_cart = $connexion_db->prepare(" UPDATE cart_items SET quantity = ?, saved_for_later = ? WHERE id_user = ? ");
+        $refresh_cart ->execute([$quantity,$saved_for_later,$id_user]);
+
+
+
+
+    }
+
 
 }
