@@ -27,7 +27,7 @@ class Users
 
     $connexion_db = $this->db->connectDb();
 
-    //Chiffrage du mot de passe
+    //Hachage du mot de passe
     $hash = password_hash($password,PASSWORD_BCRYPT,array('cost'=>10));
 
     date_default_timezone_set('Europe/Paris');
