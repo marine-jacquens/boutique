@@ -9,6 +9,12 @@ ob_start();
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=image">
+
+        <meta name="Copyright" content="Les silencieux">
+        <meta name="Category" content="E-commerce">
+        <meta name="Description" content="Bienvenue sur Dupez le site officiel de dupes des styles de vos modèles préférés, made in France ">
+        <meta name="Keywords" content="dupez,e-commerce,prêt-à-porter,vêtement,dupes, copie, style, influenceur, star">
+
         <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
         <link rel="stylesheet" href="fontawesome/all.css">
         <link rel="stylesheet" href="css/general.css">

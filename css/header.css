@@ -831,16 +831,20 @@ justify-content: flex-end;}
 
 @media screen and (max-width: 768px)
 {
-	
+	.table_menu th, .table_menu td {
+		font-size:13px;
+	}
 
 }
 
 
 @media screen and (max-width: 630px)
 {
-	
 
-	
+
+	.table_menu th, .table_menu td {
+		font-size:11px;
+	}
 
 
 

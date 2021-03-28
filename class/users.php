@@ -465,7 +465,7 @@ class Users
             'autorisation_newsletter' => $this->autorisation_newsletter
         ];
 
-        header('Location:profil.php');
+        header('Location:profil.php?id_user=<?php echo $session ?>');
         exit;
 
     }
