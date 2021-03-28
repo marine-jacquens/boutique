@@ -128,16 +128,17 @@ ob_start();
 						</p>
 					</div>
 
+                    <?php $true = true; ?>
 					<div class="checkboxPart2">
 						<div class="checkbox-position">
-							<input type="checkbox" id="autorisation1" name="autorisation_newsletter" value="true">
+							<input type="checkbox" id="autorisation1" name="autorisation_newsletter" value="<?php echo $true ?>">
 							<label for="autorisation1" class="autorisation1">
 								Je souhaite recevoir par email des newsletters, des promotions personnalisées, des informations ainsi que de la communication par courrier de DUPEZ. 
 								J’autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à traiter mes données personnelles à cette fin.
 							</label>
 						</div>
 						<div class="checkbox-position">
-							<input type="checkbox" id="autorisation2" name="autorisation_rgpd" value="true">
+							<input type="checkbox" id="autorisation2" name="autorisation_rgpd" value="<?php echo $true ?>">
 							<label for="autorisation2"> 
 								J'autorise DUPEZ et le groupe LES SILENCIEUX (gestionnaire du site) à collecter mes renseignements personnels afin de créer le profil de mes habitudes d'achat.
 							</label>

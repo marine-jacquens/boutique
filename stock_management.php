@@ -165,15 +165,18 @@ ob_start();
 
                 //CREATION PAGINATION TABLEAU PRODUIT
 
-                //définition du nbr de messages visibles par page
+                //définition du nbr d'articles visibles par page
                 $produitsParPage = 5; 
-                //récupération du total des messages en bdd
-                $total_produits = $connexion_db->prepare("SELECT COUNT(*) AS total FROM products, product_details, stock_products, categories, sub_categories, sub_categories_2 WHERE  
+                //récupération du total des articles en bdd
+
+                /*$total_produits = $connexion_db->prepare("SELECT COUNT(*) AS total FROM products, product_details, stock_products, categories, sub_categories, sub_categories_2 WHERE
                 products.id_product = product_details.id_product 
                 AND products.id_sub_category_2 = sub_categories_2.id_sub_category_2
                 AND sub_categories_2.id_category = categories.id_category
                 AND sub_categories_2.id_sub_category = sub_categories.id_sub_category
-                AND product_details.id_product_detail = stock_products.id_product_detail");
+                AND product_details.id_product_detail = stock_products.id_product_detail");*/
+
+                $total_produits = $connexion_db->prepare("SELECT COUNT(*) AS total FROM products, product_details WHERE products.id_product = product_details.id_product");
                 $total_produits->execute();
                 $donnees_total = $total_produits->fetch();
                 $total = $donnees_total['total'];

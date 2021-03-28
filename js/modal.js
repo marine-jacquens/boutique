@@ -21,7 +21,7 @@ const openModal = function (e) {
 	/*focusables[0].focus()*/
 	modal.removeAttribute('aria-hidden')
 	modal.setAttribute('aria-modal','true')
-	//pour fermer la boite modal on écoute le click de modal et on active la fonciton closeModal
+	//pour fermer la boite modal on écoute le click de modal et on active la fonction closeModal
 	modal.addEventListener('click',closeModal)
 	modal.querySelector('.js-modal-close').addEventListener('click',closeModal)
 	modal.querySelector('.js-modal-stop').addEventListener('click',stopPropagation)
@@ -29,9 +29,9 @@ const openModal = function (e) {
 }
 
 const closeModal = function(e){
-	//permet de ne pas aller plus loin si essayer de fermer une modal non existente
+	//permet de ne pas aller plus loin si essayer de fermer une modal non existante
 	if (modal === null) return
-	//lorsque je ferme la boite modal, si l'élément précedemment focus est différent de nul 
+	//lorsque je ferme la boite modal, si l'élément précedemment focus est différent de null
 	//cela permet de remettre le focus sur l"élément par défaut
 	if(previouslyFocusedElement !== null )previouslyFocusedElement.focus()
 	e.preventDefault()

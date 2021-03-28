@@ -487,7 +487,7 @@ class Products
 
         $connexion_db = $this->db->connectDb();
 
-        //RECUPERATION DES 5 PREMIERES ENTREES EN BDD CORRESPONDANTES A NOTRE RECHERCHE
+        //RECUPERATION DES 5 PREMIERES ENTREES EN BDD CONTENANT MA VARIABLE
         $q = $connexion_db->prepare("SELECT * FROM products WHERE product_name LIKE '%$recherche%' OR description LIKE '%$recherche%' LIMIT 5");
         $q->execute([]);
         $search_results = $q->fetchAll(PDO::FETCH_ASSOC);

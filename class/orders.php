@@ -115,8 +115,8 @@ class Orders
                 $insert_order_item->execute();
 
                 //REDUIRE LA QUANTITE ITEMS DISPO DANS STOCK
-                $get_quantity_stock = $connexion_db->prepare(" SELECT * FROM stock_products WHERE id_product_detail = $id_product_detail ");
-                $get_quantity_stock->execute();
+                $get_quantity_stock = $connexion_db->prepare(" SELECT * FROM stock_products WHERE id_product_detail = ? ");
+                $get_quantity_stock->execute([$id_product_detail]);
 
 
                 while ($quantity = $get_quantity_stock->fetch(PDO::FETCH_ASSOC)) {
@@ -124,10 +124,8 @@ class Orders
                     if ($quantity['id_product_detail'] == $id_product_detail) {
                         $stock = $quantity['stock'] - $quantity_items;
 
-                        $new_stock = " UPDATE stock_products SET stock =:stock WHERE id_product_detail = $id_product_detail ";
-                        $update_stock = $connexion_db->prepare($new_stock);
-                        $update_stock->bindParam(':stock', $stock, PDO::PARAM_INT);
-                        $update_stock->execute();
+                        $new_stock = $connexion_db->prepare(" UPDATE stock_products SET stock = ? WHERE id_product_detail = ? ");
+                        $new_stock->execute([$stock,$id_product_detail]);
 
                     }
 
@@ -137,15 +135,10 @@ class Orders
                 //SUPPRIMER LE PANIER
                 $saved_for_later = false;
 
-                $new_cart = " UPDATE cart_items SET saved_for_later = :saved_for_later WHERE id_product_detail = $id_product_detail AND id_user = $id_user ";
-                $update_cart = $connexion_db->prepare($new_cart);
-                $update_cart->bindParam(':saved_for_later', $saved_for_later, PDO::PARAM_BOOL);
-                $update_cart->execute();
-
+                $new_cart = $connexion_db->prepare(" UPDATE cart_items SET saved_for_later = ? WHERE id_product_detail = ? AND id_user = ? ");
+                $new_cart->execute([$saved_for_later,$id_product_detail,$id_user]);
 
             }
-
-            //header('Location:order.php');
 
 
         } else {
