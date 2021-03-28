@@ -17,11 +17,9 @@ ob_start();
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/slick.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://js.stripe.com/v3/"></script>
-
-
-
 
     </head>
     <body>
@@ -61,8 +59,6 @@ ob_start();
                         </div>
                     <?php }
                    ?>
-
-
 
                 </div>
 
@@ -113,8 +109,7 @@ ob_start();
                 $product = $get_product->fetch(PDO::FETCH_ASSOC);
                 ?>
                 <a href="product_page.php?prod=<?php echo $product['id_product'] ?>" class="linked_item">
-                    <img src="images/Emily-in-Paris-Lily-Collins-Ashley-Park-river.png"
-                         alt="Emily-in-Paris-Lily-Collins-Ashley-Park-river.png" class="product_picture">
+                    <img src="images/Emily-in-Paris-Lily-Collins-Ashley-Park-river.png" alt="Emily-in-Paris-Lily-Collins-Ashley-Park-river.png" class="product_picture">
                 </a>
 
             </div>

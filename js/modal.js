@@ -1,6 +1,6 @@
 // variable qui permettra de savoir quelle est la boite modal actuellement ouverte
 let modal = null
-// varaible pour repérer tous ce qui focusable
+// variable pour repérer tous ce qui est focusable
 const focusableSelector='button,a,input,textarea'
 let focusables = []
 let previouslyFocusedElement = null
@@ -91,7 +91,7 @@ const focusInModal = function(e){
 document.querySelectorAll('.js-modal').forEach(a => {
 	//pour chaque lien ajoute un eventlistener, qd on clique on active la fonction openModal 
 	a.addEventListener('click', openModal)
-	
+
 })
 
 window.addEventListener('keydown',function (e){

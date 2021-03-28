@@ -31,11 +31,26 @@ if ($check_cart == "success") {
 
         //Récupére le token de stripe, la carte et les informations sur l'utilisateur à partir des données du formulaire soumis.
         $token = $_POST['stripeToken'];
-        $name = $_POST['name'];
+        $name = strip_tags($_POST['name']);
         $totalAmount = intval($_POST['amount']);
-        $email = $_POST['mail'];
+        $email = strip_tags($_POST['mail']);
+        $lastname = strip_tags($_POST['lastname']);
+        $firstname = strip_tags($_POST['firstname']);
+        $bill_address = strip_tags($_POST['bill_address']);
+        $bill_postcode = strip_tags($_POST['bill_postcode']);
+        $bill_city = strip_tags($_POST['bill_city']);
+        $bill_country = strip_tags($_POST['bill_country']);
+        $delivery_address = strip_tags($_POST['delivery_address']);
+        $delivery_city = strip_tags($_POST['delivery_city']);
+        $delivery_country = strip_tags( $_POST['delivery_country']);
+        $delivery_postcode = strip_tags($_POST['delivery_postcode']);
+        $phone = strip_tags($_POST['phone']);
+        $mail = strip_tags($_POST['mail']);
+        $amount = strip_tags($_POST['amount']);
 
-        // Include Stripe PHP library
+
+
+        // Inclut la bibliothèque PHP de Stripe
         require_once 'stripe-php/init.php';
 
         // Définition de la clé API
@@ -53,11 +68,10 @@ if ($check_cart == "success") {
 
         if (empty($api_error) && $customer) {
 
-
-            // Convert price to cents
+            // Conversion du prix en centimes
             $itemPriceCents = ($totalAmount * 100);
 
-            // Charge a credit or a debit card
+            // Chargez une carte de crédit ou de débit
             try {
 
                 $charge = \Stripe\Charge::create(array(
@@ -74,10 +88,10 @@ if ($check_cart == "success") {
 
             if (empty($api_error) && $charge) {
 
-                // Retrieve charge details
+                // Récupération détails de la charge
                 $chargeJson = $charge->jsonSerialize();
 
-                // Check whether the charge is successful
+                // Vérifie sur la charge est un succès
                 if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 
 
@@ -89,22 +103,22 @@ if ($check_cart == "success") {
                     $payment_status = $chargeJson['status'];
 
 
-                    // Insert transaction data into the database
+                    // Insertion des données de transaction dans la bdd
                     $payment_id = $order->register(
                         $id_user,
-                        $_POST['lastname'],
-                        $_POST['firstname'],
-                        $_POST['bill_address'],
-                        $_POST['bill_postcode'],
-                        $_POST['bill_city'],
-                        $_POST['bill_country'],
-                        $_POST['delivery_address'],
-                        $_POST['delivery_city'],
-                        $_POST['delivery_country'],
-                        $_POST['delivery_postcode'],
-                        $_POST['phone'],
-                        $_POST['mail'],
-                        $_POST['amount'],
+                        $lastname,
+                        $firstname,
+                        $bill_address,
+                        $bill_postcode,
+                        $bill_city,
+                        $bill_country,
+                        $delivery_address,
+                        $delivery_city,
+                        $delivery_country,
+                        $delivery_postcode,
+                        $phone,
+                        $mail,
+                        $amount,
                         $name,
                         $transactionID,
                         $payment_status
@@ -112,7 +126,7 @@ if ($check_cart == "success") {
                     );
 
 
-                    // If the order is successful
+                    // Si la commande est un succès
                     if ($payment_status === 'succeeded') {
                         $ordStatus = 'success';
                         $statusMsg = 'Votre achat a bien été pris en compte!';
@@ -126,7 +140,7 @@ if ($check_cart == "success") {
                 $statusMsg = "Echec de la transaction! $api_error";
             }
         } else {
-            $statusMsg = "Carte informations invalides! $api_error";
+            $statusMsg = " Informations de la carte invalides! $api_error";
         }
     } else {
         $statusMsg = "Erreur de soumission.";

@@ -70,7 +70,7 @@ cardElement.addEventListener('change', function (event) {
 // récupération de l'id du form
 var form = document.getElementById('paymentFrm');
 
-// lancement de la fonction createToken lorsque le formulaire est soumis
+// lancement de la fonction createToken lorsque appuis sur le bouton du formulaire
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     createToken();
@@ -101,7 +101,7 @@ function stripeTokenHandler(token) {
     hiddenInput.setAttribute('value', token.id);
     form.appendChild(hiddenInput);
 
-    // Submit the form
+    // Soumission du formulaire
     form.submit();
 }
 
