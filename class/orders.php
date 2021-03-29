@@ -133,7 +133,7 @@ class Orders
 
 
                 //SUPPRIMER LE PANIER
-                $saved_for_later = false;
+                $saved_for_later = 0;
 
                 $new_cart = $connexion_db->prepare(" UPDATE cart_items SET saved_for_later = ? WHERE id_product_detail = ? AND id_user = ? ");
                 $new_cart->execute([$saved_for_later,$id_product_detail,$id_user]);

@@ -22,7 +22,7 @@
 	flex-wrap:wrap;
 }
 
-.wish_cart_picture img{
+.wish_cart_page_picture img{
 	width:100%;
 }
 
@@ -81,9 +81,9 @@
 		width:30%;
 	}
 
-	.wish_cart_picture{text-align: center;}
+	.wish_cart_page_picture{text-align: center;}
 
-	.wish_cart_picture img{
+	.wish_cart_page_picture img{
 		width:70%;
 	}
 

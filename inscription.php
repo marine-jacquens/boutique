@@ -110,8 +110,8 @@ ob_start();
 
 					</div>
 
-					<div>
-						<img src="images/ester-exposito1.png" alt="ester-exposito1.png" width="500">
+					<div class="subImg">
+						<img src="images/ester-exposito1.png" alt="ester-exposito1.png">
 					</div>
 					
 				</div>

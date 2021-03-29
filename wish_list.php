@@ -81,7 +81,7 @@ ob_start();
                         <?php foreach ($wish_list as $wish_list_detail) { ?>
 
                             <div class="complete_wish_list">
-                                <div class="wish_cart_picture">
+                                <div class="wish_cart_page_picture">
                                     <img src="<?php echo $wish_list_detail['picture'] ?>" alt="<?php echo $wish_list_detail['product_name'] ?>">
                                 </div>
                                 <h3><?php echo $wish_list_detail['product_name'] ?></h3>

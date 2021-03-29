@@ -2,10 +2,9 @@
 .main-inscription{
 	display: flex;
 	flex-direction: column;
-	padding-right:8%;
-	padding-left:8%;
+	padding:5%;
 }
-}
+
 
 .inscription-page{
 	border-top:0.1px solid lightgray;
@@ -26,6 +25,10 @@
 	display: flex;
 	justify-content: space-between;
 	width:100%;
+}
+
+.formpart1_photo img{
+	width:500px;
 }
 
 .gender{
@@ -87,5 +90,61 @@ margin-top:3%;
 	font-weight:bold;
 	width:45%;
 	border:none;
+
+}
+
+@media screen and (max-width: 1440px)
+{
+
+}
+
+@media screen and (max-height: 700px)
+{
+
+}
+
+@media screen and (max-width: 1024px)
+{
+
+}
+
+@media screen and (max-width: 900px)
+{
+	.formpart1_photo{
+		flex-wrap:wrap-reverse;
+	}
+	.formpart1_photo img{
+		width:100%;
+	}
+
+	.form-input,
+	.subImg,
+	.checkboxPart1,
+	.checkboxPart2,
+	.inscription-button,
+	.subscrib-button{
+		width:100%;
+	}
+
+	.subscrib-button{padding:2%;}
+
+	.checkbox{flex-wrap:wrap;}
+
+
+}
+
+@media screen and (max-width: 768px)
+{
+
+}
+
+@media screen and (max-width: 630px)
+{
+
+
+}
+
+@media screen and (max-width: 480px)
+{
 
 }
